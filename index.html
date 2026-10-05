@@ -299,6 +299,21 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
 .avs button.sel { transform: scale(1.08); }
 .err { color: var(--apple); font-weight: 700; margin: 0; font-size: 17px; }
 
+/* Voice settings */
+#voice { background: linear-gradient(180deg, var(--sky) 0%, var(--sky-2) 70%); }
+.vc-list { display: flex; flex-direction: column; gap: 8px; max-height: 42vh; overflow: auto; padding: 4px; margin: -4px; }
+.vc-opt { display: flex; align-items: center; gap: 12px; text-align: left; border: 3px solid var(--line); background: var(--white); border-radius: 16px; padding: 10px 14px; min-height: 60px; }
+.vc-opt .ic { font-size: 22px; width: 28px; text-align: center; flex: 0 0 auto; }
+.vc-opt .tx { min-width: 0; }
+.vc-opt b { display: block; font-family: var(--display); font-weight: 600; font-size: 20px; overflow-wrap: anywhere; }
+.vc-opt small { display: block; font-size: 15px; font-weight: 700; color: var(--ink-2); }
+.vc-opt.sel { border-color: var(--go); background: #E6F7EE; }
+.seg3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.seg button.sel { border-color: var(--go); background: #E6F7EE; }
+.vc-tip summary { font-weight: 700; font-size: 17px; cursor: pointer; color: var(--violet-dark); min-height: 44px; display: flex; align-items: center; }
+.vc-tip ul { margin: 6px 0 0; padding-left: 22px; }
+.vc-tip li { font-size: 17px; margin-bottom: 8px; color: var(--ink-2); }
+
 @media (max-width: 760px) {
   .pip { width: 70px; height: 70px; }
   .say { font-size: 19px; }
@@ -337,7 +352,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
 
 <!-- HOME -->
 <section id="home" class="screen" hidden>
-  <div class="topbar"><button class="pill" id="playerChip" type="button"></button><span class="spacer"></span><button class="pill sound-toggle" type="button"></button></div>
+  <div class="topbar"><button class="pill" id="playerChip" type="button"></button><span class="spacer"></span><button class="pill" id="voiceBtn" type="button">🗣 Voice</button><button class="pill sound-toggle" type="button"></button></div>
   <div class="home-head">
     <span class="pip-slot"></span>
     <div>
@@ -452,6 +467,30 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
       <button class="big go" id="pfSave" type="submit">✓ Save player</button>
     </div>
   </form>
+</section>
+
+<!-- VOICE SETTINGS -->
+<section id="voice" class="screen" hidden>
+  <div class="topbar"><button class="pill" id="vcBack" type="button">← Back</button><span class="spacer"></span><button class="pill sound-toggle" type="button"></button></div>
+  <div class="form-card vc-card">
+    <h1 id="vcTitle">Pip's voice</h1>
+    <p class="form-hint">Tap a voice to hear it. The choice is saved for this player only.</p>
+    <div class="label">Voice</div>
+    <div class="vc-list" id="vcList"></div>
+    <div class="label">Speed</div>
+    <div class="seg seg3" id="vcSpeed"></div>
+    <div class="label">Pitch</div>
+    <div class="seg seg3" id="vcPitch"></div>
+    <details class="vc-tip">
+      <summary>How to get more natural voices</summary>
+      <ul>
+        <li><b>iPad or iPhone:</b> open Settings, then Accessibility, then Spoken Content, then Voices, then English. Download a voice marked "Enhanced" or "Premium". Then close Pip Maths and open it again.</li>
+        <li><b>Android:</b> open Settings, then Accessibility, then Text-to-speech output, and install more voice data.</li>
+        <li><b>Windows computer:</b> in the Edge browser, voices marked "Natural sounding" are available while the computer is online.</li>
+      </ul>
+    </details>
+    <div class="row"><button class="big go" id="vcDone" type="button">✓ Done</button></div>
+  </div>
 </section>
 
 <!-- APPLE BASKET -->
@@ -664,16 +703,20 @@ const alive = r => r === RUN;
 // ---------- Voice (built-in text-to-speech) ----------
 const hasTTS = 'speechSynthesis' in window;
 const Voice = {
-  on: store.get('sound', true), voice: null,
+  on: store.get('sound', true), auto: null, prefs: { uri: null, speed: 1, pitch: 1.1 },
   init() {
     if (!hasTTS) return;
     const choose = () => {
       const vs = speechSynthesis.getVoices();
-      this.voice = vs.find(v => /en-GB/i.test(v.lang) && /libby|sonia|hazel|serena|kate|female|google uk english female/i.test(v.name))
+      this.auto = vs.find(v => /en-GB/i.test(v.lang) && /libby|sonia|hazel|serena|kate|female|google uk english female/i.test(v.name))
         || vs.find(v => /en-GB/i.test(v.lang)) || vs.find(v => /^en/i.test(v.lang)) || null;
     };
     choose();
     speechSynthesis.onvoiceschanged = choose;
+  },
+  current() {
+    if (this.prefs.uri && hasTTS) { const v = speechSynthesis.getVoices().find(x => x.voiceURI === this.prefs.uri); if (v) return v; }
+    return this.auto;
   },
   unlock() { if (hasTTS && this.on) { try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } catch (e) {} } },
   stop() { if (hasTTS) speechSynthesis.cancel(); },
@@ -683,9 +726,10 @@ const Voice = {
       if (!this.on || !hasTTS) { setTimeout(res, this.on ? est * 0.7 : Math.min(est * 0.5, 1800)); return; }
       speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
-      if (this.voice) u.voice = this.voice;
-      u.lang = this.voice ? this.voice.lang : 'en-GB';
-      u.rate = rate; u.pitch = 1.1;
+      const v = this.current();
+      if (v) u.voice = v;
+      u.lang = v ? v.lang : 'en-GB';
+      u.rate = Math.min(2, rate * this.prefs.speed); u.pitch = this.prefs.pitch;
       let done = false;
       const fin = () => { if (!done) { done = true; res(); } };
       u.onend = fin; u.onerror = fin;
@@ -2207,6 +2251,7 @@ $('#whoManage').addEventListener('click', () => { manageMode = !manageMode; rend
 function choosePlayer(id) {
   Sfx.ensure(); Voice.unlock();
   Prof.pick(id); showAllGames = false;
+  applyVoicePrefs();
   renderHome(); show('home');
   Voice.say(`Hi ${Prof.cur.name}! Pick a game.`, 0.95);
 }
@@ -2242,6 +2287,78 @@ $('#pfForm').addEventListener('submit', e => {
   const p = Prof.add(name, PF.track, PF.avatar);
   choosePlayer(p.id);
 });
+
+// ---------- Voice settings (one set per player) ----------
+const VOICE_DEFAULT = { uri: null, speed: 1, pitch: 1.1 };
+// Joke voices on Apple devices that are not suitable for teaching.
+const NOVELTY = /^(Albert|Bad News|Bahh|Bells|Boing|Bubbles|Cellos|Good News|Jester|Organ|Pipe Organ|Superstar|Trinoids|Whisper|Wobble|Zarvox|Deranged|Hysterical)\b/i;
+const ACCENTS = { 'en-GB': 'British', 'en-US': 'American', 'en-AU': 'Australian', 'en-IE': 'Irish', 'en-IN': 'Indian', 'en-ZA': 'South African', 'en-NZ': 'New Zealand', 'en-CA': 'Canadian', 'en-SG': 'Singapore' };
+const ACCENT_ORDER = ['British', 'Irish', 'Australian', 'New Zealand', 'Indian', 'American', 'Canadian', 'South African', 'Singapore', 'English'];
+const SPEEDS = [['🐢 Slow', 0.8], ['Normal', 1], ['🐇 Fast', 1.2]];
+const PITCHES = [['Lower', 0.9], ['Normal', 1.1], ['Higher', 1.35]];
+const accentOf = v => ACCENTS[v.lang.replace('_', '-')] || 'English';
+const isNatural = v => /premium|enhanced|natural|neural/i.test(v.name);
+function englishVoices() {
+  if (!hasTTS) return [];
+  return speechSynthesis.getVoices()
+    .filter(v => /^en[-_]/i.test(v.lang) && !NOVELTY.test(v.name))
+    .sort((a, b) => ACCENT_ORDER.indexOf(accentOf(a)) - ACCENT_ORDER.indexOf(accentOf(b)) || isNatural(b) - isNatural(a) || a.name.localeCompare(b.name));
+}
+function voiceName(v) {
+  return v.name.replace(/^(Microsoft|Google|Apple)\s+/i, '').replace(/\s*-\s*English.*$/i, '').replace(/\s*\((Enhanced|Premium|Natural|Neural)\)/gi, '').replace(/\s+Online\b/i, '').trim();
+}
+function applyVoicePrefs() { Voice.prefs = Object.assign({}, VOICE_DEFAULT, Prof.cur && Prof.cur.voice); }
+function sampleVoice() {
+  const p = Prof.cur;
+  Voice.say(`Hi ${p ? p.name : 'there'}! I'm Pip. Can you put three apples in my basket?`, p && p.track === 'little' ? 0.85 : 1.0);
+}
+function setVoicePref(key, value) {
+  const p = Prof.cur; if (!p) return;
+  p.voice = Object.assign({}, VOICE_DEFAULT, p.voice, { [key]: value });
+  Prof.save(); applyVoicePrefs(); renderVoice(); sampleVoice();
+}
+
+function renderVoice() {
+  const p = Prof.cur; if (!p) return;
+  const prefs = Object.assign({}, VOICE_DEFAULT, p.voice);
+  $('#vcTitle').textContent = `Pip's voice for ${p.name}`;
+  const list = $('#vcList');
+  list.textContent = '';
+  const voices = englishVoices();
+  const opt = (uri, title, sub) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'vc-opt' + (prefs.uri === uri ? ' sel' : '');
+    const ic = document.createElement('span'); ic.className = 'ic'; ic.textContent = prefs.uri === uri ? '🔊' : '▶';
+    const tx = document.createElement('span'); tx.className = 'tx';
+    const t = document.createElement('b'); t.textContent = title;
+    const s = document.createElement('small'); s.textContent = sub;
+    tx.append(t, s); b.append(ic, tx);
+    b.addEventListener('click', () => setVoicePref('uri', uri));
+    list.append(b);
+  };
+  opt(null, 'Automatic', 'The best British voice on this device');
+  voices.forEach(v => opt(v.voiceURI, voiceName(v), [accentOf(v), isNatural(v) ? 'Natural sounding' : '', v.localService ? '' : 'Needs internet'].filter(Boolean).join(' · ')));
+  if (!voices.length) {
+    const none = document.createElement('p'); none.className = 'form-hint';
+    none.textContent = hasTTS ? 'Loading the voices on this device…' : 'This browser cannot speak, so Pip will show text only.';
+    list.append(none);
+  }
+  const seg = (el, items, key) => {
+    el.innerHTML = '';
+    items.forEach(([label, val]) => {
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = label;
+      b.classList.toggle('sel', prefs[key] === val);
+      b.addEventListener('click', () => setVoicePref(key, val));
+      el.append(b);
+    });
+  };
+  seg($('#vcSpeed'), SPEEDS, 'speed');
+  seg($('#vcPitch'), PITCHES, 'pitch');
+}
+function openVoice() { RUN++; Voice.stop(); renderVoice(); show('voice'); $('#voice').scrollTop = 0; }
+$('#voiceBtn').addEventListener('click', openVoice);
+$('#vcBack').addEventListener('click', goHome);
+$('#vcDone').addEventListener('click', goHome);
+if (hasTTS && speechSynthesis.addEventListener) speechSynthesis.addEventListener('voiceschanged', () => { if (!$('#voice').hidden) renderVoice(); });
 
 function startApp() {
   if (!Prof.data.players.length) openAdd(); else openWho();
