@@ -1,0 +1,2259 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Maths games for children aged 4 to 11, with a friendly guide called Pip.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#CDEBFF">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pip Maths">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<title>Maths with Pip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: full-screen kids' app, one screen at a time. Single bright look by choice (no dark theme): sky for Little Learners, lavender for Explorers. */
+:root {
+  --sky: #CDEBFF;
+  --sky-2: #F1FAFF;
+  --lav: #EEEAFD;
+  --lav-2: #FBFAFF;
+  --ink: #1B2A33;
+  --ink-2: #4A5A66;
+  --white: #FFFFFF;
+  --apple: #E5383B;
+  --sun: #FFB627;
+  --leaf: #3DBE8B;
+  --go: #1F9D55;
+  --go-dark: #157A41;
+  --violet: #6A4FD6;
+  --violet-dark: #5039B5;
+  --tile: #7B61FF;
+  --lit: #FFB627;
+  --line: #D6E2EA;
+  --display: "Fredoka", "Trebuchet MS", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--sky-2); color: var(--ink); font-family: var(--body); font-size: 18px; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
+
+.screen { position: relative; height: 100%; overflow: auto; display: flex; flex-direction: column; padding-inline: 16px; padding-block: 12px 16px; gap: 12px; }
+#home, #apple { background: linear-gradient(180deg, var(--sky) 0%, var(--sky-2) 70%); }
+#tile { background: linear-gradient(180deg, var(--lav) 0%, var(--lav-2) 70%); }
+#finish { background: linear-gradient(180deg, var(--sky) 0%, var(--sky-2) 70%); align-items: center; justify-content: center; }
+#finish.explore { background: linear-gradient(180deg, var(--lav) 0%, var(--lav-2) 70%); }
+
+/* Top bar */
+.topbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.pill { display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 18px; border-radius: 999px; border: 2px solid var(--line); background: var(--white); font-weight: 700; font-size: 17px; }
+.spacer { flex: 1; }
+.progress { display: flex; gap: 8px; }
+.pd { width: 32px; height: 32px; border-radius: 50%; background: var(--white); border: 3px solid var(--line); display: grid; place-items: center; font-size: 17px; color: var(--white); }
+.pd.done { background: var(--sun); border-color: var(--sun); }
+.stars { font-family: var(--display); font-weight: 600; font-size: 20px; color: var(--violet-dark); }
+
+/* Guide */
+.guide { display: flex; align-items: center; gap: 12px; }
+.pip { width: 92px; height: 92px; flex: 0 0 auto; animation: bob 3s ease-in-out infinite; overflow: visible; }
+.pip .talk { display: none; transform-box: fill-box; transform-origin: center; }
+.pip.talking .talk { display: block; animation: talk .22s ease-in-out infinite alternate; }
+.pip.talking .smile { display: none; }
+.pip .eyes { transform-box: fill-box; transform-origin: center; animation: blink 4.5s infinite; }
+.pip.cheer { animation: cheer .7s ease-out 2; }
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes talk { from { transform: scaleY(.35); } to { transform: scaleY(1); } }
+@keyframes blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
+@keyframes cheer { 0% { transform: translateY(0) rotate(0); } 40% { transform: translateY(-22px) rotate(-8deg); } 70% { transform: translateY(0) rotate(6deg); } 100% { transform: translateY(0) rotate(0); } }
+.bubble { position: relative; flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; background: var(--white); border-radius: 22px; padding: 12px 12px 12px 20px; box-shadow: 0 3px 0 rgba(27,42,51,.08); }
+.bubble::before { content: ""; position: absolute; left: -10px; top: 50%; margin-top: -10px; border: 10px solid transparent; border-right-color: var(--white); border-left: 0; }
+.say { flex: 1; margin: 0; font-family: var(--display); font-weight: 500; font-size: 22px; line-height: 1.3; min-height: 1.3em; }
+.say.pop { animation: pop .3s ease-out; }
+@keyframes pop { from { opacity: .3; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.replay { flex: 0 0 auto; width: 56px; height: 56px; border-radius: 50%; border: 0; background: var(--sky); font-size: 26px; }
+#tile .replay { background: var(--lav); }
+
+/* Big buttons */
+.controls { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.big { min-height: 68px; min-width: 170px; padding: 0 28px; border-radius: 22px; border: 0; font-family: var(--display); font-weight: 600; font-size: 24px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 5px 0 rgba(0,0,0,.18); transition: transform .08s; }
+.big:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,.18); }
+.big.go { background: var(--go); color: var(--white); }
+.big.violet { background: var(--violet); color: var(--white); }
+.big.ghost { background: var(--white); color: var(--ink); border: 3px solid var(--line); }
+.busy .lockable { pointer-events: none; opacity: .55; }
+.busy .apple, .busy .board { pointer-events: none; }
+
+/* Home */
+.home-head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: center; padding-top: 24px; text-align: center; }
+.home-head h1 { font-family: var(--display); font-weight: 700; font-size: clamp(34px, 6vw, 52px); margin: 0; line-height: 1.05; }
+.home-head p { margin: 6px 0 0; color: var(--ink-2); font-size: 18px; }
+.home-head .pip { width: 120px; height: 120px; }
+.home-tracks { width: min(1060px, 100%); margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+.track-h { font-family: var(--display); font-weight: 600; font-size: 24px; margin: 14px 0 0; display: flex; align-items: baseline; gap: 10px; }
+.track-h span { font-family: var(--body); font-size: 15px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.track-h.little { color: #9A5B00; }
+.track-h.explore { color: var(--violet-dark); }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+.card { border: 0; border-radius: 28px; padding: 22px; text-align: left; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 6px 0 rgba(0,0,0,.12); transition: transform .12s; min-width: 0; }
+.card:hover { transform: translateY(-3px); }
+.card.little { background: #FFF3D6; }
+.card.explore { background: #E3DDFF; }
+.card .art { height: 120px; border-radius: 18px; display: grid; place-items: center; }
+.card.little .art { background: #FFE2A6; }
+.card.explore .art { background: #CFC5FF; }
+.card .age { font-size: 15px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.card.little .age { color: #9A5B00; }
+.card.explore .age { color: var(--violet-dark); }
+.card h2 { font-family: var(--display); font-weight: 600; font-size: 30px; margin: 0; }
+.card p { margin: 0; color: var(--ink-2); }
+.card .play { align-self: flex-start; margin-top: 4px; background: var(--ink); color: var(--white); border-radius: 999px; padding: 10px 22px; font-family: var(--display); font-weight: 600; font-size: 20px; }
+.home-foot { text-align: center; color: var(--ink-2); font-size: 15px; margin-top: auto; padding-top: 16px; }
+
+/* Apple Basket */
+.ap-main { flex: 1 0 auto; display: flex; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap; min-height: 0; }
+.target { background: var(--white); border-radius: 24px; padding: 14px 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 4px 0 rgba(27,42,51,.08); }
+.target .n { font-family: var(--display); font-weight: 700; font-size: 72px; line-height: 1; color: var(--apple); }
+.frame { display: grid; grid-template-columns: repeat(5, 20px); gap: 6px; padding: 8px; border: 3px solid var(--line); border-radius: 12px; }
+.frame i { width: 20px; height: 20px; border-radius: 50%; background: #EEF2F5; }
+.frame i.on { background: var(--apple); }
+.target .hear { border: 0; background: var(--sky); border-radius: 999px; padding: 6px 16px; font-size: 22px; min-height: 48px; }
+.area { position: relative; aspect-ratio: 16 / 10; width: max(280px, min(860px, calc(100vw - 220px), calc((100dvh - 290px) * 1.6))); border-radius: 26px; overflow: hidden; background: linear-gradient(180deg, #E4F5FF, #F7FCFF); box-shadow: inset 0 0 0 3px rgba(27,42,51,.06); touch-action: none; }
+.scene { position: absolute; inset: 0; width: 100%; height: 100%; }
+.apple { position: absolute; width: 8%; aspect-ratio: 1; padding: 0; border: 0; background: none; transform: translate(-50%, -50%); transition: left .45s cubic-bezier(.3,1.35,.5,1), top .45s cubic-bezier(.3,1.35,.5,1), transform .2s; z-index: 2; touch-action: none; cursor: grab; }
+.apple svg { width: 92%; height: 92%; filter: drop-shadow(0 2px 1px rgba(0,0,0,.2)); pointer-events: none; }
+.apple.dragging { transition: transform .15s; transform: translate(-50%, -50%) scale(1.2); z-index: 6; cursor: grabbing; }
+.apple.glow { transform: translate(-50%, -50%) scale(1.3); z-index: 4; }
+.apple.glow svg { filter: drop-shadow(0 0 6px #FFD54A) drop-shadow(0 0 3px #FFD54A); }
+.count { position: absolute; left: 76%; top: 46%; transform: translate(-50%, -50%); background: var(--white); color: var(--apple); font-family: var(--display); font-weight: 700; font-size: clamp(24px, 4vw, 40px); min-width: 1.8em; height: 1.8em; border-radius: 999px; display: grid; place-items: center; box-shadow: 0 3px 0 rgba(0,0,0,.12); z-index: 3; }
+.count.bump { animation: bump .3s ease-out; }
+@keyframes bump { 50% { transform: translate(-50%, -50%) scale(1.3); } }
+.hand { position: absolute; z-index: 8; font-size: clamp(34px, 6vw, 56px); transform: translate(-30%, -8%); transition: left .55s ease-in-out, top .55s ease-in-out, transform .15s; pointer-events: none; }
+.hand.press { transform: translate(-30%, -8%) scale(.85); }
+
+/* Confetti */
+.cf { position: absolute; top: -10px; width: 10px; height: 14px; border-radius: 3px; z-index: 9; animation: fall 1.4s ease-in forwards; pointer-events: none; }
+@keyframes fall { to { transform: translateY(110vh) rotate(540deg); opacity: .9; } }
+
+/* Tile Builder */
+.tb-main { flex: 1 0 auto; display: flex; flex-direction: column; align-items: center; gap: 14px; min-height: 0; }
+.qcard { background: var(--white); border-radius: 22px; padding: 10px 28px; font-family: var(--display); font-weight: 700; font-size: clamp(30px, 5vw, 46px); color: var(--violet-dark); box-shadow: 0 4px 0 rgba(27,42,51,.08); text-align: center; }
+.tb-work { display: flex; gap: 24px; align-items: flex-start; justify-content: center; flex-wrap: wrap; width: 100%; }
+.board-wrap { width: min(560px, 100%, max(260px, calc((100dvh - 400px) * 1.4))); }
+.board { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)) 3.2em; gap: 6px; touch-action: none; background: var(--white); padding: 12px; border-radius: 22px; box-shadow: 0 4px 0 rgba(27,42,51,.08); }
+.cell { aspect-ratio: 1; border-radius: 8px; background: #EEEAFD; border: 2px dashed #D2C9FA; transition: background .12s, transform .12s; }
+.cell.on { background: var(--tile); border: 2px solid var(--violet-dark); }
+.cell.on.lit { background: var(--lit); border-color: #D48C00; transform: scale(1.06); }
+.rlabel { display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 20px; color: #B06E00; }
+.readout { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+.chip { background: var(--white); border-radius: 999px; padding: 8px 18px; font-size: 18px; border: 2px solid var(--line); }
+.chip b { font-family: var(--display); font-size: 22px; color: var(--violet-dark); }
+#tile[data-mode="recall"] .board-wrap { display: none; }
+#tile[data-mode="recall"].show-board .board-wrap { display: block; }
+#tile[data-mode="recall"] .readout { display: none; }
+#tile[data-mode="build"] .numpad-wrap { display: none; }
+.numpad-wrap { display: flex; flex-direction: column; gap: 10px; width: min(300px, 100%); }
+.entry { height: 72px; border-radius: 18px; background: var(--white); border: 3px solid var(--violet); display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 44px; color: var(--violet-dark); }
+.entry.empty { color: #B9B0E8; }
+.numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.numpad button { min-height: 64px; border-radius: 16px; border: 0; background: var(--white); font-family: var(--display); font-weight: 600; font-size: 28px; box-shadow: 0 4px 0 rgba(27,42,51,.12); }
+.numpad button:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(27,42,51,.12); }
+.numpad .del { font-size: 18px; }
+
+/* Finish */
+.finish-card { background: var(--white); border-radius: 32px; padding: 28px; width: min(620px, 100%); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; box-shadow: 0 8px 0 rgba(27,42,51,.08); }
+.finish-card h2 { font-family: var(--display); font-weight: 700; font-size: 40px; margin: 0; }
+.finish-card p { margin: 0; color: var(--ink-2); font-size: 20px; }
+.sticker { font-size: 110px; line-height: 1; animation: spinIn .9s cubic-bezier(.3,1.5,.5,1); }
+@keyframes spinIn { from { transform: scale(0) rotate(-200deg); } to { transform: none; } }
+.medal { width: 130px; height: 130px; border-radius: 50%; background: var(--sun); border: 8px solid #F29F05; display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 44px; color: var(--white); animation: spinIn .9s cubic-bezier(.3,1.5,.5,1); }
+.book-label { font-size: 15px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); margin-top: 6px; }
+.book { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; font-size: 34px; }
+.row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+
+/* Shared for the new Little Learners games */
+.lt-main { flex: 1 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+#take, #big { background: linear-gradient(180deg, var(--sky) 0%, var(--sky-2) 70%); }
+#grid { background: linear-gradient(180deg, var(--lav) 0%, var(--lav-2) 70%); }
+.sum-card { display: flex; align-items: center; gap: 14px; background: var(--white); border-radius: 24px; padding: 6px 26px; box-shadow: 0 4px 0 rgba(27,42,51,.08); font-family: var(--display); font-weight: 700; font-size: clamp(38px, 6.5vw, 60px); line-height: 1.2; }
+.sum-card .op { color: var(--ink-2); }
+.sum-card .q { color: var(--apple); }
+.sum-card .q.solved { color: var(--go); }
+.choices { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.choice { min-width: 120px; min-height: 96px; padding: 8px 20px; border-radius: 22px; border: 4px solid var(--line); background: var(--white); font-family: var(--display); font-weight: 700; font-size: 44px; line-height: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 5px 0 rgba(0,0,0,.1); transition: transform .1s; }
+.choice.sel { border-color: var(--go); background: #E6F7EE; transform: translateY(-3px); }
+.choice .dots { display: flex; flex-wrap: wrap; gap: 4px; max-width: 80px; justify-content: center; }
+.choice .dots i { width: 11px; height: 11px; border-radius: 50%; background: var(--apple); }
+
+/* Take Away */
+.plate { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; padding: 22px 34px; background: radial-gradient(ellipse at center, #FFFFFF 58%, #E6EDF2 100%); border-radius: 50%; width: min(560px, 100%); box-shadow: 0 6px 0 rgba(27,42,51,.08); }
+.tk-apple { aspect-ratio: 1; border: 0; background: none; padding: 0; transition: transform .2s, opacity .3s; }
+.tk-apple svg { width: 100%; height: 100%; filter: drop-shadow(0 2px 1px rgba(0,0,0,.18)); pointer-events: none; }
+.tk-apple.eaten { opacity: .45; transform: scale(.8); cursor: default; }
+.tk-apple.glow { transform: scale(1.22); }
+.tk-apple.glow svg { filter: drop-shadow(0 0 6px #FFD54A) drop-shadow(0 0 3px #FFD54A); }
+.busy .tk-apple, .busy .block, .busy .hgrid { pointer-events: none; }
+
+/* Big Numbers */
+.piles { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.pile, .together { background: var(--white); border-radius: 22px; padding: 12px 18px; box-shadow: 0 4px 0 rgba(27,42,51,.08); display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 150px; }
+.pile-n { font-family: var(--display); font-weight: 700; font-size: 34px; }
+.plus { font-family: var(--display); font-weight: 700; font-size: 48px; color: var(--ink-2); }
+.blocks { display: flex; align-items: flex-end; gap: 6px; flex-wrap: wrap; justify-content: center; min-height: 68px; }
+.together { border: 3px dashed #B8C8D4; width: min(660px, 100%); box-shadow: none; background: rgba(255,255,255,.7); }
+.together .blocks { gap: 10px; }
+.together .bh, .together .bt { display: flex; align-items: flex-end; gap: 6px; flex-wrap: wrap; }
+.t-label { font-size: 15px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
+.block { padding: 0; border: 0; background: none; line-height: 0; transition: transform .15s; }
+.block svg { display: block; }
+.block.glow { transform: translateY(-6px) scale(1.08); filter: drop-shadow(0 0 6px #FFD54A); }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; min-height: 44px; }
+.chip.h b { color: #1B6FA3; }
+.chip.t b { color: #1F7F57; }
+
+/* Hundred Grid */
+.grid-wrap { width: min(460px, 100%, max(240px, calc(100dvh - 490px))); display: flex; flex-direction: column; gap: 10px; }
+.fbar { display: flex; align-items: center; gap: 12px; font-family: var(--display); font-weight: 700; font-size: 26px; color: #C2185B; }
+.fbar .segs { flex: 1; display: flex; height: 34px; border-radius: 8px; overflow: hidden; border: 2px solid var(--violet-dark); }
+.fbar .segs i { flex: 1; border-right: 2px solid var(--violet-dark); background: var(--white); }
+.fbar .segs i:last-child { border-right: 0; }
+.fbar .segs i.on { background: #FF7AA2; }
+.hgrid { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 3px; padding: 10px; background: var(--white); border-radius: 18px; box-shadow: 0 4px 0 rgba(27,42,51,.08); touch-action: none; }
+.hgrid i { aspect-ratio: 1; border-radius: 3px; background: #EEEAFD; transition: background .1s; }
+.hgrid i.alt { background: #D9D0FB; }
+.hgrid i.on { background: #FF7AA2; }
+.hgrid i.alt.on { background: #E84A7F; }
+.hgrid i.part { box-shadow: inset 0 0 0 3px #FFB627; }
+.fbar .segs i { display: grid; place-items: center; font-family: var(--display); font-size: 17px; color: var(--violet-dark); }
+.frac { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; vertical-align: middle; font-size: .72em; margin: 0 .08em; }
+.frac > span:last-child { border-top: .09em solid currentColor; padding-top: .06em; margin-top: .04em; }
+#grid[data-mode="build"] .numpad-wrap { display: none; }
+#grid[data-mode="recall"] .grid-wrap { display: none; }
+#grid[data-mode="recall"].show-board .grid-wrap { display: flex; }
+#grid:not([data-mode="build"]) .hgrid { pointer-events: none; }
+
+/* Fraction Wall */
+#wall { background: linear-gradient(180deg, var(--lav) 0%, var(--lav-2) 70%); }
+.wall { position: relative; width: min(720px, 100%); background: var(--white); border-radius: 22px; padding: 14px 18px 56px; box-shadow: 0 4px 0 rgba(27,42,51,.08); display: flex; flex-direction: column; gap: 6px; }
+.wl-row, .wl-ruler { display: grid; grid-template-columns: 52px minmax(0, 1fr); align-items: center; gap: 10px; }
+.wl-lab { font-family: var(--display); font-weight: 700; font-size: 22px; color: var(--violet-dark); text-align: center; }
+.wl-bar { display: flex; height: 34px; border-radius: 8px; overflow: hidden; border: 2px solid #C9BEF7; transition: box-shadow .2s; }
+.wl-bar i { flex: 1; min-width: 0; border-right: 2px solid #C9BEF7; background: #F5F2FF; display: grid; place-items: center; font-style: normal; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--violet-dark); white-space: nowrap; overflow: hidden; transition: background .2s; }
+.wl-bar i:last-child { border-right: 0; }
+.wl-row.learned .wl-bar i { background: #E3DDFF; }
+.wl-row .wl-bar i.on { background: #FF7AA2; color: #FFFFFF; }
+.wl-row.active .wl-bar { border-color: var(--violet-dark); box-shadow: 0 0 0 3px #FFB627; }
+.wl-row:not(.learned):not(.active) { opacity: .5; }
+.wl-scale { position: relative; height: 30px; border-top: 3px solid var(--ink); margin-top: 8px; }
+.wl-scale .tk { position: absolute; top: -3px; width: 2px; height: 10px; background: var(--ink); transform: translateX(-1px); }
+.wl-scale .tl { position: absolute; top: 9px; transform: translateX(-50%); font-family: var(--display); font-weight: 600; font-size: 14px; }
+.wl-guide { position: absolute; width: 0; border-left: 3px dashed var(--violet); pointer-events: none; z-index: 2; }
+.wl-guide span { position: absolute; bottom: -50px; left: 0; transform: translateX(-50%); background: var(--violet); color: #FFFFFF; font-family: var(--display); font-weight: 700; font-size: 20px; padding: 2px 12px; border-radius: 999px; white-space: nowrap; }
+
+/* Players */
+#who, #addp { background: linear-gradient(180deg, var(--sky) 0%, var(--sky-2) 70%); }
+.track-group { display: flex; flex-direction: column; gap: 10px; }
+.track-group.mine { order: -1; }
+.home-tracks:not(.all) .track-group:not(.mine) { display: none; }
+.link { align-self: center; background: none; border: 0; color: var(--violet-dark); font-weight: 700; font-size: 17px; text-decoration: underline; padding: 12px; min-height: 48px; }
+.stat { font-size: 15px; font-weight: 700; color: var(--ink-2); }
+.stat .new { background: var(--sun); color: var(--ink); border-radius: 999px; padding: 2px 12px; }
+.av { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--sky); font-size: 22px; }
+.who-head { display: flex; align-items: center; justify-content: center; gap: 14px; padding-top: 16px; flex-wrap: wrap; }
+.who-head h1 { font-family: var(--display); font-weight: 700; font-size: clamp(32px, 6vw, 48px); margin: 0; }
+.who-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 210px)); justify-content: center; gap: 18px; width: min(820px, 100%); margin: 16px auto 0; }
+.who-item { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.who-card { border: 0; background: var(--white); border-radius: 28px; padding: 20px 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 6px 0 rgba(0,0,0,.1); min-width: 0; transition: transform .12s; }
+.who-card:hover { transform: translateY(-3px); }
+.who-card .big-av { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; font-size: 58px; background: #FFF3D6; }
+.who-card.explore .big-av { background: #E3DDFF; }
+.who-card .nm { font-family: var(--display); font-weight: 600; font-size: 26px; max-width: 100%; overflow-wrap: anywhere; }
+.who-card .track { font-size: 15px; font-weight: 700; color: var(--ink-2); }
+.who-card.add { border: 3px dashed #B8C8D4; background: rgba(255,255,255,.6); box-shadow: none; color: var(--ink-2); }
+.who-card.add .big-av { background: var(--white); font-size: 48px; }
+.rm { border: 2px solid var(--apple); color: var(--apple); background: var(--white); border-radius: 999px; min-height: 48px; font-weight: 700; font-size: 16px; }
+.rm.sure { background: var(--apple); color: var(--white); }
+.who-foot { text-align: center; margin-top: auto; padding-top: 16px; }
+#addp { align-items: center; }
+.form-card { background: var(--white); border-radius: 28px; padding: 24px; width: min(620px, 100%); display: flex; flex-direction: column; gap: 12px; margin-block: auto; box-shadow: 0 8px 0 rgba(27,42,51,.08); }
+.form-card h1 { font-family: var(--display); font-weight: 700; margin: 0; font-size: 34px; }
+.form-card .label, .form-card label { font-weight: 700; font-size: 17px; margin-top: 4px; }
+.form-card input { font: inherit; font-size: 24px; padding: 12px 16px; border-radius: 16px; border: 3px solid var(--line); user-select: text; -webkit-user-select: text; min-width: 0; }
+.form-card input:focus { outline: none; border-color: var(--violet); }
+.form-hint { color: var(--ink-2); margin: 0; font-size: 17px; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.seg button { border: 3px solid var(--line); background: var(--white); border-radius: 18px; padding: 12px; font-family: var(--display); font-weight: 600; font-size: 22px; min-width: 0; }
+.seg button small { display: block; font-family: var(--body); font-size: 15px; font-weight: 700; color: var(--ink-2); }
+.seg button.sel, .avs button.sel { border-color: var(--go); background: #E6F7EE; }
+.avs { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 10px; }
+.avs button { aspect-ratio: 1; border-radius: 50%; border: 3px solid var(--line); background: var(--sky-2); font-size: 36px; transition: transform .1s; }
+.avs button.sel { transform: scale(1.08); }
+.err { color: var(--apple); font-weight: 700; margin: 0; font-size: 17px; }
+
+@media (max-width: 760px) {
+  .pip { width: 70px; height: 70px; }
+  .say { font-size: 19px; }
+  .target { flex-direction: row; padding: 10px 14px; }
+  .target .n { font-size: 54px; }
+  .area { width: max(280px, min(100%, calc((100dvh - 360px) * 1.6))); }
+  .big { min-width: 140px; font-size: 21px; min-height: 62px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}
+</style>
+<style>
+/* Keep content clear of the iPad status bar and home indicator when opened from the home screen. */
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); background: #F1FAFF; }
+</style>
+</head>
+<body>
+<!-- Shared Pip drawing, cloned into each screen -->
+<template id="pipTpl">
+  <svg class="pip" viewBox="0 0 100 100" aria-hidden="true">
+    <path d="M50 24 C 46 10, 60 3, 66 6 C 64 15, 57 21, 50 24 Z" fill="#7BD389"/>
+    <line x1="50" y1="22" x2="50" y2="29" stroke="#2E8B57" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="50" cy="61" rx="38" ry="34" fill="#3DBE8B"/>
+    <ellipse cx="50" cy="72" rx="24" ry="17" fill="#8EE0B5"/>
+    <g class="eyes">
+      <circle cx="37" cy="52" r="10" fill="#fff"/><circle cx="63" cy="52" r="10" fill="#fff"/>
+      <circle cx="39" cy="54" r="5" fill="#1B2A33"/><circle cx="65" cy="54" r="5" fill="#1B2A33"/>
+      <circle cx="41" cy="52" r="1.6" fill="#fff"/><circle cx="67" cy="52" r="1.6" fill="#fff"/>
+    </g>
+    <circle cx="26" cy="66" r="5" fill="#FF9AA2" opacity=".85"/><circle cx="74" cy="66" r="5" fill="#FF9AA2" opacity=".85"/>
+    <path class="smile" d="M40 68 Q50 78 60 68" stroke="#1B2A33" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <ellipse class="talk" cx="50" cy="71" rx="6" ry="5" fill="#1B2A33"/>
+  </svg>
+</template>
+
+<!-- HOME -->
+<section id="home" class="screen" hidden>
+  <div class="topbar"><button class="pill" id="playerChip" type="button"></button><span class="spacer"></span><button class="pill sound-toggle" type="button"></button></div>
+  <div class="home-head">
+    <span class="pip-slot"></span>
+    <div>
+      <h1 id="homeName">Maths with Pip</h1>
+      <p>Pick a game to play</p>
+    </div>
+  </div>
+  <div class="home-tracks">
+  <div class="track-group" data-track="little">
+  <h2 class="track-h little">Little Learners <span>ages 4–6</span></h2>
+  <div class="cards">
+    <button class="card little" id="goApple" type="button">
+      <div class="art" aria-hidden="true">
+        <svg viewBox="0 0 160 90" width="200" height="112"><path d="M40 40 L120 40 L112 80 L48 80 Z" fill="#C98B4B"/><rect x="36" y="34" width="88" height="9" rx="4" fill="#B07537"/><g transform="translate(52 14) scale(.9)"><path d="M20 11c-4-3-13-3-15 6-2 9 4 19 9 20 3 1 4-1 6-1s3 2 6 1c5-1 11-11 9-20-2-9-11-9-15-6z" fill="#E5383B"/><path d="M22 7c3-4 8-4 10-2-2 3-6 4-10 2z" fill="#4CAF50"/></g><g transform="translate(76 8) scale(.9)"><path d="M20 11c-4-3-13-3-15 6-2 9 4 19 9 20 3 1 4-1 6-1s3 2 6 1c5-1 11-11 9-20-2-9-11-9-15-6z" fill="#E5383B"/><path d="M22 7c3-4 8-4 10-2-2 3-6 4-10 2z" fill="#4CAF50"/></g></svg>
+      </div>
+      <span class="age">Counting</span>
+      <h2>Apple Basket</h2>
+      <p>Count apples into Pip's basket. No reading needed.</p>
+      <span class="play">Play ▶</span>
+    </button>
+    <button class="card little" id="goTake" type="button">
+      <div class="art" aria-hidden="true">
+        <svg viewBox="0 0 160 90" width="200" height="112"><ellipse cx="80" cy="62" rx="64" ry="20" fill="#fff" stroke="#E0D3B8" stroke-width="2"/><g transform="translate(28 34)"><path d="M20 11c-4-3-13-3-15 6-2 9 4 19 9 20 3 1 4-1 6-1s3 2 6 1c5-1 11-11 9-20-2-9-11-9-15-6z" fill="#E5383B"/><path d="M22 7c3-4 8-4 10-2-2 3-6 4-10 2z" fill="#4CAF50"/></g><g transform="translate(62 34)"><path d="M20 11c-4-3-13-3-15 6-2 9 4 19 9 20 3 1 4-1 6-1s3 2 6 1c5-1 11-11 9-20-2-9-11-9-15-6z" fill="#E5383B"/><path d="M22 7c3-4 8-4 10-2-2 3-6 4-10 2z" fill="#4CAF50"/></g><g transform="translate(96 34)" opacity=".55"><path d="M16 12c2 3 2 6 0 9-2 3-2 7 1 10 1 2 0 4-1 5h8c-1-1-2-3-1-5 3-3 3-7 1-10-2-3-2-6 0-9z" fill="#F6E7B8" stroke="#C9A85A" stroke-width="1.5"/></g><text x="80" y="22" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="20" fill="#9A5B00">3 − 1 = 2</text></svg>
+      </div>
+      <span class="age">Subtraction</span>
+      <h2>Take Away</h2>
+      <p>Eat some apples, then count how many are left.</p>
+      <span class="play">Play ▶</span>
+    </button>
+    <button class="card little" id="goBig" type="button">
+      <div class="art" aria-hidden="true">
+        <svg viewBox="0 0 160 90" width="200" height="112"><rect x="20" y="18" width="54" height="54" rx="4" fill="#2FA3E6" stroke="#1B6FA3" stroke-width="2"/><rect x="80" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><rect x="96" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><rect x="112" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><text x="47" y="86" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="12" fill="#1B6FA3">100</text><text x="102" y="86" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="12" fill="#1F7F57">10 10 10</text></svg>
+      </div>
+      <span class="age">Adding tens and hundreds</span>
+      <h2>Big Numbers</h2>
+      <p>Sticks are worth ten, squares are worth one hundred.</p>
+      <span class="play">Play ▶</span>
+    </button>
+  </div>
+  </div>
+  <div class="track-group" data-track="explore">
+  <h2 class="track-h explore">Explorers <span>ages 8–11</span></h2>
+  <div class="cards">
+    <button class="card explore" id="goTile" type="button">
+      <div class="art" aria-hidden="true">
+        <svg viewBox="0 0 160 90" width="200" height="112"><g fill="#7B61FF" stroke="#5039B5" stroke-width="2"><rect x="38" y="12" width="18" height="18" rx="4"/><rect x="60" y="12" width="18" height="18" rx="4"/><rect x="82" y="12" width="18" height="18" rx="4"/><rect x="104" y="12" width="18" height="18" rx="4"/><rect x="38" y="34" width="18" height="18" rx="4"/><rect x="60" y="34" width="18" height="18" rx="4"/><rect x="82" y="34" width="18" height="18" rx="4"/><rect x="104" y="34" width="18" height="18" rx="4"/></g><g fill="#FFB627" stroke="#D48C00" stroke-width="2"><rect x="38" y="56" width="18" height="18" rx="4"/><rect x="60" y="56" width="18" height="18" rx="4"/><rect x="82" y="56" width="18" height="18" rx="4"/><rect x="104" y="56" width="18" height="18" rx="4"/></g><text x="140" y="70" font-family="Fredoka, sans-serif" font-weight="700" font-size="16" fill="#B06E00">12</text></svg>
+      </div>
+      <span class="age">Times tables</span>
+      <h2>Tile Builder</h2>
+      <p>Build rows of tiles to see how times tables work.</p>
+      <span class="play">Play ▶</span>
+    </button>
+    <button class="card explore" id="goGrid" type="button">
+      <div class="art" aria-hidden="true">
+        <svg viewBox="0 0 160 90" width="200" height="112" id="gridArt"></svg>
+      </div>
+      <span class="age">Fractions and percentages</span>
+      <h2>Hundred Grid</h2>
+      <p>Learn fractions and percents step by step on a grid of 100 squares.</p>
+      <span class="play">Play ▶</span>
+    </button>
+    <button class="card explore" id="goWall" type="button">
+      <div class="art" aria-hidden="true">
+        <svg viewBox="0 0 160 90" width="200" height="112"><g stroke="#5039B5" stroke-width="1.5"><rect x="20" y="8" width="120" height="14" rx="3" fill="#E3DDFF"/><rect x="20" y="26" width="60" height="14" rx="3" fill="#FF7AA2"/><rect x="80" y="26" width="60" height="14" rx="3" fill="#F5F2FF"/><rect x="20" y="44" width="24" height="14" rx="3" fill="#FF7AA2"/><rect x="44" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="68" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="92" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="116" y="44" width="24" height="14" rx="3" fill="#F5F2FF"/></g><line x1="20" y1="70" x2="140" y2="70" stroke="#1B2A33" stroke-width="2"/><line x1="44" y1="26" x2="44" y2="70" stroke="#6A4FD6" stroke-width="2" stroke-dasharray="3 3"/><g font-family="Fredoka, sans-serif" font-weight="700" font-size="11" fill="#1B2A33" text-anchor="middle"><text x="20" y="84">0</text><text x="44" y="84" fill="#6A4FD6">20</text><text x="80" y="84">50</text><text x="140" y="84">100</text></g></svg>
+      </div>
+      <span class="age">Fast fractions</span>
+      <h2>Fraction Wall</h2>
+      <p>See where each fraction lands on a percent ruler, and learn the fast way.</p>
+      <span class="play">Play ▶</span>
+    </button>
+    <button class="card explore" id="goQuiz" type="button">
+      <div class="art" aria-hidden="true">
+        <svg viewBox="0 0 160 90" width="200" height="112"><g font-family="Fredoka, sans-serif" font-weight="700" text-anchor="middle"><text x="52" y="38" font-size="22" fill="#5039B5">2</text><rect x="40" y="44" width="24" height="3" rx="1.5" fill="#5039B5"/><text x="52" y="70" font-size="22" fill="#5039B5">5</text><text x="84" y="58" font-size="24" fill="#4A5A66">=</text><text x="122" y="58" font-size="28" fill="#C2185B">40%</text></g></svg>
+      </div>
+      <span class="age">Test-style practice</span>
+      <h2>Percent Quiz</h2>
+      <p>Turn fractions into percents, like in a real test. Help is one tap away.</p>
+      <span class="play">Play ▶</span>
+    </button>
+  </div>
+  </div>
+  </div>
+  <button class="link" id="showAll" type="button">Show all games</button>
+  <p class="home-foot">Turn the sound on: Pip talks you through every game.</p>
+</section>
+
+<!-- WHO IS PLAYING -->
+<section id="who" class="screen" hidden>
+  <div class="topbar"><span class="spacer"></span><button class="pill sound-toggle" type="button"></button></div>
+  <div class="who-head"><span class="pip-slot"></span><h1>Who is playing?</h1></div>
+  <div class="who-grid" id="whoGrid"></div>
+  <div class="who-foot"><button class="link" id="whoManage" type="button">Manage players</button></div>
+</section>
+
+<!-- ADD A PLAYER -->
+<section id="addp" class="screen" hidden>
+  <form class="form-card" id="pfForm" novalidate>
+    <h1>Add a player</h1>
+    <p class="form-hint" id="pfHint"></p>
+    <label for="pfName">Name</label>
+    <input id="pfName" type="text" maxlength="16" autocomplete="off" placeholder="For example: Sam">
+    <div class="label" id="pfTrackLabel">Age group</div>
+    <div class="seg" id="pfTrack" role="group" aria-labelledby="pfTrackLabel">
+      <button type="button" data-track="little">Ages 4–6<small>Little Learners</small></button>
+      <button type="button" data-track="explore">Ages 8–11<small>Explorers</small></button>
+    </div>
+    <div class="label" id="pfAvLabel">Picture</div>
+    <div class="avs" id="pfAvs" role="group" aria-labelledby="pfAvLabel"></div>
+    <p class="err" id="pfErr" role="alert" hidden></p>
+    <div class="row">
+      <button class="big ghost" id="pfCancel" type="button">Cancel</button>
+      <button class="big go" id="pfSave" type="submit">✓ Save player</button>
+    </div>
+  </form>
+</section>
+
+<!-- APPLE BASKET -->
+<section id="apple" class="screen" hidden>
+  <div class="topbar">
+    <button class="pill go-home" type="button">🏠 Home</button>
+    <div class="progress" id="apProg" aria-label="Progress"></div>
+    <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
+    <span class="spacer"></span>
+    <button class="pill sound-toggle" type="button"></button>
+  </div>
+  <div class="guide"><span class="pip-slot"></span><div class="bubble"><p class="say" aria-live="polite"></p><button class="replay" type="button" aria-label="Hear it again">🔊</button></div></div>
+  <div class="ap-main">
+    <div class="target" id="apTarget" hidden>
+      <div class="n" id="apNum">4</div>
+      <div class="frame" id="apFrame"></div>
+      <button class="hear" id="apHear" type="button" aria-label="Hear the question again">🔊</button>
+    </div>
+    <div class="area" id="apArea">
+      <svg class="scene" viewBox="0 0 160 100" preserveAspectRatio="none" aria-hidden="true">
+        <rect x="0" y="86" width="160" height="14" fill="#7CC66B"/>
+        <ellipse cx="38" cy="88" rx="24" ry="3" fill="#5FA653"/>
+        <rect x="33" y="48" width="10" height="40" rx="3" fill="#8B5A3C"/>
+        <circle cx="38" cy="30" r="24" fill="#4FAF5B"/>
+        <circle cx="20" cy="38" r="15" fill="#5DBB63"/>
+        <circle cx="56" cy="38" r="15" fill="#5DBB63"/>
+        <circle cx="30" cy="20" r="14" fill="#62C46A"/>
+        <circle cx="48" cy="20" r="14" fill="#62C46A"/>
+        <path d="M92 60 L152 60 L146 92 L98 92 Z" fill="#C98B4B"/>
+        <path d="M93.5 70 H150.5 M95.5 80 H148.5" stroke="#A86F36" stroke-width="1.2"/>
+        <path d="M104 60 L106 92 M116 60 L117 92 M128 60 L127 92 M140 60 L138 92" stroke="#A86F36" stroke-width="1"/>
+        <rect x="90" y="56" width="64" height="6" rx="3" fill="#B07537"/>
+      </svg>
+      <div class="count" id="apCount" hidden>0</div>
+      <div class="hand" id="apHand" hidden aria-hidden="true">👆</div>
+    </div>
+  </div>
+  <div class="controls">
+    <button class="big ghost lockable" id="apHelp" type="button">🙋 Help me</button>
+    <button class="big go lockable" id="apDone" type="button">✓ Done</button>
+  </div>
+</section>
+
+<!-- TILE BUILDER -->
+<section id="tile" class="screen" data-mode="build" hidden>
+  <div class="topbar">
+    <button class="pill go-home" type="button">🏠 Home</button>
+    <div class="progress" id="tbProg" aria-label="Progress"></div>
+    <span class="stars" id="tbStars">★ 0</span>
+    <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
+    <span class="spacer"></span>
+    <button class="pill sound-toggle" type="button"></button>
+  </div>
+  <div class="guide"><span class="pip-slot"></span><div class="bubble"><p class="say" aria-live="polite"></p><button class="replay" type="button" aria-label="Hear it again">🔊</button></div></div>
+  <div class="tb-main">
+    <div class="qcard" id="tbQ">&nbsp;</div>
+    <div class="tb-work">
+      <div class="board-wrap">
+        <div class="board" id="tbBoard"></div>
+        <div class="readout"><span class="chip"><b id="tbRows">0</b> rows</span><span class="chip"><b id="tbCols">0</b> in each row</span></div>
+      </div>
+      <div class="numpad-wrap">
+        <div class="entry empty" id="tbEntry">?</div>
+        <div class="numpad lockable" id="tbPad"></div>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <button class="big ghost lockable" id="tbHelp" type="button">💡 Show me how</button>
+    <button class="big violet lockable" id="tbCheck" type="button">✓ Check</button>
+  </div>
+</section>
+
+<!-- TAKE AWAY -->
+<section id="take" class="screen" hidden>
+  <div class="topbar">
+    <button class="pill go-home" type="button">🏠 Home</button>
+    <div class="progress" id="tkProg" aria-label="Progress"></div>
+    <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
+    <span class="spacer"></span>
+    <button class="pill sound-toggle" type="button"></button>
+  </div>
+  <div class="guide"><span class="pip-slot"></span><div class="bubble"><p class="say" aria-live="polite"></p><button class="replay" type="button" aria-label="Hear it again">🔊</button></div></div>
+  <div class="lt-main">
+    <div class="sum-card" id="tkSum"></div>
+    <div class="plate" id="tkPlate"></div>
+    <div class="choices lockable" id="tkChoices" hidden></div>
+  </div>
+  <div class="controls">
+    <button class="big ghost lockable" id="tkHelp" type="button">🙋 Help me</button>
+    <button class="big go lockable" id="tkDone" type="button">✓ Done</button>
+  </div>
+</section>
+
+<!-- BIG NUMBERS -->
+<section id="big" class="screen" hidden>
+  <div class="topbar">
+    <button class="pill go-home" type="button">🏠 Home</button>
+    <div class="progress" id="bgProg" aria-label="Progress"></div>
+    <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
+    <span class="spacer"></span>
+    <button class="pill sound-toggle" type="button"></button>
+  </div>
+  <div class="guide"><span class="pip-slot"></span><div class="bubble"><p class="say" aria-live="polite"></p><button class="replay" type="button" aria-label="Hear it again">🔊</button></div></div>
+  <div class="lt-main" id="bgMain">
+    <div class="sum-card" id="bgSum"></div>
+    <div class="piles">
+      <div class="pile" id="bgA"><div class="pile-n"></div><div class="blocks"></div></div>
+      <span class="plus">+</span>
+      <div class="pile" id="bgB"><div class="pile-n"></div><div class="blocks"></div></div>
+    </div>
+    <div class="together">
+      <div class="t-label">Together</div>
+      <div class="blocks"><div class="bh" id="bgBH"></div><div class="bt" id="bgBT"></div></div>
+      <div class="chips" id="bgChips"></div>
+    </div>
+    <div class="choices lockable" id="bgChoices" hidden></div>
+  </div>
+  <div class="controls">
+    <button class="big ghost lockable" id="bgHelp" type="button">🙋 Help me</button>
+    <button class="big go lockable" id="bgDone" type="button">✓ Done</button>
+  </div>
+</section>
+
+<!-- HUNDRED GRID -->
+<section id="grid" class="screen" data-mode="build" hidden>
+  <div class="topbar">
+    <button class="pill go-home" type="button">🏠 Home</button>
+    <div class="progress" id="gdProg" aria-label="Progress"></div>
+    <span class="stars" id="gdStars">★ 0</span>
+    <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
+    <span class="spacer"></span>
+    <button class="pill sound-toggle" type="button"></button>
+  </div>
+  <div class="guide"><span class="pip-slot"></span><div class="bubble"><p class="say" aria-live="polite"></p><button class="replay" type="button" aria-label="Hear it again">🔊</button></div></div>
+  <div class="tb-main">
+    <div class="qcard" id="gdQ">&nbsp;</div>
+    <div class="tb-work">
+      <div class="grid-wrap">
+        <div class="fbar" id="gdBar" hidden></div>
+        <div class="hgrid" id="gdGrid"></div>
+        <div class="readout"><span class="chip"><b id="gdCount">0</b> of 100 squares</span></div>
+      </div>
+      <div class="numpad-wrap">
+        <div class="entry empty" id="gdEntry">?</div>
+        <div class="numpad lockable" id="gdPad"></div>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <button class="big ghost lockable" id="gdHelp" type="button">💡 Show me how</button>
+    <button class="big violet lockable" id="gdCheck" type="button">✓ Check</button>
+  </div>
+</section>
+
+<!-- FRACTION WALL -->
+<section id="wall" class="screen" hidden>
+  <div class="topbar">
+    <button class="pill go-home" type="button">🏠 Home</button>
+    <div class="progress" id="wlProg" aria-label="Progress"></div>
+    <span class="stars" id="wlStars">★ 0</span>
+    <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
+    <span class="spacer"></span>
+    <button class="pill sound-toggle" type="button"></button>
+  </div>
+  <div class="guide"><span class="pip-slot"></span><div class="bubble"><p class="say" aria-live="polite"></p><button class="replay" type="button" aria-label="Hear it again">🔊</button></div></div>
+  <div class="tb-main">
+    <div class="qcard" id="wlQ">&nbsp;</div>
+    <div class="wall" id="wlWall"></div>
+    <div class="choices lockable" id="wlChoices" hidden></div>
+  </div>
+  <div class="controls">
+    <button class="big ghost lockable" id="wlHelp" type="button">💡 Show me how</button>
+    <button class="big violet lockable" id="wlCheck" type="button">✓ Check</button>
+  </div>
+</section>
+
+<!-- FINISH -->
+<section id="finish" class="screen" hidden>
+  <div class="finish-card">
+    <div id="fnArt"></div>
+    <h2 id="fnTitle"></h2>
+    <p id="fnSub"></p>
+    <div id="fnBook"></div>
+    <div class="row">
+      <button class="big go" id="fnAgain" type="button">↻ Play again</button>
+      <button class="big ghost" id="fnHome" type="button">🏠 Home</button>
+    </div>
+  </div>
+</section>
+
+<script>
+(() => {
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const wait = ms => new Promise(res => setTimeout(res, ms));
+const rand = (lo, hi) => lo + Math.floor(Math.random() * (hi - lo + 1));
+const pick = arr => arr[rand(0, arr.length - 1)];
+const pl = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
+const cap = s => String(s).charAt(0).toUpperCase() + String(s).slice(1);
+const WORDS = ['zero','one','two','three','four','five','six','seven','eight','nine','ten'];
+const memStore = {};
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); if (v) return JSON.parse(v); } catch (e) {} return k in memStore ? memStore[k] : d; },
+  set(k, v) { memStore[k] = v; try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+let RUN = 0;
+const alive = r => r === RUN;
+
+// ---------- Voice (built-in text-to-speech) ----------
+const hasTTS = 'speechSynthesis' in window;
+const Voice = {
+  on: store.get('sound', true), voice: null,
+  init() {
+    if (!hasTTS) return;
+    const choose = () => {
+      const vs = speechSynthesis.getVoices();
+      this.voice = vs.find(v => /en-GB/i.test(v.lang) && /libby|sonia|hazel|serena|kate|female|google uk english female/i.test(v.name))
+        || vs.find(v => /en-GB/i.test(v.lang)) || vs.find(v => /^en/i.test(v.lang)) || null;
+    };
+    choose();
+    speechSynthesis.onvoiceschanged = choose;
+  },
+  unlock() { if (hasTTS && this.on) { try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } catch (e) {} } },
+  stop() { if (hasTTS) speechSynthesis.cancel(); },
+  say(text, rate = 0.9) {
+    return new Promise(res => {
+      const est = 500 + text.length * 60 / rate;
+      if (!this.on || !hasTTS) { setTimeout(res, this.on ? est * 0.7 : Math.min(est * 0.5, 1800)); return; }
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      if (this.voice) u.voice = this.voice;
+      u.lang = this.voice ? this.voice.lang : 'en-GB';
+      u.rate = rate; u.pitch = 1.1;
+      let done = false;
+      const fin = () => { if (!done) { done = true; res(); } };
+      u.onend = fin; u.onerror = fin;
+      setTimeout(fin, est * 2 + 1500);
+      speechSynthesis.speak(u);
+    });
+  }
+};
+Voice.init();
+
+// ---------- Sound effects ----------
+const Sfx = {
+  ctx: null,
+  ensure() { if (!this.ctx) { try { this.ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} } if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume(); },
+  tone(f, d, type = 'sine', vol = .14, when = 0) {
+    if (!this.ctx || !Voice.on) return;
+    const t = this.ctx.currentTime + when, o = this.ctx.createOscillator(), g = this.ctx.createGain();
+    o.type = type; o.frequency.setValueAtTime(f, t);
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.001, t + d);
+    o.connect(g).connect(this.ctx.destination); o.start(t); o.stop(t + d + .02);
+  },
+  pop() { this.tone(540, .12, 'triangle'); this.tone(810, .1, 'triangle', .08, .05); },
+  soft() { this.tone(330, .18, 'sine', .1); },
+  tick() { this.tone(720, .05, 'square', .04); },
+  chime() { [660, 880, 1320].forEach((f, i) => this.tone(f, .4, 'sine', .12, i * .12)); }
+};
+
+// ---------- Shared UI ----------
+$$('.pip-slot').forEach(s => s.replaceWith($('#pipTpl').content.firstElementChild.cloneNode(true)));
+function refreshSound() { $$('.sound-toggle').forEach(b => { b.textContent = Voice.on ? '🔊 Sound on' : '🔇 Sound off'; b.setAttribute('aria-pressed', String(Voice.on)); }); }
+$$('.sound-toggle').forEach(b => b.addEventListener('click', () => { Voice.on = !Voice.on; store.set('sound', Voice.on); if (!Voice.on) Voice.stop(); else { Sfx.ensure(); Voice.unlock(); } refreshSound(); }));
+refreshSound();
+
+function show(id) { $$('.screen').forEach(s => { s.hidden = s.id !== id; }); }
+function goHome() { RUN++; Voice.stop(); renderHome(); show('home'); }
+$$('.go-home').forEach(b => b.addEventListener('click', goHome));
+$('#fnHome').addEventListener('click', goHome);
+
+function makeGuide(screen, rate) {
+  const pip = $('.pip', screen), txt = $('.say', screen);
+  let last = '';
+  $('.replay', screen).addEventListener('click', () => { if (last) Voice.say(last, rate); });
+  return {
+    async say(t) {
+      last = t; txt.textContent = t;
+      txt.classList.remove('pop'); void txt.offsetWidth; txt.classList.add('pop');
+      pip.classList.add('talking');
+      await Voice.say(t, rate);
+      pip.classList.remove('talking');
+    },
+    cheer() { pip.classList.remove('cheer'); void pip.getBoundingClientRect(); pip.classList.add('cheer'); }
+  };
+}
+function introSkip(screen, next) {
+  const b = $('.skip-intro', screen);
+  b.hidden = false;
+  b.onclick = () => { b.hidden = true; Voice.stop(); next(++RUN); };
+  return () => { b.hidden = true; };
+}
+function busy(screen, on) { screen.classList.toggle('busy', on); }
+function renderProgress(el, total, done) {
+  el.innerHTML = Array.from({ length: total }, (_, i) => `<span class="pd ${i < done ? 'done' : ''}">${i < done ? '★' : ''}</span>`).join('');
+}
+function confetti(host) {
+  const colours = ['#E5383B', '#FFB627', '#3DBE8B', '#7B61FF', '#2FA3E6', '#FF7AA2'];
+  for (let i = 0; i < 30; i++) {
+    const c = document.createElement('span');
+    c.className = 'cf';
+    c.style.left = rand(2, 98) + '%';
+    c.style.background = pick(colours);
+    c.style.animationDelay = (Math.random() * .3) + 's';
+    host.appendChild(c);
+    setTimeout(() => c.remove(), 1900);
+  }
+}
+
+// =====================================================
+// APPLE BASKET (ages 4–6)
+// =====================================================
+const apScreen = $('#apple'), area = $('#apArea'), hand = $('#apHand'), countB = $('#apCount');
+const apGuide = makeGuide(apScreen, 0.85);
+const AP = { q: 0, total: 5, target: 0, prev: 0, mistakes: 0, easier: false, basket: [], apples: [] };
+const TREE_SLOTS = [[12, 24], [22, 16], [33, 22], [10, 38], [20, 33], [30, 36], [38, 30], [15, 48], [26, 46], [36, 45]];
+const RANGES = [[1, 3], [2, 5], [3, 6], [4, 8], [5, 10]];
+const basketSlot = i => [61 + (i % 5) * 7.5, i < 5 ? 68 : 82];
+const APPLE_SVG = '<svg viewBox="0 0 40 40"><path d="M20 11c-4-3-13-3-15 6-2 9 4 19 9 20 3 1 4-1 6-1s3 2 6 1c5-1 11-11 9-20-2-9-11-9-15-6z" fill="#E5383B"/><path d="M12 16c-2 2-3 6-2 9" stroke="#fff" stroke-opacity=".55" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M20 11c0-4 1-6 3-8" stroke="#6B3E26" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M22 7c3-4 8-4 10-2-2 3-6 4-10 2z" fill="#4CAF50"/></svg>';
+
+$('#apFrame').innerHTML = '<i></i>'.repeat(10);
+for (let i = 0; i < 10; i++) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'apple'; b.setAttribute('aria-label', 'Apple'); b.innerHTML = APPLE_SVG;
+  area.appendChild(b);
+  AP.apples.push({ id: i, el: b });
+  bindApple(i);
+}
+
+function apLayout() {
+  AP.apples.forEach(a => {
+    const k = AP.basket.indexOf(a.id);
+    const [x, y] = k >= 0 ? basketSlot(k) : TREE_SLOTS[a.id];
+    a.el.style.left = x + '%'; a.el.style.top = y + '%';
+  });
+  countB.textContent = AP.basket.length;
+  countB.hidden = AP.basket.length === 0;
+}
+function bumpCount() { countB.classList.remove('bump'); void countB.offsetWidth; countB.classList.add('bump'); }
+function moveIn(id, quiet) {
+  if (AP.basket.includes(id) || AP.basket.length >= 10) return;
+  AP.basket.push(id); apLayout(); Sfx.pop(); bumpCount();
+  if (!quiet) Voice.say(String(AP.basket.length), 0.9);
+}
+function moveOut(id, quiet) {
+  const k = AP.basket.indexOf(id); if (k < 0) return;
+  AP.basket.splice(k, 1); apLayout(); Sfx.soft();
+  if (!quiet && AP.basket.length) Voice.say(String(AP.basket.length), 0.9);
+}
+function returnAll() { AP.basket = []; apLayout(); }
+
+function bindApple(id) {
+  const el = AP.apples[id].el;
+  let drag = null;
+  el.addEventListener('pointerdown', e => {
+    if (apScreen.classList.contains('busy')) return;
+    e.preventDefault();
+    el.setPointerCapture(e.pointerId);
+    drag = { x0: e.clientX, y0: e.clientY, moved: false };
+  });
+  el.addEventListener('pointermove', e => {
+    if (!drag) return;
+    if (!drag.moved && Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 10) { drag.moved = true; el.classList.add('dragging'); }
+    if (drag.moved) {
+      const r = area.getBoundingClientRect();
+      el.style.left = ((e.clientX - r.left) / r.width * 100) + '%';
+      el.style.top = ((e.clientY - r.top) / r.height * 100) + '%';
+    }
+  });
+  const end = e => {
+    if (!drag) return;
+    const inB = AP.basket.includes(id);
+    if (drag.moved) {
+      el.classList.remove('dragging');
+      const r = area.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width * 100;
+      if (!inB && x > 50) moveIn(id); else if (inB && x < 50) moveOut(id); else apLayout();
+    } else if (e.type === 'pointerup') {
+      inB ? moveOut(id) : moveIn(id);
+    } else apLayout();
+    drag = null;
+  };
+  el.addEventListener('pointerup', end);
+  el.addEventListener('pointercancel', end);
+}
+
+async function handTo([x, y]) { hand.hidden = false; hand.style.left = x + '%'; hand.style.top = y + '%'; await wait(620); }
+async function demoPut(r) {
+  const a = AP.apples.find(a => !AP.basket.includes(a.id));
+  if (!a) return;
+  await handTo(TREE_SLOTS[a.id]); if (!alive(r)) return;
+  hand.classList.add('press'); await wait(180);
+  moveIn(a.id, true);
+  hand.classList.remove('press');
+  await handTo(basketSlot(AP.basket.length - 1));
+}
+function renderTarget(n) {
+  $('#apNum').textContent = n;
+  $$('#apFrame i').forEach((d, i) => d.classList.toggle('on', i < n));
+}
+const askText = n => `Can you put ${WORDS[n]} ${n === 1 ? 'apple' : 'apples'} in my basket?`;
+
+async function startApple() {
+  const r = ++RUN;
+  Prof.begin('apple');
+  Sfx.ensure(); Voice.unlock();
+  show('apple');
+  const introDone = introSkip(apScreen, nr => apNext(nr));
+  Object.assign(AP, { q: 0, prev: 0, easier: false, mistakes: 0 });
+  returnAll(); hand.hidden = true; $('#apTarget').hidden = true;
+  renderProgress($('#apProg'), AP.total, 0);
+  busy(apScreen, true);
+  await apGuide.say("Hello! I am Pip. Let's fill my basket with apples!"); if (!alive(r)) return;
+  await apGuide.say('Watch me first.'); if (!alive(r)) return;
+  await demoPut(r); if (!alive(r)) return;
+  await apGuide.say('One apple in the basket!'); if (!alive(r)) return;
+  hand.hidden = true; returnAll(); await wait(400); if (!alive(r)) return;
+  await apGuide.say('Now it is your turn. Tap an apple, or drag it into the basket.'); if (!alive(r)) return;
+  introDone();
+  apNext(r);
+}
+
+async function apNext(r) {
+  AP.mistakes = 0; returnAll(); hand.hidden = true;
+  let lo, hi;
+  if (AP.easier) { lo = 1; hi = Math.max(1, AP.prev - 1); AP.easier = false; } else [lo, hi] = RANGES[AP.q];
+  let n; do { n = rand(lo, hi); } while (n === AP.prev && hi > lo);
+  AP.target = n; AP.prev = n;
+  renderTarget(n); $('#apTarget').hidden = false;
+  busy(apScreen, false);
+  await apGuide.say(askText(n));
+}
+
+async function countTogether(r) {
+  for (let i = 0; i < AP.basket.length; i++) {
+    if (!alive(r)) return;
+    const el = AP.apples[AP.basket[i]].el;
+    el.classList.add('glow');
+    await Voice.say(String(i + 1), 0.8);
+    el.classList.remove('glow');
+    await wait(120);
+  }
+}
+
+async function apDone() {
+  const r = RUN, c = AP.basket.length, n = AP.target;
+  busy(apScreen, true);
+  if (c === n) return apCorrect(r);
+  if (c === 0) { await apGuide.say('The basket is empty. Tap an apple to put it in.'); if (alive(r)) busy(apScreen, false); return; }
+  AP.mistakes++;
+  if (AP.mistakes === 1) {
+    await apGuide.say("Let's count your apples together."); if (!alive(r)) return;
+    await countTogether(r); if (!alive(r)) return;
+    const d = Math.abs(c - n);
+    const tail = c > n
+      ? `That is ${WORDS[d] || d} too many. Tap an apple in the basket to take it out.`
+      : `We need ${d === 1 ? 'one more apple' : (WORDS[d] || d) + ' more apples'}.`;
+    await apGuide.say(`${cap(WORDS[c] || c)}! But I asked for ${WORDS[n]}. ${tail}`);
+  } else if (AP.mistakes === 2) {
+    await apWatch(r);
+  } else { return apShow(r); }
+  if (alive(r)) busy(apScreen, false);
+}
+
+async function apWatch(r) {
+  const n = AP.target;
+  await apGuide.say(`Watch me. I will put ${WORDS[n]} ${n === 1 ? 'apple' : 'apples'} in my basket.`); if (!alive(r)) return;
+  returnAll(); await wait(450);
+  for (let i = 0; i < n; i++) {
+    await demoPut(r); if (!alive(r)) return;
+    await Voice.say(String(i + 1), 0.8); if (!alive(r)) return;
+  }
+  hand.hidden = true;
+  await apGuide.say(`${cap(WORDS[n])}! Now you try.`); if (!alive(r)) return;
+  returnAll();
+}
+
+async function apShow(r) {
+  Prof.rec(String(AP.target), 'helped');
+  const n = AP.target;
+  await apGuide.say("Let's do it together."); if (!alive(r)) return;
+  returnAll(); await wait(400);
+  for (let i = 0; i < n; i++) {
+    await demoPut(r); if (!alive(r)) return;
+    await Voice.say(String(i + 1), 0.8); if (!alive(r)) return;
+  }
+  hand.hidden = true;
+  await apGuide.say(`${cap(WORDS[n])} ${n === 1 ? "apple" : "apples"}. Well done for trying! Let's do another one.`); if (!alive(r)) return;
+  AP.easier = true;
+  await wait(500);
+  apAdvance(r);
+}
+
+async function apCorrect(r) {
+  Prof.rec(String(AP.target), outc(AP.mistakes));
+  Sfx.chime(); confetti(area); apGuide.cheer();
+  const n = AP.target;
+  const things = n === 1 ? 'apple' : 'apples';
+  await apGuide.say(pick([`Yes! ${WORDS[n]} ${things}!`, `Brilliant counting! ${WORDS[n]} ${things}!`, `You did it! ${WORDS[n]} ${things} in my basket!`])); if (!alive(r)) return;
+  await wait(350);
+  apAdvance(r);
+}
+
+function apAdvance(r) {
+  if (!alive(r)) return;
+  AP.q++;
+  renderProgress($('#apProg'), AP.total, AP.q);
+  if (AP.q >= AP.total) finishApple(); else apNext(r);
+}
+
+async function apHelp() {
+  const r = RUN; busy(apScreen, true);
+  if (AP.mistakes < 2) { AP.mistakes = 2; await apWatch(r); if (alive(r)) busy(apScreen, false); }
+  else { AP.mistakes = 3; await apShow(r); }
+}
+
+$('#apDone').addEventListener('click', apDone);
+$('#apHelp').addEventListener('click', apHelp);
+$('#apHear').addEventListener('click', () => { if (AP.target) apGuide.say(askText(AP.target)); });
+$('#goApple').addEventListener('click', startApple);
+
+const STICKERS = ['🦊', '🐢', '🦄', '🐝', '🐳', '🦁', '🐸', '🐼', '🦋', '🐙', '🦒', '🐧'];
+function finishLittle(what, again) {
+  RUN++;
+  const s = pick(STICKERS);
+  const book = Prof.sticker(s);
+  const max = Prof.sCount * 3, stars = Prof.sStars;
+  Prof.finish(stars, max);
+  $('#finish').classList.remove('explore');
+  $('#fnArt').innerHTML = `<div class="sticker">${s}</div>`;
+  $('#fnTitle').textContent = 'You did it!';
+  $('#fnSub').textContent = `You finished 5 ${what} and got ★ ${stars} of ${max}. Here is a new sticker!`;
+  $('#fnBook').innerHTML = `<div class="book-label">Your sticker book</div><div class="book">${book.map(x => `<span>${x}</span>`).join('')}</div>`;
+  $('#fnAgain').onclick = again;
+  show('finish');
+  Sfx.chime(); confetti($('#finish'));
+  Voice.say('You did it! Here is a new sticker for your sticker book.', 0.85);
+}
+function finishApple() { finishLittle('apple puzzles', startApple); }
+
+// =====================================================
+// TILE BUILDER (ages 8–11)
+// =====================================================
+const tbScreen = $('#tile'), board = $('#tbBoard');
+const tbGuide = makeGuide(tbScreen, 1.0);
+const GR = 6, GC = 8;
+const TB = { q: 0, total: 6, a: 0, b: 0, rows: 0, cols: 0, mistakes: 0, entry: '', stars: 0, easier: false, prev: '' };
+const cells = [], labels = [];
+for (let r = 0; r < GR; r++) {
+  for (let c = 0; c < GC; c++) {
+    const d = document.createElement('div');
+    d.className = 'cell'; d.dataset.r = r; d.dataset.c = c;
+    board.appendChild(d); cells.push(d);
+  }
+  const l = document.createElement('div'); l.className = 'rlabel'; board.appendChild(l); labels.push(l);
+}
+$('#tbPad').innerHTML = ['1','2','3','4','5','6','7','8','9','del','0','clr']
+  .map(k => k === 'del' ? '<button type="button" class="del" data-k="del">⌫ Delete</button>'
+    : k === 'clr' ? '<button type="button" class="del" data-k="clr">Clear</button>'
+    : `<button type="button" data-k="${k}">${k}</button>`).join('');
+
+const mode = () => tbScreen.dataset.mode;
+function tbRender() {
+  cells.forEach(d => d.classList.toggle('on', +d.dataset.r < TB.rows && +d.dataset.c < TB.cols));
+  $('#tbRows').textContent = TB.rows; $('#tbCols').textContent = TB.cols;
+}
+function clearLit() { cells.forEach(d => d.classList.remove('lit')); labels.forEach(l => { l.textContent = ''; }); }
+function renderEntry() { const e = $('#tbEntry'); e.textContent = TB.entry || '?'; e.classList.toggle('empty', !TB.entry); }
+function setStars() { $('#tbStars').textContent = '★ ' + TB.stars; }
+
+let tbDown = false;
+function setFromCell(cell) {
+  const r = +cell.dataset.r + 1, c = +cell.dataset.c + 1;
+  if (r === TB.rows && c === TB.cols) return;
+  TB.rows = r; TB.cols = c; clearLit(); tbRender(); Sfx.tick();
+}
+board.addEventListener('pointerdown', e => {
+  if (tbScreen.classList.contains('busy') || mode() !== 'build') return;
+  const cell = e.target.closest('.cell'); if (!cell) return;
+  e.preventDefault(); tbDown = true; board.setPointerCapture(e.pointerId); setFromCell(cell);
+});
+board.addEventListener('pointermove', e => {
+  if (!tbDown) return;
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  const cell = el && el.closest && el.closest('.cell');
+  if (cell) setFromCell(cell);
+});
+['pointerup', 'pointercancel'].forEach(t => board.addEventListener(t, () => { tbDown = false; }));
+
+$('#tbPad').addEventListener('click', e => {
+  const k = e.target.closest('button'); if (!k) return;
+  const key = k.dataset.k;
+  if (key === 'del') TB.entry = TB.entry.slice(0, -1);
+  else if (key === 'clr') TB.entry = '';
+  else if (TB.entry.length < 3) TB.entry = (TB.entry === '0' ? '' : TB.entry) + key;
+  Sfx.tick(); renderEntry();
+});
+
+async function skipCount(r, upto, lastUnknown) {
+  for (let i = 0; i < upto; i++) {
+    if (!alive(r)) return;
+    cells.forEach(d => { if (+d.dataset.r === i && d.classList.contains('on')) d.classList.add('lit'); });
+    if (lastUnknown && i === upto - 1) { labels[i].textContent = '?'; break; }
+    labels[i].textContent = TB.b * (i + 1);
+    Sfx.tick();
+    await Voice.say(String(TB.b * (i + 1)), 1.0);
+    await wait(120);
+  }
+}
+
+async function startTile() {
+  const r = ++RUN;
+  Prof.begin('tile');
+  Sfx.ensure(); Voice.unlock();
+  show('tile');
+  const introDone = introSkip(tbScreen, nr => tbNext(nr));
+  Object.assign(TB, { q: 0, stars: 0, easier: false, prev: '', rows: 0, cols: 0, entry: '' });
+  tbScreen.dataset.mode = 'build'; tbScreen.classList.remove('show-board');
+  clearLit(); tbRender(); renderEntry(); setStars();
+  renderProgress($('#tbProg'), TB.total, 0);
+  $('#tbQ').textContent = '2 rows of 3';
+  busy(tbScreen, true);
+  await tbGuide.say("Hi, I'm Pip! Let's build times tables with tiles."); if (!alive(r)) return;
+  await tbGuide.say('Watch me build 2 rows of 3. Rows go across.'); if (!alive(r)) return;
+  TB.b = 3;
+  for (let i = 1; i <= 2; i++) { TB.rows = i; TB.cols = 3; tbRender(); Sfx.pop(); await Voice.say(pl(i, 'row'), 1.0); if (!alive(r)) return; }
+  await skipCount(r, 2); if (!alive(r)) return;
+  await tbGuide.say('2 rows of 3 makes 6. So 2 times 3 is 6. Your turn! Tap or drag on the board to build.'); if (!alive(r)) return;
+  introDone();
+  tbNext(r);
+}
+
+function pickPair(build) {
+  let a, b, key;
+  do {
+    if (TB.easier) { a = 2; b = rand(2, 4); }
+    else { a = rand(2, 5); b = rand(2, build ? 6 : 8); }
+    key = a + 'x' + b;
+  } while (key === TB.prev || (build && a === b));
+  TB.easier = false; TB.a = a; TB.b = b; TB.prev = key;
+}
+
+async function tbNext(r) {
+  const build = TB.q < 3;
+  TB.mistakes = 0; TB.rows = 0; TB.cols = 0; TB.entry = '';
+  tbScreen.dataset.mode = build ? 'build' : 'recall';
+  tbScreen.classList.remove('show-board');
+  clearLit(); tbRender(); renderEntry();
+  pickPair(build);
+  const { a, b } = TB;
+  $('#tbQ').textContent = build ? `${a} rows of ${b}` : `${a} × ${b} = ?`;
+  busy(tbScreen, false);
+  if (TB.q === 3) { await tbGuide.say('Great building! Now try it without the tiles.'); if (!alive(r)) return; }
+  await tbGuide.say(build ? `Build ${pl(a, 'row')}, with ${b} tiles in each row.` : `What is ${a} times ${b}? Type your answer, then press Check.`);
+}
+
+function buildHint() {
+  const { rows, cols, a, b } = TB;
+  if (rows === b && cols === a) return `That is ${pl(rows, 'row')} of ${cols}. It also makes ${a * b}, well spotted! But rows go across, like lines in a book. Can you make ${a} rows?`;
+  if (rows === a) return `${a} rows. Good! Now each row needs ${b} tiles. Your rows have ${cols}.`;
+  if (cols === b) return `${b} tiles in each row. Good! Now we need ${a} rows. You have ${rows}.`;
+  return `Not yet. We need ${a} rows going across, with ${b} tiles in each row.`;
+}
+function recallHint(ans) {
+  const { a, b } = TB, p = a * b;
+  if (ans === a + b) return `You added: ${a} plus ${b} is ${a + b}. Times means ${a} groups of ${b}. Try again.`;
+  if (ans === p + b) return `Very close! That is one group of ${b} too many. Try again.`;
+  if (ans === p - b) return `Very close! You need one more group of ${b}. Try again.`;
+  const seq = Array.from({ length: Math.max(1, Math.min(2, a - 1)) }, (_, i) => b * (i + 1)).join(', ');
+  return `Not yet. Try counting in ${b}s: ${seq}, and keep going. Try again.`;
+}
+
+async function tbCheck() {
+  const r = RUN, { a, b } = TB;
+  busy(tbScreen, true);
+  if (mode() === 'build') {
+    if (TB.rows === 0) { await tbGuide.say('Tap a square on the board to start building.'); if (alive(r)) busy(tbScreen, false); return; }
+    if (TB.rows === a && TB.cols === b) return tbCorrect(r);
+    TB.mistakes++;
+    if (TB.mistakes === 1) await tbGuide.say(buildHint());
+    else if (TB.mistakes === 2) await tbWatch(r);
+    else return tbShow(r);
+  } else {
+    if (TB.entry === '') { await tbGuide.say('Type your answer with the number buttons first.'); if (alive(r)) busy(tbScreen, false); return; }
+    const ans = +TB.entry;
+    if (ans === a * b) return tbCorrect(r);
+    TB.mistakes++;
+    if (TB.mistakes === 1) { await tbGuide.say(recallHint(ans)); TB.entry = ''; renderEntry(); }
+    else if (TB.mistakes === 2) await tbWatch(r);
+    else return tbShow(r);
+  }
+  if (alive(r)) busy(tbScreen, false);
+}
+
+async function tbWatch(r) {
+  const { a, b } = TB;
+  clearLit();
+  if (mode() === 'build') {
+    await tbGuide.say(`Watch me build ${a} rows of ${b}.`); if (!alive(r)) return;
+    TB.rows = 0; TB.cols = 0; tbRender();
+    for (let i = 1; i <= a; i++) { TB.rows = i; TB.cols = b; tbRender(); Sfx.pop(); await Voice.say(pl(i, 'row'), 1.0); if (!alive(r)) return; }
+    await skipCount(r, a); if (!alive(r)) return;
+    await tbGuide.say(`${a} rows of ${b} makes ${a * b}. Now you build it.`); if (!alive(r)) return;
+    TB.rows = 0; TB.cols = 0; clearLit(); tbRender();
+  } else {
+    tbScreen.classList.add('show-board');
+    TB.rows = a; TB.cols = b; tbRender();
+    await tbGuide.say(`${a} times ${b} means ${a} rows of ${b}. Let's count in ${b}s.`); if (!alive(r)) return;
+    await skipCount(r, a, true); if (!alive(r)) return;
+    await tbGuide.say(`Count on ${b} more for the last row. What do you get? Type it in.`); if (!alive(r)) return;
+    TB.entry = ''; renderEntry();
+  }
+}
+
+async function tbShow(r) {
+  const { a, b } = TB;
+  Prof.rec(`${a} × ${b}`, 'helped');
+  tbScreen.classList.add('show-board');
+  TB.rows = a; TB.cols = b; clearLit(); tbRender();
+  await skipCount(r, a); if (!alive(r)) return;
+  $('#tbQ').textContent = `${a} × ${b} = ${a * b}`;
+  await tbGuide.say(`${a} rows of ${b} makes ${a * b}. So ${a} times ${b} is ${a * b}. Let's try another one.`); if (!alive(r)) return;
+  TB.easier = true;
+  await wait(600);
+  tbAdvance(r);
+}
+
+async function tbCorrect(r) {
+  const { a, b } = TB;
+  Prof.rec(`${a} × ${b}`, outc(TB.mistakes));
+  TB.stars += [3, 2, 1, 0][Math.min(TB.mistakes, 3)]; setStars();
+  Sfx.chime(); confetti(tbScreen); tbGuide.cheer();
+  $('#tbQ').textContent = `${a} × ${b} = ${a * b}`;
+  if (mode() === 'build') {
+    clearLit();
+    await skipCount(r, a); if (!alive(r)) return;
+    await tbGuide.say(`Yes! ${a} rows of ${b} makes ${a * b}. ${a} times ${b} is ${a * b}.`);
+  } else {
+    await tbGuide.say(pick([`Correct! ${a} times ${b} is ${a * b}.`, `Brilliant! ${a * b} is right.`, `Spot on! ${a} times ${b} is ${a * b}.`]));
+  }
+  if (!alive(r)) return;
+  await wait(500);
+  tbAdvance(r);
+}
+
+function tbAdvance(r) {
+  if (!alive(r)) return;
+  TB.q++;
+  renderProgress($('#tbProg'), TB.total, TB.q);
+  if (TB.q >= TB.total) finishTile(); else tbNext(r);
+}
+
+async function tbHelp() {
+  const r = RUN; busy(tbScreen, true);
+  if (TB.mistakes < 2) { TB.mistakes = 2; await tbWatch(r); if (alive(r)) busy(tbScreen, false); }
+  else { TB.mistakes = 3; await tbShow(r); }
+}
+
+$('#tbCheck').addEventListener('click', tbCheck);
+$('#tbHelp').addEventListener('click', tbHelp);
+$('#goTile').addEventListener('click', startTile);
+
+function finishExplorer(key, title, stars, max, again) {
+  RUN++;
+  const { best, isBest } = Prof.finish(stars, max);
+  $('#finish').classList.add('explore');
+  $('#fnArt').innerHTML = `<div class="medal">★${stars}</div>`;
+  $('#fnTitle').textContent = title;
+  $('#fnSub').textContent = `You earned ${stars} of ${max} stars.`;
+  $('#fnBook').innerHTML = `<div class="book-label">${isBest ? 'New personal best!' : 'Personal best: ' + best + ' stars'}</div>`;
+  $('#fnAgain').onclick = again;
+  show('finish');
+  Sfx.chime(); confetti($('#finish'));
+  Voice.say(`Well done! You earned ${stars} stars.${isBest ? ' That is a new personal best!' : ''}`, 1.0);
+}
+function finishTile() { finishExplorer('tb_best', 'Tile Builder complete!', TB.stars, TB.total * 3, startTile); }
+
+// ---------- Shared helpers for the new games ----------
+const shuffle = arr => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = rand(0, i); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+function renderChoices(el, values, withDots, onSel) {
+  el.innerHTML = values.map(v => `<button type="button" class="choice" data-v="${v}">${v}${withDots && v > 0 && v <= 10 ? `<span class="dots">${'<i></i>'.repeat(v)}</span>` : ''}</button>`).join('');
+  el.hidden = false;
+  el.onclick = e => {
+    const b = e.target.closest('.choice'); if (!b) return;
+    $$('.choice', el).forEach(x => x.classList.toggle('sel', x === b));
+    const v = +b.dataset.v;
+    onSel(v); Sfx.tick(); Voice.say(String(v), 0.85);
+  };
+}
+function selectChoice(el, v) { $$('.choice', el).forEach(x => x.classList.toggle('sel', +x.dataset.v === v)); }
+function clearChoice(el) { $$('.choice', el).forEach(x => x.classList.remove('sel')); }
+const PAD_HTML = ['1','2','3','4','5','6','7','8','9','del','0','clr']
+  .map(k => k === 'del' ? '<button type="button" class="del" data-k="del">⌫ Delete</button>'
+    : k === 'clr' ? '<button type="button" class="del" data-k="clr">Clear</button>'
+    : `<button type="button" data-k="${k}">${k}</button>`).join('');
+function makePad(padEl, entryEl) {
+  let v = '';
+  const render = () => { entryEl.textContent = v || '?'; entryEl.classList.toggle('empty', !v); };
+  padEl.innerHTML = PAD_HTML;
+  padEl.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const k = b.dataset.k;
+    if (k === 'del') v = v.slice(0, -1);
+    else if (k === 'clr') v = '';
+    else if (v.length < 3) v = (v === '0' ? '' : v) + k;
+    Sfx.tick(); render();
+  });
+  render();
+  return { get: () => v, set(x) { v = x; render(); } };
+}
+
+// =====================================================
+// TAKE AWAY (ages 4–6): subtraction by acting it out
+// =====================================================
+const tkScreen = $('#take'), plate = $('#tkPlate'), tkChoices = $('#tkChoices');
+const tkGuide = makeGuide(tkScreen, 0.85);
+const TK = { q: 0, total: 5, n: 0, k: 0, taken: 0, phase: 'act', sel: null, mistakes: 0, prev: '', easier: false };
+const TK_RANGES = [[3, 5], [4, 6], [5, 8], [6, 10], [6, 10]];
+const CORE_SVG = '<svg viewBox="0 0 40 40"><path d="M16 12c2 3 2 6 0 9-2 3-2 7 1 10 1 2 0 4-1 5h8c-1-1-2-3-1-5 3-3 3-7 1-10-2-3-2-6 0-9z" fill="#F6E7B8" stroke="#C9A85A" stroke-width="1.5"/><path d="M20 12c0-4 1-6 3-8" stroke="#6B3E26" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>';
+
+function tkRenderPlate(n) {
+  plate.innerHTML = Array.from({ length: n }, () => `<button type="button" class="tk-apple" aria-label="Apple">${APPLE_SVG}</button>`).join('');
+}
+function tkSum(ans) {
+  $('#tkSum').innerHTML = `<span>${TK.n}</span><span class="op">−</span><span>${TK.k}</span><span class="op">=</span><span class="q ${ans === '?' ? '' : 'solved'}">${ans}</span>`;
+}
+const tkLeft = () => $$('.tk-apple:not(.eaten)', plate);
+function tkEat(b) {
+  b.classList.add('eaten'); b.innerHTML = CORE_SVG;
+  Sfx.tone(190, .07, 'square', .07); Sfx.tone(150, .07, 'square', .07, .08);
+}
+plate.addEventListener('click', e => {
+  const b = e.target.closest('.tk-apple');
+  if (!b || b.classList.contains('eaten') || TK.phase !== 'act' || tkScreen.classList.contains('busy')) return;
+  tkEat(b); TK.taken++;
+  Voice.say(String(TK.taken), 0.9);
+  if (TK.taken === TK.k) tkAsk(RUN);
+});
+
+async function tkCountLeft(r) {
+  const left = tkLeft();
+  for (let i = 0; i < left.length; i++) {
+    if (!alive(r)) return;
+    left[i].classList.add('glow');
+    await Voice.say(String(i + 1), 0.8);
+    left[i].classList.remove('glow');
+    await wait(120);
+  }
+}
+
+async function startTake() {
+  const r = ++RUN;
+  Prof.begin('take');
+  Sfx.ensure(); Voice.unlock();
+  show('take');
+  const introDone = introSkip(tkScreen, nr => tkNext(nr));
+  Object.assign(TK, { q: 0, prev: '', easier: false, mistakes: 0, n: 3, k: 1, taken: 0, phase: 'demo' });
+  renderProgress($('#tkProg'), TK.total, 0);
+  tkChoices.hidden = true;
+  tkRenderPlate(3); tkSum('?');
+  busy(tkScreen, true);
+  await tkGuide.say("Let's play take away! When we take away, we have fewer."); if (!alive(r)) return;
+  await tkGuide.say('Watch me. I have three apples. I eat one.'); if (!alive(r)) return;
+  tkEat(tkLeft()[0]); await wait(600); if (!alive(r)) return;
+  await tkGuide.say('Now I count what is left.'); if (!alive(r)) return;
+  await tkCountLeft(r); if (!alive(r)) return;
+  tkSum(2);
+  await tkGuide.say('Three take away one is two. Your turn!'); if (!alive(r)) return;
+  introDone();
+  tkNext(r);
+}
+
+async function tkNext(r) {
+  Object.assign(TK, { mistakes: 0, sel: null, taken: 0, phase: 'act' });
+  tkChoices.hidden = true;
+  let n, k, key;
+  do {
+    if (TK.easier) { n = rand(3, 5); k = 1; }
+    else { const [lo, hi] = TK_RANGES[TK.q]; n = rand(lo, hi); k = rand(1, Math.min(n - 1, TK.q < 2 ? 2 : 4)); }
+    key = n + '-' + k;
+  } while (key === TK.prev);
+  TK.easier = false; TK.n = n; TK.k = k; TK.prev = key;
+  tkRenderPlate(n); tkSum('?');
+  busy(tkScreen, false);
+  await tkGuide.say(`There are ${WORDS[n]} apples. Take away ${WORDS[k]}. Tap ${WORDS[k]} ${k === 1 ? 'apple' : 'apples'} to eat ${k === 1 ? 'it' : 'them'}.`);
+}
+
+async function tkAsk(r) {
+  TK.phase = 'answer';
+  busy(tkScreen, true);
+  await wait(500); if (!alive(r)) return;
+  const { n, k } = TK, c = n - k;
+  const opts = [...new Set([n, k, n + k, c + 1, c - 1])].filter(v => v >= 0 && v !== c && v <= 20);
+  const key = shuffle(opts.filter(v => v === n || v === k))[0];
+  const others = shuffle(opts.filter(v => v !== key));
+  const vals = [c, key !== undefined ? key : others.shift(), others.find(v => v !== key)].filter(v => v !== undefined);
+  TK.sel = null;
+  renderChoices(tkChoices, shuffle(vals), true, v => { TK.sel = v; });
+  busy(tkScreen, false);
+  await tkGuide.say('How many apples are left on the plate? Tap the number, then press Done.');
+}
+
+async function tkDone() {
+  const r = RUN, { n, k } = TK, c = n - k;
+  busy(tkScreen, true);
+  if (TK.phase === 'act') {
+    const left = k - TK.taken;
+    await tkGuide.say(`Tap ${WORDS[left]} more ${left === 1 ? 'apple' : 'apples'} to eat ${left === 1 ? 'it' : 'them'}.`);
+    if (alive(r)) busy(tkScreen, false); return;
+  }
+  if (TK.sel === null) { await tkGuide.say('Tap a number first.'); if (alive(r)) busy(tkScreen, false); return; }
+  if (TK.sel === c) return tkCorrect(r);
+  TK.mistakes++;
+  if (TK.mistakes === 1) {
+    const v = TK.sel;
+    let t;
+    if (v === n) t = `${cap(WORDS[v])} is how many we started with. But we ate some! How many are left?`;
+    else if (v === k) t = `${cap(WORDS[v])} is how many we ate. How many are still on the plate?`;
+    else if (v === n + k) t = 'That is adding. Take away makes it fewer.';
+    else t = 'Not quite. Count the apples that are still on the plate.';
+    await tkGuide.say(t);
+  } else if (TK.mistakes === 2) {
+    await tkWatch(r);
+  } else { return tkShow(r); }
+  if (!alive(r)) return;
+  TK.sel = null; clearChoice(tkChoices);
+  busy(tkScreen, false);
+}
+
+async function tkWatch(r) {
+  await tkGuide.say("Let's count the apples that are left, together."); if (!alive(r)) return;
+  await tkCountLeft(r); if (!alive(r)) return;
+  await tkGuide.say('Now tap that number.');
+}
+
+async function tkShow(r) {
+  const { n, k } = TK, c = n - k;
+  Prof.rec(`${n} − ${k}`, 'helped');
+  selectChoice(tkChoices, c); tkSum(c);
+  await tkCountLeft(r); if (!alive(r)) return;
+  await tkGuide.say(`${cap(WORDS[n])} take away ${WORDS[k]} is ${WORDS[c]}. Well done for trying! Let's do another one.`); if (!alive(r)) return;
+  TK.easier = true;
+  await wait(500);
+  tkAdvance(r);
+}
+
+async function tkCorrect(r) {
+  const { n, k } = TK, c = n - k;
+  Prof.rec(`${n} − ${k}`, outc(TK.mistakes));
+  tkSum(c); Sfx.chime(); confetti(tkScreen); tkGuide.cheer();
+  await tkGuide.say(pick([`Yes! ${cap(WORDS[n])} take away ${WORDS[k]} is ${WORDS[c]}.`, `Brilliant! ${cap(WORDS[c])} apples are left.`])); if (!alive(r)) return;
+  await wait(400);
+  tkAdvance(r);
+}
+
+function tkAdvance(r) {
+  if (!alive(r)) return;
+  TK.q++;
+  renderProgress($('#tkProg'), TK.total, TK.q);
+  if (TK.q >= TK.total) finishLittle('take-away puzzles', startTake); else tkNext(r);
+}
+
+async function tkHelp() {
+  const r = RUN; busy(tkScreen, true);
+  if (TK.phase === 'act') {
+    await tkGuide.say(`Watch me. I eat ${WORDS[TK.k - TK.taken]} more.`); if (!alive(r)) return;
+    while (TK.taken < TK.k) {
+      tkEat(tkLeft()[0]); TK.taken++;
+      await Voice.say(String(TK.taken), 0.85); if (!alive(r)) return;
+      await wait(250);
+    }
+    return tkAsk(r);
+  }
+  if (TK.mistakes < 2) { TK.mistakes = 2; await tkWatch(r); if (alive(r)) busy(tkScreen, false); }
+  else { TK.mistakes = 3; await tkShow(r); }
+}
+
+$('#tkDone').addEventListener('click', tkDone);
+$('#tkHelp').addEventListener('click', tkHelp);
+$('#goTake').addEventListener('click', startTake);
+
+// =====================================================
+// BIG NUMBERS (ages 4–6): adding tens and hundreds
+// =====================================================
+const bgScreen = $('#big'), bgChoices = $('#bgChoices');
+const bgGuide = makeGuide(bgScreen, 0.85);
+const BG = { q: 0, total: 5, A: null, B: null, kind: '', moved: 0, count: 0, phase: 'move', sel: null, mistakes: 0, easier: false, prev: '' };
+function gridLines(w, h, cols, rows) {
+  let d = '';
+  for (let i = 1; i < cols; i++) { const x = (1 + (w - 2) / cols * i).toFixed(1); d += `M${x} 1V${h - 1}`; }
+  for (let i = 1; i < rows; i++) { const y = (1 + (h - 2) / rows * i).toFixed(1); d += `M1 ${y}H${w - 1}`; }
+  return d;
+}
+const H_SVG = `<svg width="64" height="64" viewBox="0 0 64 64"><rect x="1" y="1" width="62" height="62" rx="4" fill="#2FA3E6" stroke="#1B6FA3" stroke-width="2"/><path d="${gridLines(64, 64, 10, 10)}" stroke="#1B6FA3" stroke-width="1" opacity=".5"/></svg>`;
+const T_SVG = `<svg width="14" height="64" viewBox="0 0 14 64"><rect x="1" y="1" width="12" height="62" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><path d="${gridLines(14, 64, 1, 10)}" stroke="#1F7F57" stroke-width="1" opacity=".6"/></svg>`;
+const bval = x => x.h * 100 + x.t * 10;
+const hundredsWord = n => n === 1 ? 'hundred' : 'hundreds';
+
+function bgPile(el, x) {
+  $('.pile-n', el).textContent = bval(x);
+  $('.blocks', el).innerHTML =
+    `<button type="button" class="block" data-type="h" aria-label="One hundred">${H_SVG}</button>`.repeat(x.h) +
+    `<button type="button" class="block" data-type="t" aria-label="Ten">${T_SVG}</button>`.repeat(x.t);
+}
+function bgChips() {
+  const h = $('#bgBH').children.length, t = $('#bgBT').children.length;
+  $('#bgChips').innerHTML = (h ? `<span class="chip h"><b>${h}</b> ${hundredsWord(h)}</span>` : '') + (t ? `<span class="chip t"><b>${t}</b> ${t === 1 ? 'ten' : 'tens'}</span>` : '');
+}
+function bgSum(ans) {
+  $('#bgSum').innerHTML = `<span>${bval(BG.A)}</span><span class="op">+</span><span>${bval(BG.B)}</span><span class="op">=</span><span class="q ${ans === '?' ? '' : 'solved'}">${ans}</span>`;
+}
+const bgTotal = () => bval(BG.A) + bval(BG.B);
+function bgMove(b) {
+  ($(b.dataset.type === 'h' ? '#bgBH' : '#bgBT')).appendChild(b);
+  BG.moved++; Sfx.pop(); bgChips();
+}
+$('#bgMain').addEventListener('click', e => {
+  const b = e.target.closest('.block');
+  if (!b || !b.closest('.pile') || BG.phase !== 'move' || bgScreen.classList.contains('busy')) return;
+  bgMove(b);
+  Voice.say(b.dataset.type === 'h' ? 'one hundred' : 'ten', 0.9);
+  if (BG.moved === BG.count) bgAsk(RUN);
+});
+
+async function bgCountBox(r) {
+  const blocks = [...$('#bgBH').children, ...$('#bgBT').children];
+  let total = 0;
+  for (const b of blocks) {
+    if (!alive(r)) return;
+    total += b.dataset.type === 'h' ? 100 : 10;
+    b.classList.add('glow');
+    await Voice.say(String(total), 0.85);
+    b.classList.remove('glow');
+    await wait(100);
+  }
+}
+
+function bgExplain() {
+  const { A, B, kind } = BG, c = bgTotal();
+  if (kind === 'tens') { const S = A.t + B.t; return `${cap(WORDS[A.t])} tens and ${WORDS[B.t]} ${B.t === 1 ? 'ten' : 'tens'} make ${WORDS[S]} tens. ${cap(WORDS[S])} tens is ${c}.`; }
+  if (kind === 'hund') { const S = A.h + B.h; return `${cap(WORDS[A.h])} ${hundredsWord(A.h)} and ${WORDS[B.h]} ${hundredsWord(B.h)} make ${WORDS[S]} hundreds. That is ${c}.`; }
+  const h = A.h + B.h, t = A.t + B.t;
+  return `${cap(WORDS[h])} ${hundredsWord(h)} and ${WORDS[t]} ${t === 1 ? 'ten' : 'tens'} make ${c}.`;
+}
+
+async function startBig() {
+  const r = ++RUN;
+  Prof.begin('big');
+  Sfx.ensure(); Voice.unlock();
+  show('big');
+  const introDone = introSkip(bgScreen, nr => bgNext(nr));
+  Object.assign(BG, { q: 0, prev: '', easier: false, mistakes: 0, phase: 'demo', A: { h: 1, t: 0 }, B: { h: 0, t: 1 } });
+  renderProgress($('#bgProg'), BG.total, 0);
+  $('.piles', bgScreen).hidden = false;
+  bgChoices.hidden = true;
+  bgPile($('#bgA'), BG.A); bgPile($('#bgB'), BG.B);
+  $('#bgBH').innerHTML = ''; $('#bgBT').innerHTML = ''; bgChips(); bgSum('?');
+  busy(bgScreen, true);
+  await bgGuide.say("Let's add big numbers!"); if (!alive(r)) return;
+  const stick = $('#bgB .block'), square = $('#bgA .block');
+  stick.classList.add('glow');
+  await bgGuide.say('This green stick is worth ten. It has ten little squares.'); if (!alive(r)) return;
+  stick.classList.remove('glow'); square.classList.add('glow');
+  await bgGuide.say('This big blue square is worth one hundred. It is as big as ten sticks!'); if (!alive(r)) return;
+  square.classList.remove('glow');
+  await bgGuide.say('Tap the blocks to put them in the box. Then tell me how much there is.'); if (!alive(r)) return;
+  introDone();
+  bgNext(r);
+}
+
+async function bgNext(r) {
+  Object.assign(BG, { mistakes: 0, sel: null, moved: 0, phase: 'move' });
+  $('.piles', bgScreen).hidden = false;
+  bgChoices.hidden = true;
+  let A, B, kind, key;
+  do {
+    if (BG.easier) { kind = 'tens'; A = { h: 0, t: rand(1, 3) }; B = { h: 0, t: rand(1, 3) }; }
+    else if (BG.q < 2) { kind = 'tens'; A = { h: 0, t: rand(1, 4) }; B = { h: 0, t: rand(1, 4) }; }
+    else if (BG.q === 2) { kind = 'hund'; A = { h: rand(1, 4), t: 0 }; B = { h: rand(1, 4), t: 0 }; }
+    else { kind = 'mixed'; const X = { h: rand(1, 4), t: 0 }, Y = { h: 0, t: rand(1, 9) }; [A, B] = Math.random() < .5 ? [X, Y] : [Y, X]; }
+    key = bval(A) + '+' + bval(B);
+  } while (key === BG.prev);
+  Object.assign(BG, { A, B, kind, prev: key, easier: false, count: A.h + A.t + B.h + B.t });
+  bgPile($('#bgA'), A); bgPile($('#bgB'), B);
+  $('#bgBH').innerHTML = ''; $('#bgBT').innerHTML = ''; bgChips(); bgSum('?');
+  busy(bgScreen, false);
+  await bgGuide.say(`${bval(A)} plus ${bval(B)}. Tap all the blocks to put them in the box.`);
+}
+
+async function bgAsk(r) {
+  BG.phase = 'answer';
+  $('.piles', bgScreen).hidden = true;
+  busy(bgScreen, true);
+  await wait(400); if (!alive(r)) return;
+  const { A, B, kind } = BG, c = bgTotal();
+  let key, second;
+  if (kind === 'tens') { const S = A.t + B.t; key = S; second = S * 100; }
+  else if (kind === 'hund') { const S = A.h + B.h; key = S; second = S * 10; }
+  else { const S = A.h + B.h + A.t + B.t; key = S; second = pick([S * 10, S * 100]); }
+  BG.sel = null;
+  renderChoices(bgChoices, shuffle([c, key, second]), false, v => { BG.sel = v; });
+  busy(bgScreen, false);
+  await bgGuide.say('How much is that altogether? Tap the number, then press Done.');
+}
+
+async function bgDone() {
+  const r = RUN, c = bgTotal();
+  busy(bgScreen, true);
+  if (BG.phase !== 'answer') { await bgGuide.say('Tap all the blocks to put them in the box first.'); if (alive(r)) busy(bgScreen, false); return; }
+  if (BG.sel === null) { await bgGuide.say('Tap a number first.'); if (alive(r)) busy(bgScreen, false); return; }
+  if (BG.sel === c) return bgCorrect(r);
+  BG.mistakes++;
+  if (BG.mistakes === 1) await bgGuide.say(bgHint(BG.sel));
+  else if (BG.mistakes === 2) await bgWatch(r);
+  else return bgShow(r);
+  if (!alive(r)) return;
+  BG.sel = null; clearChoice(bgChoices);
+  busy(bgScreen, false);
+}
+
+function bgHint(v) {
+  const { A, B, kind } = BG;
+  if (kind === 'tens') {
+    const S = A.t + B.t;
+    if (v === S) return 'Each stick is worth ten, not one. Count the sticks in tens: ten, twenty, thirty, and keep going.';
+    if (v === S * 100) return 'These are sticks of ten, not big squares of one hundred. Count the sticks in tens.';
+    return 'Not quite. Count the sticks in tens: ten, twenty, thirty, and keep going.';
+  }
+  if (kind === 'hund') {
+    const S = A.h + B.h;
+    if (v === S) return 'Each big square is worth one hundred, not one. Count in hundreds: one hundred, two hundred, and keep going.';
+    if (v === S * 10) return 'Each big square is worth one hundred, not ten. Count in hundreds.';
+    return 'Not quite. Count the big squares in hundreds.';
+  }
+  const h = A.h + B.h, t = A.t + B.t;
+  if (v === h + t) return `You added ${WORDS[h]} and ${WORDS[t]}. But hundreds and tens are different sizes. A big square is worth much more than a stick!`;
+  return 'Hundreds and tens are different sizes, so we cannot add them as one kind. Count the big squares first, then count on the sticks.';
+}
+
+async function bgWatch(r) {
+  await bgGuide.say("Let's count together. Big squares first, then the sticks."); if (!alive(r)) return;
+  await bgCountBox(r); if (!alive(r)) return;
+  await bgGuide.say('Now tap that number.');
+}
+
+async function bgShow(r) {
+  Prof.rec(`${bval(BG.A)} + ${bval(BG.B)}`, 'helped');
+  const c = bgTotal();
+  selectChoice(bgChoices, c); bgSum(c);
+  await bgCountBox(r); if (!alive(r)) return;
+  await bgGuide.say(`${bgExplain()} Let's do another one.`); if (!alive(r)) return;
+  BG.easier = true;
+  await wait(500);
+  bgAdvance(r);
+}
+
+async function bgCorrect(r) {
+  Prof.rec(`${bval(BG.A)} + ${bval(BG.B)}`, outc(BG.mistakes));
+  bgSum(bgTotal()); Sfx.chime(); confetti(bgScreen); bgGuide.cheer();
+  await bgGuide.say(`Yes! ${bgExplain()}`); if (!alive(r)) return;
+  await wait(400);
+  bgAdvance(r);
+}
+
+function bgAdvance(r) {
+  if (!alive(r)) return;
+  BG.q++;
+  renderProgress($('#bgProg'), BG.total, BG.q);
+  if (BG.q >= BG.total) finishLittle('big number puzzles', startBig); else bgNext(r);
+}
+
+async function bgHelp() {
+  const r = RUN; busy(bgScreen, true);
+  if (BG.phase === 'move') {
+    await bgGuide.say('Watch me put them in the box.'); if (!alive(r)) return;
+    for (const b of $$('.pile .block', bgScreen)) { bgMove(b); await wait(300); if (!alive(r)) return; }
+    return bgAsk(r);
+  }
+  if (BG.mistakes < 2) { BG.mistakes = 2; await bgWatch(r); if (alive(r)) busy(bgScreen, false); }
+  else { BG.mistakes = 3; await bgShow(r); }
+}
+
+$('#bgDone').addEventListener('click', bgDone);
+$('#bgHelp').addEventListener('click', bgHelp);
+$('#goBig').addEventListener('click', startBig);
+
+// =====================================================
+// HUNDRED GRID (ages 8–11): fractions and percentages
+// =====================================================
+const gdScreen = $('#grid'), gdGrid = $('#gdGrid');
+const gdGuide = makeGuide(gdScreen, 1.0);
+const gdPad = makePad($('#gdPad'), $('#gdEntry'));
+const GD = { q: 0, total: 6, quiz: false, type: '', a: 0, d: 0, p: 0, t: 0, s: 0, step: 0, sm: 0, count: 0, mistakes: 0, stars: 0, easier: false, prev: '' };
+const FN = { 2: ['half', 'halves'], 3: ['third', 'thirds'], 4: ['quarter', 'quarters'], 5: ['fifth', 'fifths'], 10: ['tenth', 'tenths'] };
+const F_POOL = [[1, 4], [3, 4], [1, 5], [2, 5], [3, 5], [3, 10], [7, 10]];
+const Q_POOL = [[1, 2], [1, 4], [3, 4], [1, 5], [2, 5], [3, 5], [4, 5], [1, 10], [3, 10], [7, 10], [9, 10]];
+// Hundred Grid (learning) always uses the two steps; Percent Quiz asks in the usual one-line style.
+const LEARN_QS = ['shadeF', 'shadeP', 'shadeF', 'readP', 'toP', 'toP'];
+const QUIZ_QS = ['toP', 'toP', 'readP', 'toP', 'toP', 'readP', 'toP', 'toP'];
+const fw = (a, d) => `${WORDS[a]} ${a === 1 ? FN[d][0] : FN[d][1]}`;
+const fracHTML = (a, d) => `<span class="frac"><span>${a}</span><span>${d}</span></span>`;
+const isFrac = () => GD.type !== 'shadeP';
+gdGrid.innerHTML = '<i></i>'.repeat(100);
+const gcells = $$('i', gdGrid);
+gcells.forEach((c, i) => { c.dataset.i = i; });
+
+function gdRender() { gcells.forEach((c, i) => c.classList.toggle('on', i < GD.count)); $('#gdCount').textContent = GD.count; }
+function gdBar(a, d, labels) {
+  const bar = $('#gdBar');
+  if (!d) { bar.hidden = true; return; }
+  bar.hidden = false;
+  bar.innerHTML = `${fracHTML(a, d)}<div class="segs">${Array.from({ length: d }, (_, i) => `<i class="${i < a ? 'on' : ''}">${labels ? 100 / d : ''}</i>`).join('')}</div>`;
+}
+function gdEquation() {
+  const { a, d, t, p } = GD;
+  return isFrac() ? `${fracHTML(a, d)} = ${fracHTML(t, 100)} = ${t}%` : `${p}% = ${fracHTML(p, 100)}`;
+}
+function gdSetStars() { $('#gdStars').textContent = '★ ' + GD.stars; }
+
+let gdDown = false;
+function gdSetCount(n) { if (n === GD.count) return; GD.count = n; gdRender(); Sfx.tick(); }
+gdGrid.addEventListener('pointerdown', e => {
+  if (gdScreen.classList.contains('busy') || gdScreen.dataset.mode !== 'build') return;
+  const c = e.target.closest('#gdGrid i'); if (!c) return;
+  e.preventDefault(); gdDown = true; gdGrid.setPointerCapture(e.pointerId);
+  const i = +c.dataset.i;
+  gdSetCount(GD.count === i + 1 ? i : i + 1);
+});
+gdGrid.addEventListener('pointermove', e => {
+  if (!gdDown) return;
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  const c = el && el.closest && el.closest('#gdGrid i');
+  if (c) gdSetCount(+c.dataset.i + 1);
+});
+['pointerup', 'pointercancel'].forEach(t => gdGrid.addEventListener(t, () => { gdDown = false; }));
+
+async function gdFillTo(target, step, r) {
+  while (GD.count < target) {
+    if (!alive(r)) return;
+    GD.count = Math.min(target, GD.count + step); gdRender();
+    await wait(45);
+  }
+}
+
+async function startQuiz() {
+  const r = ++RUN;
+  Prof.begin('quiz');
+  Sfx.ensure(); Voice.unlock();
+  show('grid');
+  const introDone = introSkip(gdScreen, nr => gdNext(nr));
+  Object.assign(GD, { q: 0, total: QUIZ_QS.length, quiz: true, stars: 0, easier: false, prev: '', count: 0 });
+  gdScreen.dataset.mode = 'recall'; gdScreen.classList.remove('show-board');
+  gdBar(0, 0); gdRender(); gdPad.set(''); gdSetStars();
+  renderProgress($('#gdProg'), GD.total, 0);
+  $('#gdQ').innerHTML = 'Percent Quiz';
+  busy(gdScreen, true);
+  await gdGuide.say("Percent quiz! Turn each fraction into a percent, like in a real test."); if (!alive(r)) return;
+  await gdGuide.say("If you get stuck, press Show me how, and we will do it in two steps."); if (!alive(r)) return;
+  introDone();
+  gdNext(r);
+}
+
+async function startGrid() {
+  const r = ++RUN;
+  Prof.begin('grid');
+  Sfx.ensure(); Voice.unlock();
+  show('grid');
+  const introDone = introSkip(gdScreen, nr => gdNext(nr));
+  Object.assign(GD, { q: 0, total: LEARN_QS.length, quiz: false, stars: 0, easier: false, prev: '', count: 0, type: 'shadeP', p: 10 });
+  gdScreen.dataset.mode = 'build'; gdScreen.classList.remove('show-board');
+  gdBar(0, 0); gdRender(); gdPad.set(''); gdSetStars();
+  renderProgress($('#gdProg'), GD.total, 0);
+  $('#gdQ').innerHTML = '100 squares';
+  busy(gdScreen, true);
+  await gdGuide.say("Hi, I'm Pip! This grid has 100 squares."); if (!alive(r)) return;
+  await gdGuide.say('Percent means out of 100. Watch me shade 10 squares.'); if (!alive(r)) return;
+  await gdFillTo(10, 1, r); if (!alive(r)) return;
+  $('#gdQ').innerHTML = `10% = ${fracHTML(10, 100)}`;
+  await gdGuide.say('10 squares out of 100 is 10 percent.'); if (!alive(r)) return;
+  await gdGuide.say('Your turn! Tap or drag on the grid to shade squares. Tap the last square again to remove it.'); if (!alive(r)) return;
+  introDone();
+  gdNext(r);
+}
+
+async function gdNext(r) {
+  const type = (GD.quiz ? QUIZ_QS : LEARN_QS)[GD.q];
+  let a = 0, d = 0, p = 0;
+  if (type === 'shadeP') { do { p = pick([20, 30, 40, 60, 70, 80, 90]); } while ('p' + p === GD.prev); GD.prev = 'p' + p; }
+  else {
+    if (GD.q === 0 && !GD.quiz) [a, d] = [1, 2];
+    else if (GD.easier) [a, d] = pick([[1, 2], [1, 4]]);
+    else do { [a, d] = pick(GD.quiz ? Q_POOL : F_POOL); } while (`${a}/${d}` === GD.prev);
+    GD.prev = `${a}/${d}`;
+  }
+  // Fraction-to-percent questions are split into two steps: size of one part, then the percent.
+  const stepped = !GD.quiz && (type === 'readP' || type === 'toP') && GD.q < GD.total - 1;
+  Object.assign(GD, { type, a, d, p, t: type === 'shadeP' ? p : 100 * a / d, s: d ? 100 / d : 0, mistakes: 0, sm: 0, step: stepped ? 1 : 0, easier: false });
+  const mode = type.startsWith('shade') ? 'build' : (type === 'readP' || stepped) ? 'read' : 'recall';
+  gdScreen.dataset.mode = mode;
+  gdScreen.classList.remove('show-board');
+  GD.count = type === 'readP' ? GD.t : 0;
+  gcells.forEach((c, i) => { c.classList.remove('part'); return c.classList.toggle('alt', type !== 'shadeP' && Math.floor(i / GD.s) % 2 === 1); });
+  gdRender(); gdPad.set('');
+  gdBar(a, d);
+  $('#gdQ').innerHTML = stepped ? `${fracHTML(a, d)}: 1 part = ?`
+    : type === 'shadeF' ? `Shade ${fracHTML(a, d)}` : type === 'shadeP' ? `Shade ${p}%` : `${fracHTML(a, d)} = ?%`;
+  busy(gdScreen, false);
+  if (!GD.quiz && GD.q === 3) { await gdGuide.say("Great shading! Now let's turn fractions into percents, one step at a time."); if (!alive(r)) return; }
+  if (stepped) {
+    await gdGuide.say(`${cap(fw(a, d))} means ${WORDS[a]} of ${WORDS[d]} equal parts. Step 1: the 100 squares are split into ${WORDS[d]} equal parts. How many squares are in one part?`);
+    return;
+  }
+  const say = {
+    shadeF: `Shade ${fw(a, d)} of the grid.`,
+    shadeP: `Shade ${p} percent of the grid.`,
+    readP: `${cap(fw(a, d))} of the grid is shaded. What percent is that? Type it, then press Check.`,
+    toP: `What is ${fw(a, d)} as a percent? Type it, then press Check.`
+  }[type];
+  await gdGuide.say(say);
+}
+
+const gdTarget = () => GD.step === 1 ? GD.s : GD.t;
+
+function gdHint(v) {
+  const { type, a, d, p, t, s } = GD;
+  if (GD.step === 1) {
+    if (v === d) return `${d} is the number of parts. We need the number of squares in each part. Share 100 squares into ${WORDS[d]} equal groups.`;
+    if (v === a) return `${a} is the top number of the fraction. First find how many squares are in one part: 100 shared into ${WORDS[d]} equal groups.`;
+    return `Not yet. Which number times ${d} makes 100? That is the size of one part.`;
+  }
+  if (GD.step === 2) {
+    if (v === s) return `${s} is one part. ${cap(fw(a, d))} is ${WORDS[a]} parts, so we need ${WORDS[a]} lots of ${s}.`;
+    if (v === Number(`${a}${d}`)) return `We cannot just write the two numbers together. Use the parts: ${WORDS[a]} parts of ${s}.`;
+    return `Not yet. Count in ${s}s, ${WORDS[a]} times. Look at the numbers on the bar.`;
+  }
+  if (type === 'shadeP') return `Percent means out of 100. ${p} percent means ${p} squares out of 100. You shaded ${v}.`;
+  if (type === 'shadeF') {
+    if (v === a || v === d) return `You shaded ${v} squares. But ${fw(a, d)} means ${WORDS[a]} of ${WORDS[d]} equal parts of the whole grid, and the grid has 100 squares.`;
+    return `That is ${v > t ? 'more' : 'less'} than ${fw(a, d)}. Look at the bar: split the 100 squares into ${WORDS[d]} equal parts.`;
+  }
+  if (v === Number(`${a}${d}`)) return `${cap(fw(a, d))} is not ${v} percent. We cannot just write the two numbers together. Percent means out of 100.`;
+  if (v === a || v === d) return `${v} is one of the fraction's numbers, not the percent. Percent means out of 100: how many squares out of 100?`;
+  return `Not yet. Use the two steps. How many squares are in one part? Then, how many parts do you need?`;
+}
+
+async function gdCheck() {
+  const r = RUN;
+  busy(gdScreen, true);
+  let v;
+  if (gdScreen.dataset.mode === 'build') {
+    if (GD.count === 0) { await gdGuide.say('Tap or drag on the grid to shade squares.'); if (alive(r)) busy(gdScreen, false); return; }
+    v = GD.count;
+  } else {
+    if (gdPad.get() === '') { await gdGuide.say('Type your answer with the number buttons first.'); if (alive(r)) busy(gdScreen, false); return; }
+    v = +gdPad.get();
+  }
+  if (v === gdTarget()) return GD.step === 1 ? gdStepDone(r, false) : gdCorrect(r);
+  GD.mistakes++; GD.sm++;
+  if (GD.sm === 1) { await gdGuide.say(gdHint(v)); if (gdScreen.dataset.mode !== 'build') gdPad.set(''); }
+  else if (GD.sm === 2) { if (GD.quiz && GD.step === 0) return gdToSteps(r); await gdWatch(r); }
+  else return GD.step === 1 ? gdStepReveal(r) : gdShow(r);
+  if (alive(r)) busy(gdScreen, false);
+}
+
+async function gdToSteps(r) {
+  const { a, d } = GD;
+  Object.assign(GD, { step: 1, sm: 0 });
+  gdScreen.dataset.mode = 'read';
+  GD.count = GD.type === 'readP' ? GD.t : 0;
+  gdRender(); gdPad.set(''); gdBar(a, d);
+  $('#gdQ').innerHTML = `${fracHTML(a, d)}: 1 part = ?`;
+  await gdGuide.say(`Let's do it in two steps. Step 1: the 100 squares are split into ${WORDS[d]} equal parts. How many squares are in one part?`);
+  if (alive(r)) busy(gdScreen, false);
+}
+
+function gdPart(k, on) {
+  gcells.forEach((c, i) => { if (Math.floor(i / GD.s) === k) c.classList.toggle('part', on); });
+}
+
+async function gdStepDone(r, revealed) {
+  const { a, d, s } = GD;
+  if (!revealed) Sfx.chime();
+  gdBar(a, d, true);
+  GD.step = 2; GD.sm = 0; gdPad.set('');
+  $('#gdQ').innerHTML = `${fracHTML(a, d)} = ${a} × ${s} = ?%`;
+  await gdGuide.say(`${revealed ? '' : 'Yes! '}Each part is ${s} squares, because 100 shared into ${WORDS[d]} is ${s}. Step 2: ${fw(a, d)} is ${WORDS[a]} ${a === 1 ? 'part' : 'parts'}. How many squares is that? That number is the percent.`);
+  if (alive(r)) busy(gdScreen, false);
+}
+
+async function gdStepReveal(r) {
+  gdPart(0, true);
+  await gdGuide.say(`Let me show you. One part is ${GD.s} squares.`); if (!alive(r)) return;
+  gdPart(0, false);
+  return gdStepDone(r, true);
+}
+
+async function gdWatch(r) {
+  const { a, d, p, s } = GD, build = gdScreen.dataset.mode === 'build';
+  gdScreen.classList.add('show-board');
+  if (GD.step === 1) {
+    await gdGuide.say(`Watch me. I count the ${WORDS[d]} equal parts. Each part is the same size.`); if (!alive(r)) return;
+    for (let k = 0; k < d; k++) {
+      gdPart(k, true);
+      await Voice.say(`${cap(WORDS[k + 1])}.`, 1.0); if (!alive(r)) return;
+      gdPart(k, false);
+    }
+    gdPart(0, true);
+    await gdGuide.say('Look at one part, shown with a yellow outline. Count its squares. How many are there?'); if (!alive(r)) return;
+    gdPad.set('');
+    return;
+  }
+  GD.count = 0; gdRender();
+  if (isFrac()) {
+    await gdGuide.say(`Watch me. 100 squares split into ${WORDS[d]} equal parts gives ${s} squares in each part.`); if (!alive(r)) return;
+    for (let i = 1; i <= a; i++) {
+      await gdFillTo(i * s, 2, r); if (!alive(r)) return;
+      await Voice.say(`${fw(i, d)}: ${i * s} squares.`, 1.0); if (!alive(r)) return;
+    }
+  } else {
+    await gdGuide.say(`Watch me. I shade ${p} squares out of 100, ten at a time.`); if (!alive(r)) return;
+    for (let k = 10; k <= p; k += 10) {
+      await gdFillTo(k, 2, r); if (!alive(r)) return;
+      await Voice.say(String(k), 1.0); if (!alive(r)) return;
+    }
+  }
+  if (build) { await gdGuide.say('Now you do it.'); if (!alive(r)) return; GD.count = 0; gdRender(); }
+  else { await gdGuide.say('Now type the percent.'); if (!alive(r)) return; gdPad.set(''); }
+}
+
+async function gdShow(r) {
+  Prof.rec(GD.type === 'shadeP' ? `${GD.p}%` : `${GD.a}/${GD.d}`, 'helped');
+  gdScreen.classList.add('show-board');
+  gcells.forEach(c => c.classList.remove('part'));
+  GD.count = 0; gdRender();
+  await gdFillTo(GD.t, 2, r); if (!alive(r)) return;
+  $('#gdQ').innerHTML = gdEquation();
+  const msg = isFrac() ? `${cap(fw(GD.a, GD.d))} is ${GD.t} out of 100. That is ${GD.t} percent.` : `${GD.p} percent is ${GD.p} out of 100.`;
+  await gdGuide.say(`${msg} Let's try another one.`); if (!alive(r)) return;
+  GD.easier = true;
+  await wait(600);
+  gdAdvance(r);
+}
+
+async function gdCorrect(r) {
+  Prof.rec(GD.type === 'shadeP' ? `${GD.p}%` : `${GD.a}/${GD.d}`, outc(GD.mistakes));
+  GD.stars += [3, 2, 1, 0][Math.min(GD.mistakes, 3)]; gdSetStars();
+  Sfx.chime(); confetti(gdScreen); gdGuide.cheer();
+  $('#gdQ').innerHTML = gdEquation();
+  const { type, a, d, t, p } = GD;
+  const msg = type === 'shadeP' ? `Yes! ${p} out of 100 is ${p} percent.`
+    : type === 'shadeF' ? `Yes! ${cap(fw(a, d))} of 100 squares is ${t}. So ${fw(a, d)} is ${t} percent.`
+    : `Correct! ${cap(fw(a, d))} is ${t} percent.`;
+  await gdGuide.say(msg); if (!alive(r)) return;
+  await wait(500);
+  gdAdvance(r);
+}
+
+function gdAdvance(r) {
+  if (!alive(r)) return;
+  GD.q++;
+  renderProgress($('#gdProg'), GD.total, GD.q);
+  if (GD.q >= GD.total) { if (GD.quiz) finishExplorer('gdq_best', 'Percent Quiz complete!', GD.stars, GD.total * 3, startQuiz); else finishExplorer('gd_best', 'Hundred Grid complete!', GD.stars, GD.total * 3, startGrid); }
+  else gdNext(r);
+}
+
+async function gdHelp() {
+  const r = RUN; busy(gdScreen, true);
+  if (GD.quiz && GD.step === 0) { GD.mistakes += Math.max(1, 2 - GD.sm); return gdToSteps(r); }
+  if (GD.sm < 2) { GD.mistakes += 2 - GD.sm; GD.sm = 2; await gdWatch(r); if (alive(r)) busy(gdScreen, false); }
+  else { GD.mistakes++; GD.sm = 3; GD.step === 1 ? await gdStepReveal(r) : await gdShow(r); }
+}
+
+$('#gdCheck').addEventListener('click', gdCheck);
+$('#gdHelp').addEventListener('click', gdHelp);
+$('#goGrid').addEventListener('click', startGrid);
+$('#goQuiz').addEventListener('click', startQuiz);
+
+// Home card picture for the Hundred Grid
+$('#gridArt').innerHTML = Array.from({ length: 100 }, (_, i) => `<rect x="${40 + (i % 10) * 8}" y="${6 + Math.floor(i / 10) * 8}" width="7" height="7" rx="1.5" fill="${i < 25 ? '#FF7AA2' : '#FFFFFF'}"/>`).join('') + '<text x="134" y="52" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="16" fill="#C2185B">25%</text>';
+
+
+// =====================================================
+// FRACTION WALL (ages 8–11): anchor facts on a percent ruler
+// =====================================================
+const wlScreen = $('#wall'), wlWall = $('#wlWall'), wlChoices = $('#wlChoices');
+const wlGuideSay = makeGuide(wlScreen, 1.0);
+const WL = { q: 0, total: 8, a: 0, d: 0, c: '', sel: null, mistakes: 0, stars: 0 };
+const WALL_ROWS = [1, 2, 3, 4, 5, 10];
+// Part A (first 5): one piece of each row, building the anchor facts. Part B: several pieces, using the facts.
+const WALL_QS = [[1, 2], [1, 4], [1, 10], [1, 5], [1, 3], [3, 4], [2, 5], [2, 3]];
+const wlPct = (a, d) => d === 3 ? (a === 1 ? '33⅓' : '66⅔') : String(100 * a / d);
+const wlUnitLabel = d => d === 1 ? '100%' : d === 10 ? '10' : wlPct(1, d) + '%';
+const wlSpeak = v => String(v).replace('⅓', ' and a third').replace('⅔', ' and two thirds');
+
+wlWall.innerHTML =
+  WALL_ROWS.map(d => `<div class="wl-row" data-d="${d}"><span class="wl-lab">${d === 1 ? '1' : fracHTML(1, d)}</span><div class="wl-bar">${'<i></i>'.repeat(d)}</div></div>`).join('') +
+  `<div class="wl-ruler"><span class="wl-lab">%</span><div class="wl-scale">${Array.from({ length: 11 }, (_, i) => `<b class="tk" style="left:${i * 10}%"></b><span class="tl" style="left:${i * 10}%">${i * 10}</span>`).join('')}</div></div>` +
+  '<div class="wl-guide" id="wlGuide" hidden><span id="wlGuideVal">?</span></div>';
+const wlRow = d => $(`.wl-row[data-d="${d}"]`, wlWall);
+
+function wlReset() {
+  $$('.wl-row', wlWall).forEach(row => { row.classList.remove('learned', 'active'); $$('i', row).forEach(p => { p.textContent = ''; p.classList.remove('on'); }); });
+  wlLabelRow(1);
+  $('#wlGuide').hidden = true;
+}
+function wlLabelRow(d) { const row = wlRow(d); row.classList.add('learned'); $$('i', row).forEach(p => { p.textContent = wlUnitLabel(d); }); }
+
+let wlGuideArgs = null;
+function wlGuide(a, d, text) {
+  const g = $('#wlGuide');
+  wlGuideArgs = [a, d, text];
+  const bar = $('.wl-bar', wlRow(d)), scale = $('.wl-scale', wlWall);
+  const W = wlWall.getBoundingClientRect(), B = bar.getBoundingClientRect(), S = scale.getBoundingClientRect();
+  g.hidden = false;
+  g.style.left = (B.left - W.left + B.width * a / d) + 'px';
+  g.style.top = (B.top - W.top) + 'px';
+  g.style.height = (S.top - B.top + 2) + 'px';
+  $('#wlGuideVal').textContent = text;
+}
+window.addEventListener('resize', () => { if (!wlScreen.hidden && wlGuideArgs && !$('#wlGuide').hidden) wlGuide(...wlGuideArgs); });
+
+function wlOptions(a, d, c) {
+  const concat = String(Number(`${a}${d}`));
+  let cand;
+  if (d === 3) cand = a === 1 ? ['30', '35', '13'] : ['60', '70', '23'];
+  else { const n = +c; cand = [Number(concat), d, n + 5, n - 5, n + 10, n - 10].filter(v => v > 0 && v <= 100 && v !== n).map(String); }
+  cand = [...new Set(cand)].filter(v => v !== c);
+  const first = cand.includes(concat) ? concat : cand[0];
+  const rest = shuffle(cand.filter(v => v !== first));
+  return shuffle([c, first, rest[0]]);
+}
+function wlRenderChoices(vals) {
+  wlChoices.innerHTML = vals.map(v => `<button type="button" class="choice" data-v="${v}">${v}%</button>`).join('');
+  wlChoices.hidden = false;
+  wlChoices.onclick = e => {
+    const b = e.target.closest('.choice'); if (!b) return;
+    $$('.choice', wlChoices).forEach(x => x.classList.toggle('sel', x === b));
+    WL.sel = b.dataset.v; Sfx.tick(); Voice.say(wlSpeak(WL.sel) + ' percent', 1.0);
+  };
+}
+
+const WL_TIP1 = {
+  2: 'Pip’s tip: half of 100 is 50.',
+  4: 'Pip’s tip: a quarter is half of a half. Half of 50 is 25.',
+  10: 'Pip’s tip: 100 shared into 10 equal pieces is 10. Ten 10s make 100.',
+  5: 'Pip’s tip: one fifth is the same as two tenths. 10 and 10 make 20. Check: five 20s make 100.',
+  3: '100 does not share equally into 3. Each third is 33 and a third. Three of them make 100.'
+};
+const WL_TIP2 = {
+  '3/4': 'Pip’s tip: three quarters is 100 take away one quarter. 100 minus 25 is 75.',
+  '2/5': 'Pip’s tip: one fifth is 20, so two fifths is 2 times 20, which is 40.',
+  '2/3': 'Pip’s tip: two thirds is two lots of 33 and a third. That is 66 and two thirds.',
+  '3/10': 'Pip’s tip: one tenth is 10, so three tenths is 30.'
+};
+function wlTip(a, d, c) {
+  if (a === 1) return `One ${FN[d][0]} is ${wlSpeak(c)} percent. ${WL_TIP1[d]}`;
+  return `${cap(fw(a, d))} is ${wlSpeak(c)} percent. ${WL_TIP2[`${a}/${d}`] || ''}`;
+}
+
+async function startWall() {
+  const r = ++RUN;
+  Prof.begin('wall');
+  Sfx.ensure(); Voice.unlock();
+  show('wall');
+  const introDone = introSkip(wlScreen, nr => wlNext(nr));
+  Object.assign(WL, { q: 0, stars: 0, sel: null });
+  wlReset(); wlChoices.hidden = true;
+  $('#wlStars').textContent = '★ 0';
+  renderProgress($('#wlProg'), WL.total, 0);
+  $('#wlQ').textContent = 'Fraction Wall';
+  busy(wlScreen, true);
+  wlRow(1).classList.add('active');
+  await wlGuideSay.say('This is a fraction wall. Every bar is the same size: one whole, which is 100 percent.'); if (!alive(r)) return;
+  wlRow(1).classList.remove('active');
+  await wlGuideSay.say('Each row is cut into equal pieces. More pieces means smaller pieces.'); if (!alive(r)) return;
+  await wlGuideSay.say("Under the wall is a percent ruler. Let's find out what one piece of each row is worth, and learn the fast way."); if (!alive(r)) return;
+  introDone();
+  wlNext(r);
+}
+
+async function wlNext(r) {
+  const [a, d] = WALL_QS[WL.q];
+  Object.assign(WL, { a, d, c: wlPct(a, d), sel: null, mistakes: 0 });
+  $$('.wl-row', wlWall).forEach(row => { row.classList.remove('active'); $$('i', row).forEach(p => p.classList.remove('on')); });
+  const row = wlRow(d);
+  row.classList.add('active');
+  $$('i', row).forEach((p, i) => p.classList.toggle('on', i < a));
+  $('#wlQ').innerHTML = `${fracHTML(a, d)} = ?%`;
+  wlRenderChoices(wlOptions(a, d, WL.c));
+  await wait(30); if (!alive(r)) return;
+  wlGuide(a, d, '?');
+  busy(wlScreen, false);
+  if (WL.q === 5) { await wlGuideSay.say('Now use the wall to answer bigger fractions.'); if (!alive(r)) return; }
+  if (a === 1) await wlGuideSay.say(`One ${FN[d][0]}. Follow the dotted line down to the ruler. What percent is it? Tap an answer, then press Check.`);
+  else await wlGuideSay.say(`${cap(fw(a, d))}. Each ${FN[d][0]} is ${wlSpeak(wlPct(1, d))} percent. What percent is ${fw(a, d)}?`);
+}
+
+async function wlCheck() {
+  const r = RUN, { a, d, c } = WL;
+  busy(wlScreen, true);
+  if (WL.sel === null) { await wlGuideSay.say('Tap an answer first.'); if (alive(r)) busy(wlScreen, false); return; }
+  if (WL.sel === c) return wlFinishQ(r, true);
+  WL.mistakes++;
+  if (WL.mistakes >= 2) return wlFinishQ(r, false);
+  const concat = String(Number(`${a}${d}`));
+  const t = WL.sel === concat ? 'We cannot just write the two numbers together. Follow the dotted line down to the ruler.'
+    : a === 1 ? 'Not quite. Look where the dotted line meets the ruler.'
+    : `Not quite. Each ${FN[d][0]} is ${wlSpeak(wlPct(1, d))} percent. Add ${WORDS[a]} of them, or look where the dotted line meets the ruler.`;
+  await wlGuideSay.say(t); if (!alive(r)) return;
+  WL.sel = null; $$('.choice', wlChoices).forEach(x => x.classList.remove('sel'));
+  busy(wlScreen, false);
+}
+
+async function wlFinishQ(r, correct) {
+  const { a, d, c } = WL;
+  Prof.rec(`${a}/${d}`, correct ? outc(WL.mistakes) : 'helped');
+  $$('.choice', wlChoices).forEach(x => x.classList.toggle('sel', x.dataset.v === c));
+  $('#wlGuideVal').textContent = c + '%';
+  wlLabelRow(d);
+  $('#wlQ').innerHTML = `${fracHTML(a, d)} = ${c}%`;
+  WL.stars += correct ? [3, 2, 1][Math.min(WL.mistakes, 2)] : 1;
+  $('#wlStars').textContent = '★ ' + WL.stars;
+  if (correct) { Sfx.chime(); confetti(wlScreen); wlGuideSay.cheer(); }
+  await wlGuideSay.say(`${correct ? 'Yes! ' : `Look: the line meets the ruler at ${wlSpeak(c)} percent. `}${wlTip(a, d, c)}`); if (!alive(r)) return;
+  await wait(700); if (!alive(r)) return;
+  WL.q++;
+  renderProgress($('#wlProg'), WL.total, WL.q);
+  if (WL.q >= WL.total) finishExplorer('wl_best', 'Fraction Wall complete!', WL.stars, WL.total * 3, startWall);
+  else wlNext(r);
+}
+
+async function wlHelp() {
+  const r = RUN; busy(wlScreen, true);
+  WL.mistakes = 2;
+  await wlFinishQ(r, false);
+}
+
+$('#wlCheck').addEventListener('click', wlCheck);
+$('#wlHelp').addEventListener('click', wlHelp);
+$('#goWall').addEventListener('click', startWall);
+
+// =====================================================
+// PLAYERS: one profile per child, with saved progress
+// =====================================================
+const AVATARS = ['🦊', '🐼', '🐯', '🐰', '🦄', '🐸', '🐨', '🦉'];
+const MAX_PLAYERS = 6;
+const GAME_CARDS = { goApple: 'apple', goTake: 'take', goBig: 'big', goTile: 'tile', goGrid: 'grid', goWall: 'wall', goQuiz: 'quiz' };
+const outc = m => m === 0 ? 'first' : m === 1 ? 'hint' : 'helped';
+const Prof = {
+  data: store.get('mwp_players', { players: [], last: null }),
+  cur: null, game: null, sStars: 0, sCount: 0,
+  save() { store.set('mwp_players', this.data); },
+  add(name, track, avatar) {
+    const p = { id: 'p' + Date.now().toString(36), name, track, avatar, stickers: [], games: {} };
+    this.data.players.push(p); this.save(); return p;
+  },
+  remove(id) {
+    this.data.players = this.data.players.filter(p => p.id !== id);
+    if (this.data.last === id) this.data.last = null;
+    if (this.cur && this.cur.id === id) this.cur = null;
+    this.save();
+  },
+  pick(id) { this.cur = this.data.players.find(p => p.id === id) || null; this.data.last = id; this.save(); },
+  g(game) {
+    const p = this.cur; if (!p || !game) return null;
+    return p.games[game] || (p.games[game] = { plays: 0, best: 0, max: 0, last: 0, lastPlayed: 0, first: 0, hint: 0, helped: 0, log: [] });
+  },
+  // Called when a game starts, for every answered question, and when a game ends.
+  begin(game) { this.game = game; this.sStars = 0; this.sCount = 0; },
+  rec(label, outcome) {
+    this.sStars += { first: 3, hint: 2, helped: 1 }[outcome]; this.sCount++;
+    const g = this.g(this.game); if (!g) return;
+    g[outcome]++;
+    g.log.push({ k: label, o: outcome, t: Date.now() });
+    if (g.log.length > 60) g.log.shift();
+    this.save();
+  },
+  finish(stars, max) {
+    const g = this.g(this.game); if (!g) return { best: 0, isBest: false };
+    const prev = g.best;
+    g.plays++; g.last = stars; g.max = max; g.lastPlayed = Date.now();
+    if (stars > prev) g.best = stars;
+    this.save();
+    return { best: prev, isBest: stars > prev };
+  },
+  sticker(s) { if (!this.cur) return [s]; this.cur.stickers = this.cur.stickers.concat(s).slice(-30); this.save(); return this.cur.stickers; }
+};
+
+// ---------- Home screen for the chosen player ----------
+let showAllGames = false;
+function renderHome() {
+  const p = Prof.cur;
+  $('#homeName').textContent = p ? `Hi, ${p.name}!` : 'Maths with Pip';
+  const chip = $('#playerChip');
+  chip.textContent = '';
+  if (p) { const av = document.createElement('span'); av.className = 'av'; av.textContent = p.avatar; chip.append(av, ` ${p.name} · Switch`); }
+  else chip.textContent = 'Players';
+  const mine = p ? p.track : 'little';
+  $$('.track-group').forEach(g => g.classList.toggle('mine', g.dataset.track === mine));
+  $('.home-tracks').classList.toggle('all', showAllGames || !p);
+  $('#showAll').textContent = showAllGames ? 'Show only my games' : 'Show all games';
+  $('#showAll').hidden = !p;
+  Object.entries(GAME_CARDS).forEach(([id, game]) => {
+    const card = $('#' + id);
+    let st = $('.stat', card);
+    if (!st) { st = document.createElement('span'); st.className = 'stat'; card.insertBefore(st, $('.play', card)); }
+    const g = p && p.games[game];
+    st.innerHTML = !g || !g.plays ? '<b class="new">New</b>' : `★ best ${g.best} of ${g.max} · played ${g.plays} ${g.plays === 1 ? 'time' : 'times'}`;
+  });
+}
+$('#showAll').addEventListener('click', () => { showAllGames = !showAllGames; renderHome(); });
+$('#playerChip').addEventListener('click', () => { Voice.stop(); openWho(); });
+
+// ---------- Who is playing? ----------
+let manageMode = false;
+function openWho() {
+  RUN++; manageMode = false; renderWho(); show('who');
+}
+function renderWho() {
+  const grid = $('#whoGrid');
+  grid.textContent = '';
+  Prof.data.players.forEach(p => {
+    const item = document.createElement('div'); item.className = 'who-item';
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'who-card ' + p.track;
+    const av = document.createElement('span'); av.className = 'big-av'; av.textContent = p.avatar;
+    const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = p.name;
+    const tr = document.createElement('span'); tr.className = 'track'; tr.textContent = p.track === 'little' ? 'Ages 4–6' : 'Ages 8–11';
+    b.append(av, nm, tr);
+    b.addEventListener('click', () => { if (manageMode) return; choosePlayer(p.id); });
+    item.append(b);
+    if (manageMode) {
+      const rm = document.createElement('button'); rm.type = 'button'; rm.className = 'rm'; rm.textContent = 'Remove';
+      rm.addEventListener('click', () => {
+        if (!rm.classList.contains('sure')) { rm.classList.add('sure'); rm.textContent = 'Tap again to remove'; return; }
+        Prof.remove(p.id);
+        if (!Prof.data.players.length) { openAdd(); return; }
+        renderWho();
+      });
+      item.append(rm);
+    }
+    grid.append(item);
+  });
+  if (Prof.data.players.length < MAX_PLAYERS && !manageMode) {
+    const add = document.createElement('button'); add.type = 'button'; add.className = 'who-card add';
+    add.innerHTML = '<span class="big-av">＋</span><span class="nm">Add player</span>';
+    add.addEventListener('click', openAdd);
+    grid.append(add);
+  }
+  $('#whoManage').textContent = manageMode ? 'Done' : 'Manage players';
+}
+$('#whoManage').addEventListener('click', () => { manageMode = !manageMode; renderWho(); });
+function choosePlayer(id) {
+  Sfx.ensure(); Voice.unlock();
+  Prof.pick(id); showAllGames = false;
+  renderHome(); show('home');
+  Voice.say(`Hi ${Prof.cur.name}! Pick a game.`, 0.95);
+}
+
+// ---------- Add a player ----------
+const PF = { track: null, avatar: AVATARS[0] };
+$('#pfAvs').innerHTML = AVATARS.map(a => `<button type="button" data-a="${a}" aria-label="Picture ${a}">${a}</button>`).join('');
+$('#pfAvs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; PF.avatar = b.dataset.a; renderAdd(); });
+$('#pfTrack').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; PF.track = b.dataset.track; renderAdd(); });
+function renderAdd() {
+  $$('#pfAvs button').forEach(b => b.classList.toggle('sel', b.dataset.a === PF.avatar));
+  $$('#pfTrack button').forEach(b => b.classList.toggle('sel', b.dataset.track === PF.track));
+}
+function openAdd() {
+  RUN++;
+  PF.track = null;
+  const used = Prof.data.players.map(p => p.avatar);
+  PF.avatar = AVATARS.find(a => !used.includes(a)) || AVATARS[0];
+  $('#pfName').value = ''; $('#pfErr').hidden = true;
+  const first = !Prof.data.players.length;
+  $('#pfCancel').hidden = first;
+  $('#pfHint').textContent = first
+    ? 'Welcome! Set up one player for each child, so each one keeps their own stars and stickers. A grown-up should do this part.'
+    : 'A grown-up should do this part.';
+  renderAdd(); show('addp');
+}
+$('#pfCancel').addEventListener('click', openWho);
+$('#pfForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('#pfName').value.trim();
+  const err = !name ? 'Please type a name.' : !PF.track ? 'Please choose an age group.' : '';
+  if (err) { $('#pfErr').textContent = err; $('#pfErr').hidden = false; return; }
+  const p = Prof.add(name, PF.track, PF.avatar);
+  choosePlayer(p.id);
+});
+
+function startApp() {
+  if (!Prof.data.players.length) openAdd(); else openWho();
+}
+
+startApp();
+})();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+}
+</script>
+</body>
+</html>
