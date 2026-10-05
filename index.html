@@ -314,6 +314,107 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
 .vc-tip ul { margin: 6px 0 0; padding-left: 22px; }
 .vc-tip li { font-size: 17px; margin-bottom: 8px; color: var(--ink-2); }
 
+/* Parent PIN and parent page: calmer, grown-up look */
+#pin, #parent { background: #F3F5F8; }
+.pin-card { width: min(380px, 100%); margin: auto; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+.pin-card h1 { font-family: var(--display); font-weight: 700; font-size: 30px; margin: 0; }
+.pin-lock { font-size: 44px; }
+.pin-dots { display: flex; gap: 18px; margin: 6px 0; }
+.pin-dots i { width: 22px; height: 22px; border-radius: 50%; border: 3px solid var(--violet-dark); }
+.pin-dots i.on { background: var(--violet-dark); }
+.pin-dots.shake { animation: shake .35s; }
+@keyframes shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+.pin-card .numpad, .pin-card .entry { width: 100%; }
+.pt-title { font-family: var(--display); font-weight: 700; font-size: 22px; }
+.pt-wrap { width: min(980px, 100%); margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+.pt-kids { display: flex; gap: 10px; flex-wrap: wrap; }
+.pt-kid { display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 18px 0 8px; border-radius: 999px; border: 2px solid var(--line); background: var(--white); font-weight: 700; font-size: 17px; }
+.pt-kid.sel { border-color: var(--violet-dark); background: #EEEAFD; }
+.pt-card { background: var(--white); border: 1px solid #E1E7EC; border-radius: 18px; padding: 18px 20px; min-width: 0; }
+.pt-card h2 { font-family: var(--display); font-weight: 600; font-size: 22px; margin: 0 0 12px; }
+.pt-eyebrow { font-size: 14px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--violet-dark); }
+.pt-summary p { font-size: 19px; line-height: 1.55; margin: 6px 0 0; max-width: 70ch; }
+.pt-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.pt-stat .lab { font-size: 15px; font-weight: 700; color: var(--ink-2); }
+.pt-stat .num { font-family: var(--display); font-weight: 700; font-size: 38px; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.pt-stat .num small { font-size: 18px; color: var(--ink-2); margin-left: 2px; }
+.pt-stat .cap { font-size: 15px; color: var(--ink-2); }
+.pt-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; text-align: center; }
+.pt-week div { background: #F3F5F8; border-radius: 12px; padding: 8px 2px; display: flex; flex-direction: column; gap: 2px; }
+.pt-week .d { font-size: 15px; font-weight: 700; color: var(--ink-2); }
+.pt-week .c { font-family: var(--display); font-weight: 700; font-size: 26px; font-variant-numeric: tabular-nums; }
+.pt-week .today { outline: 3px solid var(--violet); }
+.pt-week .zero .c { color: #AEBBC5; }
+.pt-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.pt-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.pt-list li { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 12px; border-left: 5px solid; }
+.pt-list.hard li { background: #FDF0EE; border-color: var(--apple); }
+.pt-list.good li { background: #E9F7EF; border-color: var(--go); }
+.pt-list b { font-size: 18px; }
+.pt-list span { font-size: 15px; color: var(--ink-2); }
+.pt-empty, .pt-note { font-size: 16px; color: var(--ink-2); margin: 0; }
+.pt-note { margin-top: 12px; }
+.pt-table-wrap { overflow-x: auto; }
+.pt-table { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 16px; }
+.pt-table th { text-align: left; font-size: 14px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); padding: 8px 10px; border-bottom: 2px solid #E1E7EC; }
+.pt-table td { padding: 11px 10px; border-bottom: 1px solid #EEF2F5; font-variant-numeric: tabular-nums; }
+.pt-table tr:last-child td { border-bottom: 0; }
+.pt-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.pt-btn { min-height: 52px; padding: 0 18px; border-radius: 14px; border: 2px solid var(--line); background: var(--white); font-weight: 700; font-size: 17px; }
+.pt-btn.danger { border-color: var(--apple); color: var(--apple); }
+.pt-btn.danger.sure { background: var(--apple); color: var(--white); }
+
+/* Fair Share, Groups Of, Share It, Times Tables Quiz */
+#share, #groups { background: linear-gradient(180deg, var(--sky) 0%, var(--sky-2) 70%); }
+#divide, #tquiz { background: linear-gradient(180deg, var(--lav) 0%, var(--lav-2) 70%); }
+.card .art .emoji-art { font-size: 34px; line-height: 1.25; text-align: center; }
+.card .art .art-text { font-family: var(--display); font-weight: 700; font-size: 32px; color: var(--violet-dark); }
+.sh-friends { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+.sh-friend { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.sh-face { font-size: 52px; line-height: 1; }
+.sh-plate { width: 156px; min-height: 112px; border-radius: 50%; background: radial-gradient(ellipse at center, #FFFFFF 58%, #E3EAF0 100%); display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 2px; padding: 16px 22px; box-shadow: 0 4px 0 rgba(27,42,51,.08); cursor: pointer; transition: box-shadow .2s; }
+.sh-plate:focus-visible { outline: 4px solid var(--violet); }
+.sh-plate.glow { box-shadow: 0 0 0 6px #FFD54A; }
+.ap { display: inline-block; width: 30px; height: 30px; line-height: 0; }
+.ap svg { width: 100%; height: 100%; pointer-events: none; }
+.sh-count { font-family: var(--display); font-weight: 700; font-size: 28px; min-height: 34px; color: var(--apple); }
+.sh-pile { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px; min-height: 56px; width: min(560px, 100%); padding: 10px 16px; background: #F2E3CF; border: 3px dashed #C98B4B; border-radius: 18px; }
+.sh-pile .ap { width: 40px; height: 40px; }
+.sh-pile-label { width: 100%; text-align: center; font-weight: 700; font-size: 15px; color: #7A5126; }
+.gp-groups { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; width: min(900px, 100%); }
+.gp-group { border: 3px solid var(--line); background: var(--white); border-radius: 22px; padding: 12px 14px; display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 96px; box-shadow: 0 4px 0 rgba(0,0,0,.08); transition: box-shadow .2s, background .2s; }
+.gp-items { display: grid; gap: 2px; font-size: 28px; line-height: 1.1; }
+.gp-items i { font-style: normal; }
+.gp-group.done { border-color: var(--go); background: #E6F7EE; }
+.gp-group.glow { box-shadow: 0 0 0 6px #FFD54A; }
+.gp-n { font-family: var(--display); font-weight: 700; font-size: 28px; color: var(--go); min-height: 34px; }
+#gpSum { font-size: clamp(30px, 5.5vw, 52px); }
+.dv-board { width: min(540px, 100%); display: flex; flex-direction: column; gap: 12px; align-items: center; }
+#divide[data-mode="fact"] .dv-board { display: none; }
+#divide[data-mode="fact"].show-board .dv-board { display: flex; }
+.dv-pile { background: var(--white); border-radius: 18px; padding: 10px 14px; display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; min-height: 56px; width: 100%; box-shadow: 0 4px 0 rgba(27,42,51,.08); }
+.sw { font-size: 24px; line-height: 1.1; }
+.dv-label { width: 100%; text-align: center; font-weight: 700; font-size: 16px; color: var(--ink-2); }
+.dv-bags { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; width: 100%; }
+.dv-bag { flex: 1 1 88px; max-width: 124px; min-height: 120px; background: #E3DDFF; border: 3px solid #CFC5FF; border-radius: 14px 14px 28px 28px; padding: 8px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 4px; }
+.dv-bag .sws { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; }
+.dv-bag .n { font-family: var(--display); font-weight: 700; font-size: 24px; color: var(--violet-dark); }
+.dv-foot { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.dv-rounds { font-weight: 700; font-size: 17px; color: var(--ink-2); }
+#dvDeal:disabled { opacity: .5; }
+.dv-family { background: var(--white); border-radius: 18px; padding: 12px 22px; display: grid; grid-template-columns: repeat(2, auto); gap: 6px 28px; font-family: var(--display); font-weight: 600; font-size: 24px; color: var(--violet-dark); box-shadow: 0 4px 0 rgba(27,42,51,.08); }
+.dv-family .t { grid-column: 1 / -1; font-family: var(--body); font-size: 15px; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: .06em; }
+.tq-pick { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; width: min(760px, 100%); }
+.tq-pick button { min-height: 96px; border-radius: 22px; border: 3px solid #CFC5FF; background: var(--white); font-family: var(--display); font-weight: 600; font-size: 24px; color: var(--violet-dark); box-shadow: 0 5px 0 rgba(0,0,0,.08); }
+#tquiz[data-mode="pick"] .tb-work, #tquiz[data-mode="pick"] .qcard, #tquiz[data-mode="pick"] .controls { display: none; }
+#tquiz:not([data-mode="pick"]) .tq-pick { display: none; }
+.tq-help { background: var(--white); border-radius: 18px; padding: 12px 16px; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 4px 0 rgba(27,42,51,.08); max-width: 100%; overflow-x: auto; }
+.tq-cap { font-weight: 700; font-size: 16px; color: var(--ink-2); margin-bottom: 4px; }
+.tq-row { display: flex; align-items: center; gap: 3px; }
+.tq-row .rn { width: 26px; font-weight: 700; font-size: 15px; color: var(--ink-2); text-align: right; margin-right: 6px; flex: 0 0 auto; }
+.tq-row i { width: 20px; height: 20px; border-radius: 5px; background: var(--tile); flex: 0 0 auto; }
+.tq-row .lab { margin-left: 10px; font-family: var(--display); font-weight: 700; font-size: 20px; color: #B06E00; min-width: 2.5em; }
+
 @media (max-width: 760px) {
   .pip { width: 70px; height: 70px; }
   .say { font-size: 19px; }
@@ -391,6 +492,20 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
       <p>Sticks are worth ten, squares are worth one hundred.</p>
       <span class="play">Play ▶</span>
     </button>
+    <button class="card little" id="goShare" type="button">
+      <div class="art" aria-hidden="true"><div class="emoji-art">🐻 🍎🍎<br>🐰 🍎🍎</div></div>
+      <span class="age">Sharing (first division)</span>
+      <h2>Fair Share</h2>
+      <p>Share apples so every friend gets the same.</p>
+      <span class="play">Play ▶</span>
+    </button>
+    <button class="card little" id="goGroups" type="button">
+      <div class="art" aria-hidden="true"><div class="emoji-art">🍒🍒 🍒🍒 🍒🍒<br><b class="art-text">2, 4, 6</b></div></div>
+      <span class="age">Groups (first multiplication)</span>
+      <h2>Groups Of</h2>
+      <p>Count groups in 2s, 5s and 10s.</p>
+      <span class="play">Play ▶</span>
+    </button>
   </div>
   </div>
   <div class="track-group" data-track="explore">
@@ -403,6 +518,20 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
       <span class="age">Times tables</span>
       <h2>Tile Builder</h2>
       <p>Build rows of tiles to see how times tables work.</p>
+      <span class="play">Play ▶</span>
+    </button>
+    <button class="card explore" id="goTquiz" type="button">
+      <div class="art" aria-hidden="true"><div class="art-text">7 × 8 = ?</div></div>
+      <span class="age">Times tables, test style</span>
+      <h2>Times Tables Quiz</h2>
+      <p>Practise × and ÷ facts. Choose which tables.</p>
+      <span class="play">Play ▶</span>
+    </button>
+    <button class="card explore" id="goDivide" type="button">
+      <div class="art" aria-hidden="true"><div class="emoji-art">🍬🍬🍬🍬🍬🍬<br><b class="art-text">6 ÷ 3 = 2</b></div></div>
+      <span class="age">Division</span>
+      <h2>Share It</h2>
+      <p>Share sweets into bags to see how division works.</p>
       <span class="play">Play ▶</span>
     </button>
     <button class="card explore" id="goGrid" type="button">
@@ -444,7 +573,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
   <div class="topbar"><span class="spacer"></span><button class="pill sound-toggle" type="button"></button></div>
   <div class="who-head"><span class="pip-slot"></span><h1>Who is playing?</h1></div>
   <div class="who-grid" id="whoGrid"></div>
-  <div class="who-foot"><button class="link" id="whoManage" type="button">Manage players</button></div>
+  <div class="who-foot"><button class="link" id="whoManage" type="button">🔒 Parent page</button></div>
 </section>
 
 <!-- ADD A PLAYER -->
@@ -490,6 +619,131 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
       </ul>
     </details>
     <div class="row"><button class="big go" id="vcDone" type="button">✓ Done</button></div>
+  </div>
+</section>
+
+<!-- PARENT PIN -->
+<section id="pin" class="screen" hidden>
+  <div class="topbar"><button class="pill" id="pinCancel" type="button">← Cancel</button><span class="spacer"></span></div>
+  <div class="pin-card">
+    <div class="pin-lock" aria-hidden="true">🔒</div>
+    <h1 id="pinTitle">Parent PIN</h1>
+    <p class="form-hint" id="pinSub"></p>
+    <div class="pin-dots" id="pinDots" aria-hidden="true"></div>
+    <div class="entry" id="pinGateEntry" hidden>?</div>
+    <p class="err" id="pinMsg" role="alert" hidden></p>
+    <div class="numpad" id="pinPad"></div>
+    <button class="big violet" id="pinCheck" type="button" hidden>✓ Check</button>
+    <button class="link" id="pinForgot" type="button">Forgot the PIN?</button>
+  </div>
+</section>
+
+<!-- PARENT PAGE -->
+<section id="parent" class="screen" hidden>
+  <div class="topbar"><button class="pill" id="ptClose" type="button">← Close</button><span class="pt-title">Parent page</span><span class="spacer"></span></div>
+  <div class="pt-wrap" id="ptBody"></div>
+</section>
+
+<!-- FAIR SHARE -->
+<section id="share" class="screen" hidden>
+  <div class="topbar">
+    <button class="pill go-home" type="button">🏠 Home</button>
+    <div class="progress" id="shProg" aria-label="Progress"></div>
+    <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
+    <span class="spacer"></span>
+    <button class="pill sound-toggle" type="button"></button>
+  </div>
+  <div class="guide"><span class="pip-slot"></span><div class="bubble"><p class="say" aria-live="polite"></p><button class="replay" type="button" aria-label="Hear it again">🔊</button></div></div>
+  <div class="lt-main">
+    <div class="sum-card" id="shSum"></div>
+    <div class="sh-friends" id="shFriends"></div>
+    <div class="sh-pile" id="shPile"></div>
+    <div class="choices lockable" id="shChoices" hidden></div>
+  </div>
+  <div class="controls">
+    <button class="big ghost lockable" id="shHelp" type="button">🙋 Help me</button>
+    <button class="big go lockable" id="shDone" type="button">✓ Done</button>
+  </div>
+</section>
+
+<!-- GROUPS OF -->
+<section id="groups" class="screen" hidden>
+  <div class="topbar">
+    <button class="pill go-home" type="button">🏠 Home</button>
+    <div class="progress" id="gpProg" aria-label="Progress"></div>
+    <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
+    <span class="spacer"></span>
+    <button class="pill sound-toggle" type="button"></button>
+  </div>
+  <div class="guide"><span class="pip-slot"></span><div class="bubble"><p class="say" aria-live="polite"></p><button class="replay" type="button" aria-label="Hear it again">🔊</button></div></div>
+  <div class="lt-main">
+    <div class="sum-card" id="gpSum"></div>
+    <div class="gp-groups" id="gpGroups"></div>
+    <div class="choices lockable" id="gpChoices" hidden></div>
+  </div>
+  <div class="controls">
+    <button class="big ghost lockable" id="gpHelp" type="button">🙋 Help me</button>
+    <button class="big go lockable" id="gpDone" type="button">✓ Done</button>
+  </div>
+</section>
+
+<!-- SHARE IT -->
+<section id="divide" class="screen" data-mode="deal" hidden>
+  <div class="topbar">
+    <button class="pill go-home" type="button">🏠 Home</button>
+    <div class="progress" id="dvProg" aria-label="Progress"></div>
+    <span class="stars" id="dvStars">★ 0</span>
+    <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
+    <span class="spacer"></span>
+    <button class="pill sound-toggle" type="button"></button>
+  </div>
+  <div class="guide"><span class="pip-slot"></span><div class="bubble"><p class="say" aria-live="polite"></p><button class="replay" type="button" aria-label="Hear it again">🔊</button></div></div>
+  <div class="tb-main">
+    <div class="qcard" id="dvQ">&nbsp;</div>
+    <div class="tb-work">
+      <div class="dv-board">
+        <div class="dv-pile" id="dvPile"></div>
+        <div class="dv-bags" id="dvBags"></div>
+        <div class="dv-foot"><button class="big ghost lockable" id="dvDeal" type="button">🤲 Share one round</button><span class="dv-rounds" id="dvRounds"></span></div>
+      </div>
+      <div class="numpad-wrap">
+        <div class="entry empty" id="dvEntry">?</div>
+        <div class="numpad lockable" id="dvPad"></div>
+      </div>
+    </div>
+    <div class="dv-family" id="dvFamily" hidden></div>
+  </div>
+  <div class="controls">
+    <button class="big ghost lockable" id="dvHelp" type="button">💡 Show me how</button>
+    <button class="big violet lockable" id="dvCheck" type="button">✓ Check</button>
+  </div>
+</section>
+
+<!-- TIMES TABLES QUIZ -->
+<section id="tquiz" class="screen" data-mode="pick" hidden>
+  <div class="topbar">
+    <button class="pill go-home" type="button">🏠 Home</button>
+    <div class="progress" id="tqProg" aria-label="Progress"></div>
+    <span class="stars" id="tqStars">★ 0</span>
+    <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
+    <span class="spacer"></span>
+    <button class="pill sound-toggle" type="button"></button>
+  </div>
+  <div class="guide"><span class="pip-slot"></span><div class="bubble"><p class="say" aria-live="polite"></p><button class="replay" type="button" aria-label="Hear it again">🔊</button></div></div>
+  <div class="tb-main">
+    <div class="tq-pick" id="tqPick"></div>
+    <div class="qcard" id="tqQ">&nbsp;</div>
+    <div class="tb-work">
+      <div class="tq-help" id="tqHelp" hidden></div>
+      <div class="numpad-wrap">
+        <div class="entry empty" id="tqEntry">?</div>
+        <div class="numpad lockable" id="tqPad"></div>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <button class="big ghost lockable" id="tqHelpBtn" type="button">💡 Show me how</button>
+    <button class="big violet lockable" id="tqCheck" type="button">✓ Check</button>
   </div>
 </section>
 
@@ -764,7 +1018,7 @@ $$('.sound-toggle').forEach(b => b.addEventListener('click', () => { Voice.on = 
 refreshSound();
 
 function show(id) { $$('.screen').forEach(s => { s.hidden = s.id !== id; }); }
-function goHome() { RUN++; Voice.stop(); renderHome(); show('home'); }
+function goHome() { Prof.end(); RUN++; Voice.stop(); renderHome(); show('home'); }
 $$('.go-home').forEach(b => b.addEventListener('click', goHome));
 $('#fnHome').addEventListener('click', goHome);
 
@@ -2139,11 +2393,608 @@ $('#wlHelp').addEventListener('click', wlHelp);
 $('#goWall').addEventListener('click', startWall);
 
 // =====================================================
+// FAIR SHARE (ages 4–6): sharing equally, the first idea of division
+// =====================================================
+const shScreen = $('#share'), shGuide = makeGuide(shScreen, 0.85), shChoices = $('#shChoices');
+const FRIENDS = [['🐻', 'bear'], ['🐰', 'rabbit'], ['🐸', 'frog']];
+const SH = { q: 0, total: 5, k: 2, m: 1, n: 2, plates: [], pile: 0, phase: 'share', sel: null, mistakes: 0, pm: 0, easier: false, prev: '' };
+// [possible numbers of friends, range for apples each]
+const SH_Q = [[[2], [1, 3]], [[2], [2, 4]], [[3], [1, 2]], [[3], [2, 3]], [[2, 3], [3, 4]]];
+const SMALL_APPLE = `<span class="ap">${APPLE_SVG}</span>`;
+const numWord = v => WORDS[v] || String(v);
+
+function shRender() {
+  $('#shFriends').innerHTML = SH.plates.map((c, i) =>
+    `<div class="sh-friend"><span class="sh-face">${FRIENDS[i][0]}</span><div class="sh-plate" role="button" tabindex="0" data-i="${i}" aria-label="Give the ${FRIENDS[i][1]} an apple">${SMALL_APPLE.repeat(c)}</div><span class="sh-count">${c || ''}</span></div>`).join('');
+  $('#shPile').innerHTML = `<span class="sh-pile-label">${SH.pile ? 'Apples to share' : 'All shared!'}</span>` + SMALL_APPLE.repeat(SH.pile);
+}
+function shSum(ans) {
+  $('#shSum').innerHTML = `<span>${SH.n}</span><span class="op">÷</span><span>${SH.k}</span><span class="op">=</span><span class="q ${ans === '?' ? '' : 'solved'}">${ans}</span>`;
+}
+$('#shFriends').addEventListener('click', e => {
+  if (shScreen.classList.contains('busy') || SH.phase !== 'share') return;
+  const plate = e.target.closest('.sh-plate'); if (!plate) return;
+  const i = +plate.dataset.i;
+  if (e.target.closest('.ap')) { if (SH.plates[i]) { SH.plates[i]--; SH.pile++; Sfx.soft(); } }
+  else if (SH.pile) { SH.plates[i]++; SH.pile--; Sfx.pop(); Voice.say(String(SH.plates[i]), 0.9); }
+  shRender();
+  if (!SH.pile) shAfterShare(RUN);
+});
+
+async function shDealAll(r, words) {
+  SH.plates = SH.plates.map(() => 0); SH.pile = SH.n; shRender();
+  for (let round = 0; round < SH.m; round++) {
+    for (let i = 0; i < SH.k; i++) {
+      if (!alive(r)) return;
+      SH.plates[i]++; SH.pile--; shRender(); Sfx.pop();
+      if (words) await Voice.say(`One for the ${FRIENDS[i][1]}.`, 0.95); else await wait(380);
+    }
+  }
+}
+
+async function startShare() {
+  const r = ++RUN;
+  Prof.begin('share');
+  Sfx.ensure(); Voice.unlock();
+  show('share');
+  const introDone = introSkip(shScreen, nr => shNext(nr));
+  Object.assign(SH, { q: 0, prev: '', easier: false, k: 2, m: 2, n: 4, phase: 'demo' });
+  SH.plates = [0, 0]; SH.pile = 4; shRender(); shSum('?'); shChoices.hidden = true;
+  renderProgress($('#shProg'), SH.total, 0);
+  busy(shScreen, true);
+  await shGuide.say("Let's share apples fairly! Fair means every friend gets the same number."); if (!alive(r)) return;
+  await shGuide.say('Watch me share four apples between two friends.'); if (!alive(r)) return;
+  await shDealAll(r, true); if (!alive(r)) return;
+  shSum(2);
+  await shGuide.say('Two each. That is fair! Four shared between two is two each. Your turn!'); if (!alive(r)) return;
+  introDone();
+  shNext(r);
+}
+
+async function shNext(r) {
+  let k, m, key;
+  do {
+    if (SH.easier) { k = 2; m = rand(1, 3); }
+    else { const [ks, [lo, hi]] = SH_Q[SH.q]; k = pick(ks); m = rand(lo, hi); }
+    key = k + 'x' + m;
+  } while (key === SH.prev);
+  Object.assign(SH, { k, m, n: k * m, pile: k * m, plates: Array(k).fill(0), phase: 'share', sel: null, mistakes: 0, pm: 0, easier: false, prev: key });
+  shChoices.hidden = true; shRender(); shSum('?');
+  busy(shScreen, false);
+  await shGuide.say(`Share ${numWord(SH.n)} apples fairly between ${numWord(k)} friends. Tap a plate to give that friend an apple.`);
+}
+
+async function shAfterShare(r) {
+  busy(shScreen, true);
+  await wait(500); if (!alive(r)) return;
+  const max = Math.max(...SH.plates), min = Math.min(...SH.plates);
+  if (max === min) { await shGuide.say('Fair! Every friend has the same number.'); if (!alive(r)) return; return shAsk(r); }
+  SH.mistakes++; SH.pm++;
+  if (SH.pm >= 3) { await shDealAll(r, false); if (!alive(r)) return; return shAsk(r); }
+  if (SH.pm === 2) { await shGuide.say('Watch me. One for each friend, again and again.'); if (!alive(r)) return; await shDealAll(r, false); if (!alive(r)) return; return shAsk(r); }
+  const iMax = SH.plates.indexOf(max), iMin = SH.plates.indexOf(min);
+  await shGuide.say(`The ${FRIENDS[iMax][1]} has ${numWord(max)}, but the ${FRIENDS[iMin][1]} has ${numWord(min)}. That is not fair! Tap an apple on a plate to take it back, then share again.`);
+  if (alive(r)) busy(shScreen, false);
+}
+
+async function shAsk(r) {
+  SH.phase = 'answer'; SH.pm = 0; SH.sel = null;
+  const { m, n, k } = SH;
+  const cand = shuffle([n, k].filter(v => v !== m)).concat(shuffle([m + 1, m - 1].filter(v => v > 0 && v !== n && v !== k)));
+  const vals = shuffle([m, ...[...new Set(cand)].slice(0, 2)]);
+  renderChoices(shChoices, vals, true, v => { SH.sel = v; });
+  busy(shScreen, false);
+  await shGuide.say('How many apples does each friend get? Tap the number, then press Done.');
+}
+
+async function shCountPlate(r) {
+  const plate = $('.sh-plate', shScreen);
+  plate.classList.add('glow');
+  await shGuide.say(`Let's count the ${FRIENDS[0][1]}'s apples.`); if (!alive(r)) return;
+  for (let i = 1; i <= SH.m; i++) { await Voice.say(String(i), 0.8); if (!alive(r)) return; }
+  plate.classList.remove('glow');
+  await shGuide.say('Now tap that number.');
+}
+
+async function shDone() {
+  const r = RUN, { m, n, k } = SH;
+  busy(shScreen, true);
+  if (SH.phase !== 'answer') { await shGuide.say('Give out all the apples first. Tap a plate to give that friend an apple.'); if (alive(r)) busy(shScreen, false); return; }
+  if (SH.sel === null) { await shGuide.say('Tap a number first.'); if (alive(r)) busy(shScreen, false); return; }
+  if (SH.sel === m) return shCorrect(r);
+  SH.mistakes++; SH.pm++;
+  if (SH.pm === 1) {
+    const v = SH.sel;
+    await shGuide.say(v === n ? `${cap(numWord(v))} is all the apples. How many are on one plate?`
+      : v === k ? `${cap(numWord(v))} is how many friends. How many apples are on one plate?`
+      : 'Not quite. Count the apples on one plate.');
+  } else if (SH.pm === 2) await shCountPlate(r);
+  else return shShow(r);
+  if (!alive(r)) return;
+  SH.sel = null; clearChoice(shChoices);
+  busy(shScreen, false);
+}
+
+async function shShow(r) {
+  Prof.rec(`${SH.n} ÷ ${SH.k}`, 'helped');
+  selectChoice(shChoices, SH.m); shSum(SH.m);
+  await shGuide.say(`${cap(numWord(SH.n))} shared between ${numWord(SH.k)} is ${numWord(SH.m)} each. Well done for trying! Let's do another one.`); if (!alive(r)) return;
+  SH.easier = true;
+  await wait(500);
+  shAdvance(r);
+}
+
+async function shCorrect(r) {
+  Prof.rec(`${SH.n} ÷ ${SH.k}`, outc(SH.mistakes));
+  shSum(SH.m); Sfx.chime(); confetti(shScreen); shGuide.cheer();
+  await shGuide.say(`Yes! ${cap(numWord(SH.n))} shared between ${numWord(SH.k)} friends is ${numWord(SH.m)} each.`); if (!alive(r)) return;
+  await wait(400);
+  shAdvance(r);
+}
+
+function shAdvance(r) {
+  if (!alive(r)) return;
+  SH.q++;
+  renderProgress($('#shProg'), SH.total, SH.q);
+  if (SH.q >= SH.total) finishLittle('sharing puzzles', startShare); else shNext(r);
+}
+
+async function shHelp() {
+  const r = RUN; busy(shScreen, true);
+  if (SH.phase === 'share') {
+    SH.mistakes++;
+    await shGuide.say('Watch me. One for each friend, again and again.'); if (!alive(r)) return;
+    await shDealAll(r, false); if (!alive(r)) return;
+    return shAsk(r);
+  }
+  if (SH.pm < 2) { SH.mistakes++; SH.pm = 2; await shCountPlate(r); if (alive(r)) busy(shScreen, false); }
+  else { SH.pm = 3; await shShow(r); }
+}
+
+$('#shDone').addEventListener('click', shDone);
+$('#shHelp').addEventListener('click', shHelp);
+$('#goShare').addEventListener('click', startShare);
+
+// =====================================================
+// GROUPS OF (ages 4–6): counting in 2s, 5s and 10s, the first idea of multiplication
+// =====================================================
+const gpScreen = $('#groups'), gpGuide = makeGuide(gpScreen, 0.85), gpChoices = $('#gpChoices');
+const GP = { q: 0, total: 5, k: 2, m: 2, counted: 0, phase: 'count', sel: null, mistakes: 0, pm: 0, easier: false, prev: '' };
+const GP_Q = [[2, [2, 4]], [2, [3, 5]], [10, [2, 4]], [5, [2, 3]], [5, [3, 5]]];
+const GP_ITEM = { 2: ['🍒', 'cherries'], 5: ['🌼', 'flowers'], 10: ['🔵', 'dots'] };
+
+function gpRender() {
+  const [e] = GP_ITEM[GP.m], cols = Math.min(GP.m, 5);
+  $('#gpGroups').innerHTML = Array.from({ length: GP.k }, (_, i) =>
+    `<button type="button" class="gp-group" data-i="${i}" aria-label="Group ${i + 1}"><span class="gp-items" style="grid-template-columns:repeat(${cols},auto)">${`<i>${e}</i>`.repeat(GP.m)}</span><span class="gp-n"></span></button>`).join('');
+}
+function gpSum(ans) {
+  $('#gpSum').innerHTML = ans === '?'
+    ? `<span>${GP.k} groups of ${GP.m}</span><span class="op">=</span><span class="q">?</span>`
+    : `<span>${GP.k}</span><span class="op">×</span><span>${GP.m}</span><span class="op">=</span><span class="q solved">${ans}</span>`;
+}
+function gpMark(btn) {
+  GP.counted++;
+  btn.classList.add('done');
+  $('.gp-n', btn).textContent = GP.counted * GP.m;
+  Sfx.pop();
+}
+$('#gpGroups').addEventListener('click', e => {
+  const b = e.target.closest('.gp-group');
+  if (!b || b.classList.contains('done') || GP.phase !== 'count' || gpScreen.classList.contains('busy')) return;
+  gpMark(b);
+  Voice.say(String(GP.counted * GP.m), 0.9);
+  if (GP.counted === GP.k) gpAsk(RUN);
+});
+
+async function gpCountAll(r) {
+  GP.counted = 0;
+  $$('.gp-group', gpScreen).forEach(b => { b.classList.remove('done'); $('.gp-n', b).textContent = ''; });
+  for (const b of $$('.gp-group', gpScreen)) {
+    if (!alive(r)) return;
+    b.classList.add('glow'); gpMark(b);
+    await Voice.say(String(GP.counted * GP.m), 0.85);
+    b.classList.remove('glow');
+    await wait(150);
+  }
+}
+
+async function startGroups() {
+  const r = ++RUN;
+  Prof.begin('groups');
+  Sfx.ensure(); Voice.unlock();
+  show('groups');
+  const introDone = introSkip(gpScreen, nr => gpNext(nr));
+  Object.assign(GP, { q: 0, prev: '', easier: false, k: 2, m: 2, counted: 0, phase: 'demo' });
+  gpRender(); gpSum('?'); gpChoices.hidden = true;
+  renderProgress($('#gpProg'), GP.total, 0);
+  busy(gpScreen, true);
+  await gpGuide.say('Counting in groups is quicker than counting one by one!'); if (!alive(r)) return;
+  await gpGuide.say('Watch me. Each group has two cherries, so I count in twos.'); if (!alive(r)) return;
+  await gpCountAll(r); if (!alive(r)) return;
+  gpSum(4);
+  await gpGuide.say('Two groups of two is four. Your turn! Tap each group to count.'); if (!alive(r)) return;
+  introDone();
+  gpNext(r);
+}
+
+async function gpNext(r) {
+  let k, m, key;
+  do {
+    if (GP.easier) { m = 2; k = rand(2, 3); }
+    else { const [mm, [lo, hi]] = GP_Q[GP.q]; m = mm; k = rand(lo, hi); }
+    key = k + 'x' + m;
+  } while (key === GP.prev);
+  Object.assign(GP, { k, m, counted: 0, phase: 'count', sel: null, mistakes: 0, pm: 0, easier: false, prev: key });
+  gpChoices.hidden = true; gpRender(); gpSum('?');
+  busy(gpScreen, false);
+  await gpGuide.say(`There are ${numWord(k)} groups of ${numWord(m)} ${GP_ITEM[m][1]}. Tap each group to count in ${m}s.`);
+}
+
+async function gpAsk(r) {
+  GP.phase = 'answer'; GP.pm = 0; GP.sel = null;
+  busy(gpScreen, true);
+  await wait(400); if (!alive(r)) return;
+  const { k, m } = GP, c = k * m;
+  const cand = [k + m, k, (k + 1) * m, (k - 1) * m].filter(v => v > 0 && v !== c);
+  const vals = shuffle([c, ...[...new Set(cand)].slice(0, 2)]);
+  renderChoices(gpChoices, vals, false, v => { GP.sel = v; });
+  busy(gpScreen, false);
+  await gpGuide.say('How many altogether? Tap the number, then press Done.');
+}
+
+async function gpDone() {
+  const r = RUN, { k, m } = GP, c = k * m;
+  busy(gpScreen, true);
+  if (GP.phase !== 'answer') { await gpGuide.say(`Tap every group to count in ${m}s.`); if (alive(r)) busy(gpScreen, false); return; }
+  if (GP.sel === null) { await gpGuide.say('Tap a number first.'); if (alive(r)) busy(gpScreen, false); return; }
+  if (GP.sel === c) return gpCorrect(r);
+  GP.mistakes++; GP.pm++;
+  if (GP.pm === 1) {
+    const v = GP.sel;
+    await gpGuide.say(v === k + m ? `You added ${k} and ${m}. Count in ${m}s instead: ${m}, ${2 * m}, and keep going.`
+      : v === k ? `${cap(numWord(k))} is how many groups. How many ${GP_ITEM[m][1]} altogether?`
+      : `Not quite. Count the groups in ${m}s.`);
+  } else if (GP.pm === 2) {
+    await gpGuide.say(`Let's count in ${m}s together.`); if (!alive(r)) return;
+    await gpCountAll(r); if (!alive(r)) return;
+    await gpGuide.say('Now tap that number.');
+  } else return gpShow(r);
+  if (!alive(r)) return;
+  GP.sel = null; clearChoice(gpChoices);
+  busy(gpScreen, false);
+}
+
+async function gpShow(r) {
+  const { k, m } = GP, c = k * m;
+  Prof.rec(`${k} groups of ${m}`, 'helped');
+  selectChoice(gpChoices, c); gpSum(c);
+  await gpGuide.say(`${cap(numWord(k))} groups of ${numWord(m)} is ${c}. Well done for trying! Let's do another one.`); if (!alive(r)) return;
+  GP.easier = true;
+  await wait(500);
+  gpAdvance(r);
+}
+
+async function gpCorrect(r) {
+  const { k, m } = GP, c = k * m;
+  Prof.rec(`${k} groups of ${m}`, outc(GP.mistakes));
+  gpSum(c); Sfx.chime(); confetti(gpScreen); gpGuide.cheer();
+  await gpGuide.say(`Yes! ${cap(numWord(k))} groups of ${numWord(m)} is ${c}. We can also say ${k} times ${m} is ${c}.`); if (!alive(r)) return;
+  await wait(400);
+  gpAdvance(r);
+}
+
+function gpAdvance(r) {
+  if (!alive(r)) return;
+  GP.q++;
+  renderProgress($('#gpProg'), GP.total, GP.q);
+  if (GP.q >= GP.total) finishLittle('group puzzles', startGroups); else gpNext(r);
+}
+
+async function gpHelp() {
+  const r = RUN; busy(gpScreen, true);
+  if (GP.phase === 'count') {
+    GP.mistakes++;
+    await gpGuide.say(`Watch me count in ${GP.m}s.`); if (!alive(r)) return;
+    await gpCountAll(r); if (!alive(r)) return;
+    return gpAsk(r);
+  }
+  if (GP.pm < 2) {
+    GP.mistakes++; GP.pm = 2;
+    await gpGuide.say(`Let's count in ${GP.m}s together.`); if (!alive(r)) return;
+    await gpCountAll(r); if (!alive(r)) return;
+    await gpGuide.say('Now tap that number.'); if (alive(r)) busy(gpScreen, false);
+  } else { GP.pm = 3; await gpShow(r); }
+}
+
+$('#gpDone').addEventListener('click', gpDone);
+$('#gpHelp').addEventListener('click', gpHelp);
+$('#goGroups').addEventListener('click', startGroups);
+
+// =====================================================
+// SHARE IT (ages 8–11): division as sharing, then as the opposite of multiplication
+// =====================================================
+const dvScreen = $('#divide'), dvGuide = makeGuide(dvScreen, 1.0);
+const dvPad = makePad($('#dvPad'), $('#dvEntry'));
+const DV = { q: 0, total: 6, k: 2, m: 2, n: 4, pile: 0, bags: [], rounds: 0, mistakes: 0, stars: 0, easier: false, prev: '' };
+const SWEET = '<span class="sw">🍬</span>';
+
+function dvRender() {
+  $('#dvPile').innerHTML = `<span class="dv-label">${DV.pile ? `${DV.pile} ${DV.pile === 1 ? 'sweet' : 'sweets'} left to share` : 'All shared!'}</span>` + SWEET.repeat(DV.pile);
+  $('#dvBags').innerHTML = DV.bags.map(c => `<div class="dv-bag"><span class="sws">${SWEET.repeat(c)}</span><span class="n">${c}</span></div>`).join('');
+  $('#dvDeal').disabled = !DV.pile;
+  $('#dvRounds').textContent = DV.rounds ? `Rounds shared: ${DV.rounds}` : '';
+}
+function dvReset() { DV.pile = DV.n; DV.bags = Array(DV.k).fill(0); DV.rounds = 0; dvRender(); }
+function dvRound() { if (DV.pile < DV.k) return; DV.bags = DV.bags.map(c => c + 1); DV.pile -= DV.k; DV.rounds++; Sfx.pop(); dvRender(); }
+function dvFamily(on) {
+  const { k, m, n } = DV, f = $('#dvFamily');
+  f.hidden = !on;
+  if (on) f.innerHTML = `<span class="t">Fact family</span><span>${k} × ${m} = ${n}</span><span>${m} × ${k} = ${n}</span><span>${n} ÷ ${k} = ${m}</span><span>${n} ÷ ${m} = ${k}</span>`;
+}
+$('#dvDeal').addEventListener('click', async () => {
+  if (dvScreen.classList.contains('busy') || !DV.pile) return;
+  const r = RUN;
+  dvRound();
+  await Voice.say(`Round ${DV.rounds}. Each bag has ${DV.bags[0]}.`, 1.0);
+  if (alive(r) && !DV.pile) dvGuide.say('All shared! How many sweets are in each bag? Type it, then press Check.');
+});
+
+async function startDivide() {
+  const r = ++RUN;
+  Prof.begin('divide');
+  Sfx.ensure(); Voice.unlock();
+  show('divide');
+  const introDone = introSkip(dvScreen, nr => dvNext(nr));
+  Object.assign(DV, { q: 0, stars: 0, easier: false, prev: '', k: 2, m: 3, n: 6, mistakes: 0 });
+  dvScreen.dataset.mode = 'deal'; dvScreen.classList.remove('show-board');
+  $('#dvStars').textContent = '★ 0'; dvPad.set(''); dvFamily(false); dvReset();
+  renderProgress($('#dvProg'), DV.total, 0);
+  $('#dvQ').textContent = '6 ÷ 2 = ?';
+  busy(dvScreen, true);
+  await dvGuide.say('Dividing means sharing into equal groups.'); if (!alive(r)) return;
+  await dvGuide.say('Watch me share 6 sweets into 2 bags. Each round, every bag gets one sweet.'); if (!alive(r)) return;
+  while (DV.pile) { dvRound(); await Voice.say(`Round ${DV.rounds}.`, 1.0); if (!alive(r)) return; }
+  $('#dvQ').textContent = '6 ÷ 2 = 3';
+  await dvGuide.say('Each bag has 3. So 6 divided by 2 is 3. Your turn!'); if (!alive(r)) return;
+  introDone();
+  dvNext(r);
+}
+
+async function dvNext(r) {
+  const deal = DV.q < 3;
+  let k, m, key;
+  do {
+    if (DV.easier) { k = 2; m = rand(2, 5); }
+    else if (deal) { k = rand(2, 5); m = rand(2, 6); }
+    else { k = rand(3, 9); m = rand(2, 9); }
+    key = k + 'x' + m;
+  } while (key === DV.prev);
+  Object.assign(DV, { k, m, n: k * m, mistakes: 0, easier: false, prev: key });
+  dvScreen.dataset.mode = deal ? 'deal' : 'fact';
+  dvScreen.classList.remove('show-board');
+  dvReset(); dvPad.set(''); dvFamily(false);
+  $('#dvQ').textContent = `${DV.n} ÷ ${k} = ?`;
+  busy(dvScreen, false);
+  if (DV.q === 3) { await dvGuide.say('Great sharing! Now use your times tables to divide, without the sweets.'); if (!alive(r)) return; }
+  await dvGuide.say(deal
+    ? `Share ${DV.n} sweets equally into ${k} bags. Press Share one round to give every bag one sweet.`
+    : `What is ${DV.n} divided by ${k}? Think: ${k} times what makes ${DV.n}? Type it, then press Check.`);
+}
+
+function dvHint(v) {
+  const { k, n } = DV;
+  if (v === k) return `${k} is the number of bags. How many sweets go in each bag?`;
+  if (v === n - k) return `That is ${n} take away ${k}. Dividing means sharing ${n} into ${k} equal groups.`;
+  if (v * k === n + k || v * k === n - k) return `Very close! Check: ${k} times ${v} is ${v * k}, but we need ${n}.`;
+  return `Not yet. Think: ${k} times what makes ${n}?`;
+}
+
+async function dvCheck() {
+  const r = RUN;
+  busy(dvScreen, true);
+  if (dvPad.get() === '') {
+    await dvGuide.say(DV.pile && dvScreen.dataset.mode === 'deal' ? 'Press Share one round until all the sweets are shared, then type how many are in each bag.' : 'Type your answer with the number buttons first.');
+    if (alive(r)) busy(dvScreen, false); return;
+  }
+  const v = +dvPad.get();
+  if (v === DV.m) return dvCorrect(r);
+  DV.mistakes++;
+  if (DV.mistakes === 1) { await dvGuide.say(dvHint(v)); dvPad.set(''); }
+  else if (DV.mistakes === 2) await dvWatch(r);
+  else return dvShow(r);
+  if (alive(r)) busy(dvScreen, false);
+}
+
+async function dvWatch(r) {
+  dvScreen.classList.add('show-board');
+  dvReset();
+  await dvGuide.say(`Watch me share ${DV.n} sweets into ${DV.k} bags.`); if (!alive(r)) return;
+  while (DV.pile) { dvRound(); await Voice.say(String(DV.bags[0]), 1.0); if (!alive(r)) return; await wait(150); }
+  await dvGuide.say('Now count the sweets in one bag, and type it.'); if (!alive(r)) return;
+  dvPad.set('');
+}
+
+async function dvShow(r) {
+  const { k, m, n } = DV;
+  Prof.rec(`${n} ÷ ${k}`, 'helped');
+  dvScreen.classList.add('show-board');
+  dvReset(); while (DV.pile) dvRound();
+  $('#dvQ').textContent = `${n} ÷ ${k} = ${m}`; dvFamily(true);
+  await dvGuide.say(`${n} divided by ${k} is ${m}, because ${k} times ${m} is ${n}. Let's try another one.`); if (!alive(r)) return;
+  DV.easier = true;
+  await wait(900);
+  dvAdvance(r);
+}
+
+async function dvCorrect(r) {
+  const { k, m, n } = DV;
+  Prof.rec(`${n} ÷ ${k}`, outc(DV.mistakes));
+  DV.stars += [3, 2, 1, 0][Math.min(DV.mistakes, 3)]; $('#dvStars').textContent = '★ ' + DV.stars;
+  Sfx.chime(); confetti(dvScreen); dvGuide.cheer();
+  $('#dvQ').textContent = `${n} ÷ ${k} = ${m}`; dvFamily(true);
+  await dvGuide.say(`Yes! ${n} divided by ${k} is ${m}. Pip’s tip: multiplication and division are a family. ${k} times ${m} is ${n}, so ${n} divided by ${k} is ${m}.`); if (!alive(r)) return;
+  await wait(500);
+  dvAdvance(r);
+}
+
+function dvAdvance(r) {
+  if (!alive(r)) return;
+  DV.q++;
+  renderProgress($('#dvProg'), DV.total, DV.q);
+  if (DV.q >= DV.total) finishExplorer('divide', 'Share It complete!', DV.stars, DV.total * 3, startDivide); else dvNext(r);
+}
+
+async function dvHelp() {
+  const r = RUN; busy(dvScreen, true);
+  if (DV.mistakes < 2) { DV.mistakes = 2; await dvWatch(r); if (alive(r)) busy(dvScreen, false); }
+  else { DV.mistakes = 3; await dvShow(r); }
+}
+
+$('#dvCheck').addEventListener('click', dvCheck);
+$('#dvHelp').addEventListener('click', dvHelp);
+$('#goDivide').addEventListener('click', startDivide);
+
+// =====================================================
+// TIMES TABLES QUIZ (ages 8–11): multiplication and division facts, test style
+// =====================================================
+const tqScreen = $('#tquiz'), tqGuide = makeGuide(tqScreen, 1.0);
+const tqPad = makePad($('#tqPad'), $('#tqEntry'));
+const TQ_SETS = [['2, 5 and 10', [2, 5, 10]], ['3 and 4', [3, 4]], ['6, 7, 8 and 9', [6, 7, 8, 9]], ['All tables, 2 to 10', [2, 3, 4, 5, 6, 7, 8, 9, 10]]];
+const TQ = { q: 0, total: 10, set: [2], div: false, a: 0, b: 0, t: 2, ans: 0, mistakes: 0, stars: 0, easier: false, prev: '' };
+$('#tqPick').innerHTML = TQ_SETS.map((s, i) => `<button type="button" data-i="${i}">${s[0]}</button>`).join('');
+
+function tqArray(showAll) {
+  const { div, a, b, t, ans } = TQ;
+  const rows = div ? ans : (a === t ? b : a);
+  const box = $('#tqHelp');
+  box.hidden = false;
+  box.innerHTML = (div ? `<div class="tq-cap">Rows of ${t} until we reach ${a}. How many rows?</div>` : `<div class="tq-cap">${rows} ${rows === 1 ? 'row' : 'rows'} of ${t}</div>`) +
+    Array.from({ length: rows }, (_, i) => {
+      const last = i === rows - 1 && !showAll;
+      const rn = div && last ? '?' : i + 1;
+      const lab = !div && last ? '?' : (i + 1) * t;
+      return `<div class="tq-row"><span class="rn">${rn}</span>${'<i></i>'.repeat(t)}<span class="lab">${lab}</span></div>`;
+    }).join('');
+}
+
+async function startTquiz() {
+  const r = ++RUN;
+  Prof.begin('tquiz');
+  Sfx.ensure(); Voice.unlock();
+  show('tquiz');
+  const introDone = introSkip(tqScreen, () => {});
+  Object.assign(TQ, { q: 0, stars: 0, easier: false, prev: '' });
+  tqScreen.dataset.mode = 'pick';
+  $('#tqStars').textContent = '★ 0'; $('#tqHelp').hidden = true; tqPad.set('');
+  renderProgress($('#tqProg'), TQ.total, 0);
+  busy(tqScreen, false);
+  await tqGuide.say('Times tables quiz! Which tables would you like to practise?');
+  introDone();
+}
+$('#tqPick').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  RUN++; Voice.stop(); $('#tquiz .skip-intro').hidden = true;
+  TQ.set = TQ_SETS[+b.dataset.i][1];
+  tqScreen.dataset.mode = 'q';
+  tqNext(RUN);
+});
+
+async function tqNext(r) {
+  const div = TQ.q % 3 === 2;
+  let t, b, key;
+  do {
+    t = pick(TQ.set);
+    b = TQ.easier ? rand(2, 5) : rand(div ? 2 : 1, 10);
+    key = (div ? 'd' : 'm') + t + 'x' + b;
+  } while (key === TQ.prev);
+  Object.assign(TQ, { div, t, mistakes: 0, easier: false, prev: key });
+  if (div) Object.assign(TQ, { a: t * b, b: t, ans: b });
+  else { const [x, y] = Math.random() < 0.5 ? [t, b] : [b, t]; Object.assign(TQ, { a: x, b: y, ans: x * y }); }
+  $('#tqHelp').hidden = true; tqPad.set('');
+  $('#tqQ').textContent = `${TQ.a} ${div ? '÷' : '×'} ${TQ.b} = ?`;
+  busy(tqScreen, false);
+  await tqGuide.say(div ? `What is ${TQ.a} divided by ${TQ.b}?` : `What is ${TQ.a} times ${TQ.b}?`);
+}
+
+function tqHint(v) {
+  const { div, a, b, t, ans } = TQ;
+  if (div) {
+    if (v === a - b) return `That is ${a} take away ${b}. Dividing asks: how many ${b}s make ${a}?`;
+    if (v === b) return `${b} is the number we divide by. How many ${b}s make ${a}?`;
+    if (v * b === a + b || v * b === a - b) return `Very close! ${b} times ${v} is ${v * b}, not ${a}.`;
+    return `Think: ${b} times what makes ${a}?`;
+  }
+  if (v === a + b) return `You added. Multiplying means equal groups: ${a === t ? b : a} groups of ${t}.`;
+  if (v === ans + t || v === ans - t) return `Very close! You are one group of ${t} away.`;
+  return `Not yet. Count in ${t}s.`;
+}
+
+async function tqCheck() {
+  const r = RUN;
+  busy(tqScreen, true);
+  if (tqPad.get() === '') { await tqGuide.say('Type your answer with the number buttons first.'); if (alive(r)) busy(tqScreen, false); return; }
+  const v = +tqPad.get();
+  if (v === TQ.ans) return tqCorrect(r);
+  TQ.mistakes++;
+  if (TQ.mistakes === 1) { await tqGuide.say(tqHint(v)); tqPad.set(''); }
+  else if (TQ.mistakes === 2) await tqWatch(r);
+  else return tqShow(r);
+  if (alive(r)) busy(tqScreen, false);
+}
+
+async function tqWatch(r) {
+  const { div, a, t } = TQ;
+  tqArray(false); tqPad.set('');
+  if (div) await tqGuide.say(`Count in ${t}s until you reach ${a}. The number of rows is the answer.`);
+  else await tqGuide.say(`Count in ${t}s, one row at a time. What is the last row?`);
+}
+
+async function tqShow(r) {
+  const { div, a, b, ans } = TQ;
+  Prof.rec(`${a} ${div ? '÷' : '×'} ${b}`, 'helped');
+  tqArray(true);
+  $('#tqQ').textContent = `${a} ${div ? '÷' : '×'} ${b} = ${ans}`;
+  await tqGuide.say(`${a} ${div ? 'divided by' : 'times'} ${b} is ${ans}. Let's try another one.`); if (!alive(r)) return;
+  TQ.easier = true;
+  await wait(900);
+  tqAdvance(r);
+}
+
+async function tqCorrect(r) {
+  const { div, a, b, ans } = TQ;
+  Prof.rec(`${a} ${div ? '÷' : '×'} ${b}`, outc(TQ.mistakes));
+  TQ.stars += [3, 2, 1, 0][Math.min(TQ.mistakes, 3)]; $('#tqStars').textContent = '★ ' + TQ.stars;
+  Sfx.chime(); confetti(tqScreen); tqGuide.cheer();
+  $('#tqQ').textContent = `${a} ${div ? '÷' : '×'} ${b} = ${ans}`;
+  await tqGuide.say(pick(['Correct!', 'Brilliant!', 'Spot on!']) + ` ${a} ${div ? 'divided by' : 'times'} ${b} is ${ans}.`); if (!alive(r)) return;
+  await wait(300);
+  tqAdvance(r);
+}
+
+function tqAdvance(r) {
+  if (!alive(r)) return;
+  TQ.q++;
+  renderProgress($('#tqProg'), TQ.total, TQ.q);
+  if (TQ.q >= TQ.total) finishExplorer('tquiz', 'Times Tables Quiz complete!', TQ.stars, TQ.total * 3, startTquiz); else tqNext(r);
+}
+
+async function tqHelp() {
+  const r = RUN; busy(tqScreen, true);
+  if (TQ.mistakes < 2) { TQ.mistakes = 2; await tqWatch(r); if (alive(r)) busy(tqScreen, false); }
+  else { TQ.mistakes = 3; await tqShow(r); }
+}
+
+$('#tqCheck').addEventListener('click', tqCheck);
+$('#tqHelpBtn').addEventListener('click', tqHelp);
+$('#goTquiz').addEventListener('click', startTquiz);
+
+// =====================================================
 // PLAYERS: one profile per child, with saved progress
 // =====================================================
 const AVATARS = ['🦊', '🐼', '🐯', '🐰', '🦄', '🐸', '🐨', '🦉'];
 const MAX_PLAYERS = 6;
-const GAME_CARDS = { goApple: 'apple', goTake: 'take', goBig: 'big', goTile: 'tile', goGrid: 'grid', goWall: 'wall', goQuiz: 'quiz' };
+const GAME_CARDS = { goApple: 'apple', goTake: 'take', goBig: 'big', goShare: 'share', goGroups: 'groups', goTile: 'tile', goTquiz: 'tquiz', goDivide: 'divide', goGrid: 'grid', goWall: 'wall', goQuiz: 'quiz' };
 const outc = m => m === 0 ? 'first' : m === 1 ? 'hint' : 'helped';
 const Prof = {
   data: store.get('mwp_players', { players: [], last: null }),
@@ -2165,7 +3016,14 @@ const Prof = {
     return p.games[game] || (p.games[game] = { plays: 0, best: 0, max: 0, last: 0, lastPlayed: 0, first: 0, hint: 0, helped: 0, log: [] });
   },
   // Called when a game starts, for every answered question, and when a game ends.
-  begin(game) { this.game = game; this.sStars = 0; this.sCount = 0; },
+  begin(game) { this.game = game; this.sStars = 0; this.sCount = 0; this.t0 = Date.now(); this.ended = false; },
+  end() {
+    if (!this.cur || this.ended || !this.game || !this.sCount) return;
+    this.ended = true;
+    (this.cur.sessions || (this.cur.sessions = [])).push({ g: this.game, t0: this.t0, t1: Date.now(), n: this.sCount });
+    if (this.cur.sessions.length > 300) this.cur.sessions.shift();
+    this.save();
+  },
   rec(label, outcome) {
     this.sStars += { first: 3, hint: 2, helped: 1 }[outcome]; this.sCount++;
     const g = this.g(this.game); if (!g) return;
@@ -2175,6 +3033,7 @@ const Prof = {
     this.save();
   },
   finish(stars, max) {
+    this.end();
     const g = this.g(this.game); if (!g) return { best: 0, isBest: false };
     const prev = g.best;
     g.plays++; g.last = stars; g.max = max; g.lastPlayed = Date.now();
@@ -2242,12 +3101,12 @@ function renderWho() {
   if (Prof.data.players.length < MAX_PLAYERS && !manageMode) {
     const add = document.createElement('button'); add.type = 'button'; add.className = 'who-card add';
     add.innerHTML = '<span class="big-av">＋</span><span class="nm">Add player</span>';
-    add.addEventListener('click', openAdd);
+    add.addEventListener('click', () => withPin(openAdd));
     grid.append(add);
   }
-  $('#whoManage').textContent = manageMode ? 'Done' : 'Manage players';
+  $('#whoManage').textContent = '🔒 Parent page';
 }
-$('#whoManage').addEventListener('click', () => { manageMode = !manageMode; renderWho(); });
+$('#whoManage').addEventListener('click', openParentGate);
 function choosePlayer(id) {
   Sfx.ensure(); Voice.unlock();
   Prof.pick(id); showAllGames = false;
@@ -2359,6 +3218,214 @@ $('#voiceBtn').addEventListener('click', openVoice);
 $('#vcBack').addEventListener('click', goHome);
 $('#vcDone').addEventListener('click', goHome);
 if (hasTTS && speechSynthesis.addEventListener) speechSynthesis.addEventListener('voiceschanged', () => { if (!$('#voice').hidden) renderVoice(); });
+
+// =====================================================
+// PARENT PIN and PARENT PAGE
+// =====================================================
+const PIN_KEY = 'mwp_pin';
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+async function pinHash(pin) {
+  try {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('pip-maths:' + pin));
+    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+  } catch (e) { return 'plain:' + pin; }
+}
+const hasPin = () => !!store.get(PIN_KEY, null);
+function withPin(fn) { if (!hasPin()) fn(); else openPin('enter', fn, openWho); }
+function openParentGate() { openPin(hasPin() ? 'enter' : 'create', openParent, openWho); }
+
+// ---------- PIN screen ----------
+const PIN = { mode: 'enter', entry: '', first: '', onOk: null, onCancel: null, a: 0, b: 0, note: '' };
+$('#pinPad').innerHTML = PAD_HTML;
+function openPin(mode, onOk, onCancel) {
+  RUN++; Voice.stop();
+  Object.assign(PIN, { mode, entry: '', first: '', onOk, onCancel: onCancel || openWho, note: '' });
+  $('#pinMsg').hidden = true;
+  renderPin(); show('pin');
+}
+function renderPin() {
+  const text = {
+    create: ['Create a parent PIN', PIN.note || 'Choose 4 numbers that only grown-ups know. You will need them to open the parent page.'],
+    confirm: ['Type the PIN again', 'This checks that the PIN was typed correctly.'],
+    enter: ['Parent PIN', 'Type the 4-number PIN to continue.'],
+    gate: ['Reset the PIN', `A grown-up must answer this to remove the old PIN: what is ${PIN.a} × ${PIN.b}?`]
+  }[PIN.mode];
+  $('#pinTitle').textContent = text[0];
+  $('#pinSub').textContent = text[1];
+  const gate = PIN.mode === 'gate';
+  $('#pinDots').hidden = gate;
+  $('#pinDots').innerHTML = [0, 1, 2, 3].map(i => `<i class="${i < PIN.entry.length ? 'on' : ''}"></i>`).join('');
+  $('#pinGateEntry').hidden = !gate;
+  $('#pinGateEntry').textContent = PIN.entry || '?';
+  $('#pinGateEntry').classList.toggle('empty', !PIN.entry);
+  $('#pinCheck').hidden = !gate;
+  $('#pinForgot').hidden = PIN.mode !== 'enter';
+}
+function pinError(msg) {
+  $('#pinMsg').textContent = msg; $('#pinMsg').hidden = false;
+  const d = $('#pinDots'); d.classList.remove('shake'); void d.offsetWidth; d.classList.add('shake');
+}
+$('#pinPad').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const k = b.dataset.k;
+  if (k === 'del') PIN.entry = PIN.entry.slice(0, -1);
+  else if (k === 'clr') PIN.entry = '';
+  else if (PIN.entry.length < 4) PIN.entry += k;
+  Sfx.tick(); renderPin();
+  if (PIN.mode !== 'gate' && PIN.entry.length === 4) submitPin();
+});
+async function submitPin() {
+  const entry = PIN.entry;
+  if (PIN.mode === 'create') { PIN.first = entry; PIN.mode = 'confirm'; PIN.entry = ''; $('#pinMsg').hidden = true; renderPin(); return; }
+  if (PIN.mode === 'confirm') {
+    if (entry === PIN.first) { store.set(PIN_KEY, await pinHash(entry)); PIN.onOk(); return; }
+    Object.assign(PIN, { mode: 'create', entry: '', first: '', note: '' }); renderPin();
+    pinError('The two PINs were different. Please choose the PIN again.'); return;
+  }
+  if (PIN.mode === 'enter') {
+    if (await pinHash(entry) === store.get(PIN_KEY, null)) { PIN.onOk(); return; }
+    PIN.entry = ''; renderPin(); pinError('That PIN is not right. Please try again.');
+  }
+}
+function newGate() { PIN.a = rand(13, 29); PIN.b = rand(13, 29); PIN.entry = ''; }
+$('#pinForgot').addEventListener('click', () => { PIN.mode = 'gate'; newGate(); $('#pinMsg').hidden = true; renderPin(); });
+$('#pinCheck').addEventListener('click', () => {
+  if (+PIN.entry === PIN.a * PIN.b) {
+    store.set(PIN_KEY, null);
+    Object.assign(PIN, { mode: 'create', entry: '', first: '', onOk: openParent, note: 'The old PIN has been removed. Choose a new 4-number PIN.' });
+    $('#pinMsg').hidden = true; renderPin(); return;
+  }
+  newGate(); renderPin(); pinError('That answer is not right. Here is a new question.');
+});
+$('#pinCancel').addEventListener('click', () => PIN.onCancel());
+
+// ---------- Parent page ----------
+const GAME_NAMES = { apple: 'Apple Basket', take: 'Take Away', big: 'Big Numbers', share: 'Fair Share', groups: 'Groups Of', tile: 'Tile Builder', tquiz: 'Times Tables Quiz', divide: 'Share It', grid: 'Hundred Grid', wall: 'Fraction Wall', quiz: 'Percent Quiz' };
+const TRACK_GAMES = { little: ['apple', 'take', 'big', 'share', 'groups'], explore: ['tile', 'tquiz', 'divide', 'grid', 'wall', 'quiz'] };
+const DAY = 86400000;
+const startOfDay = t => { const d = new Date(t); d.setHours(0, 0, 0, 0); return d.getTime(); };
+const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+const times = n => n === 1 ? 'time' : 'times';
+function relDay(t) {
+  if (!t) return 'Never';
+  const d = Math.round((startOfDay(Date.now()) - startOfDay(t)) / DAY);
+  return d <= 0 ? 'Today' : d === 1 ? 'Yesterday' : `${d} days ago`;
+}
+function itemLabel(game, k) {
+  switch (game) {
+    case 'apple': return `Counting ${k} ${k === '1' ? 'apple' : 'apples'}`;
+    case 'take': return `Take away: ${k}`;
+    case 'big': return `Adding: ${k}`;
+    case 'tile': return `Times tables: ${k}`;
+    case 'grid': return k.endsWith('%') ? `Shading ${k} of a grid` : `Hundred Grid: ${k}`;
+    case 'wall': return `Fraction Wall: ${k} as a percent`;
+    case 'quiz': return `Percent Quiz: ${k} as a percent`;
+    case 'share': return `Sharing: ${k}`;
+    case 'groups': return `Groups: ${k}`;
+    case 'divide': return `Division: ${k}`;
+    case 'tquiz': return `Times tables: ${k}`;
+    default: return k;
+  }
+}
+function playerStats(p) {
+  const now = Date.now(), today = startOfDay(now), weekStart = today - 6 * DAY;
+  const items = {}, days = new Set(), perDay = Array(7).fill(0);
+  let wkQ = 0, all = 0, allFirst = 0;
+  for (const [game, g] of Object.entries(p.games)) {
+    for (const e of g.log) {
+      const key = game + '|' + e.k;
+      const it = items[key] || (items[key] = { game, k: e.k, n: 0, first: 0, hint: 0, helped: 0, last: 0 });
+      it.n++; it[e.o]++; it.last = Math.max(it.last, e.t);
+      const day = startOfDay(e.t);
+      if (day >= weekStart) { wkQ++; days.add(day); perDay[6 - Math.round((today - day) / DAY)]++; }
+    }
+    all += g.first + g.hint + g.helped; allFirst += g.first;
+  }
+  const mins = Math.round((p.sessions || []).filter(s => s.t0 >= weekStart).reduce((m, s) => m + Math.min(s.t1 - s.t0, 3600000), 0) / 60000);
+  const list = Object.values(items);
+  const hard = list.map(i => Object.assign({ score: i.helped * 2 + i.hint - i.first * 0.5 }, i))
+    .filter(i => i.score > 0).sort((a, b) => b.score - a.score || b.last - a.last).slice(0, 6);
+  const good = list.filter(i => i.n >= 2 && i.first === i.n).sort((a, b) => b.n - a.n || b.last - a.last).slice(0, 6);
+  return { wkQ, days: days.size, perDay, mins, all, allFirst, hard, good };
+}
+
+let parentSel = null;
+function openParent() {
+  RUN++; Voice.stop();
+  const ps = Prof.data.players;
+  if (!ps.find(p => p.id === parentSel)) parentSel = (Prof.cur || ps[0] || {}).id || null;
+  renderParent(); show('parent'); $('#parent').scrollTop = 0;
+}
+function renderParent() {
+  const ps = Prof.data.players, p = ps.find(x => x.id === parentSel), body = $('#ptBody');
+  if (!p) { body.innerHTML = '<div class="pt-card"><p class="pt-empty">There are no players yet.</p><div class="pt-actions"><button class="pt-btn" type="button" data-act="add">＋ Add a player</button></div></div>'; return; }
+  const st = playerStats(p), name = esc(p.name);
+  const kids = ps.map(x => `<button type="button" class="pt-kid ${x.id === p.id ? 'sel' : ''}" data-act="kid" data-id="${x.id}"><span class="av">${x.avatar}</span>${esc(x.name)}</button>`).join('');
+
+  let summary;
+  if (!st.all) summary = `${name} has not played any games yet. Progress will appear here after the first game.`;
+  else {
+    summary = st.wkQ
+      ? `In the last 7 days, ${name} answered <b>${st.wkQ} questions</b> on <b>${st.days} ${st.days === 1 ? 'day' : 'days'}</b>, for ${st.mins ? `about <b>${st.mins} ${st.mins === 1 ? 'minute' : 'minutes'}</b>` : '<b>less than a minute</b>'} in total.`
+      : `${name} has not played in the last 7 days.`;
+    summary += ` Overall, ${name} gets <b>${pct(st.allFirst, st.all)}%</b> of answers right the first time.`;
+    summary += st.hard[0] ? ` The question that needs the most practice is <b>“${esc(itemLabel(st.hard[0].game, st.hard[0].k))}”</b>.` : ' Nothing needs extra practice at the moment.';
+  }
+
+  const dayNames = Array.from({ length: 7 }, (_, i) => new Date(startOfDay(Date.now()) - (6 - i) * DAY).toLocaleDateString('en-GB', { weekday: 'short' }));
+  const week = st.perDay.map((c, i) => `<div class="${i === 6 ? 'today' : ''} ${c ? '' : 'zero'}"><span class="d">${i === 6 ? 'Today' : dayNames[i]}</span><span class="c">${c}</span></div>`).join('');
+
+  const hard = st.hard.length
+    ? `<ul class="pt-list hard">${st.hard.map(i => `<li><b>${esc(itemLabel(i.game, i.k))}</b><span>${i.n} ${i.n === 1 ? 'try' : 'tries'}: right first time ${i.first}, after a hint ${i.hint}, needed help ${i.helped} · last tried ${relDay(i.last).toLowerCase()}</span></li>`).join('')}</ul>`
+    : '<p class="pt-empty">Nothing yet. Questions that needed a hint or help will appear here.</p>';
+  const good = st.good.length
+    ? `<ul class="pt-list good">${st.good.map(i => `<li><b>${esc(itemLabel(i.game, i.k))}</b><span>Right first time in all ${i.n} tries</span></li>`).join('')}</ul>`
+    : '<p class="pt-empty">Nothing yet. Questions answered right first time at least twice will appear here.</p>';
+
+  const order = TRACK_GAMES[p.track].concat(Object.keys(GAME_NAMES).filter(g => !TRACK_GAMES[p.track].includes(g) && p.games[g] && p.games[g].plays));
+  const rows = order.map(id => {
+    const g = p.games[id], answered = g ? g.first + g.hint + g.helped : 0;
+    return `<tr><td><b>${GAME_NAMES[id]}</b></td><td>${g ? g.plays : 0}</td><td>${g && g.plays ? `★ ${g.best} of ${g.max}` : '–'}</td><td>${answered ? pct(g.first, answered) + '%' : '–'}</td><td>${relDay(g && g.lastPlayed)}</td></tr>`;
+  }).join('');
+
+  body.innerHTML = `
+    <div class="pt-kids">${kids}</div>
+    <div class="pt-card pt-summary"><div class="pt-eyebrow">Summary</div><p>${summary}</p></div>
+    <div class="pt-stats">
+      <div class="pt-card pt-stat"><div class="lab">Questions this week</div><div class="num">${st.wkQ}</div><div class="cap">Last 7 days</div></div>
+      <div class="pt-card pt-stat"><div class="lab">Days played</div><div class="num">${st.days}<small> of 7</small></div><div class="cap">Last 7 days</div></div>
+      <div class="pt-card pt-stat"><div class="lab">Time played</div><div class="num">${st.mins}<small> min</small></div><div class="cap">Last 7 days</div></div>
+      <div class="pt-card pt-stat"><div class="lab">Right first time</div><div class="num">${pct(st.allFirst, st.all)}<small>%</small></div><div class="cap">All answers so far</div></div>
+    </div>
+    <div class="pt-card"><h2>Questions answered each day</h2><div class="pt-week">${week}</div></div>
+    <div class="pt-two">
+      <div class="pt-card"><h2>Needs practice</h2>${hard}</div>
+      <div class="pt-card"><h2>Going well</h2>${good}</div>
+    </div>
+    <div class="pt-card"><h2>Games</h2><div class="pt-table-wrap"><table class="pt-table">
+      <thead><tr><th>Game</th><th>Times played</th><th>Best score</th><th>Right first time</th><th>Last played</th></tr></thead>
+      <tbody>${rows}</tbody></table></div></div>
+    <div class="pt-card"><h2>Settings</h2><div class="pt-actions">
+      <button class="pt-btn" type="button" data-act="add">＋ Add a player</button>
+      <button class="pt-btn" type="button" data-act="pin">Change the PIN</button>
+      <button class="pt-btn danger" type="button" data-act="reset">Clear ${name}’s progress</button>
+      <button class="pt-btn danger" type="button" data-act="remove">Remove ${name}</button>
+    </div><p class="pt-note">Progress is saved on this device only.</p></div>`;
+}
+$('#ptBody').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const act = b.dataset.act, p = Prof.data.players.find(x => x.id === parentSel);
+  if (act === 'kid') { parentSel = b.dataset.id; renderParent(); return; }
+  if (act === 'add') { openAdd(); return; }
+  if (act === 'pin') { openPin('create', openParent, openParent); return; }
+  if ((act === 'reset' || act === 'remove') && p) {
+    if (!b.classList.contains('sure')) { b.classList.add('sure'); b.textContent = 'Tap again to confirm'; return; }
+    if (act === 'reset') { p.games = {}; p.stickers = []; p.sessions = []; Prof.save(); renderParent(); return; }
+    Prof.remove(p.id); parentSel = null;
+    if (!Prof.data.players.length) openAdd(); else openParent();
+  }
+});
+$('#ptClose').addEventListener('click', openWho);
 
 function startApp() {
   if (!Prof.data.players.length) openAdd(); else openWho();
