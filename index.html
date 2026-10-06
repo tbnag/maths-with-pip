@@ -794,6 +794,28 @@ h1, .home-head h1 { font-weight: 800; letter-spacing: -0.02em; }
 .theme-dark .entry { box-shadow: none; }
 .theme-dark .pt-week div, .theme-dark .ht-steps li { background: transparent; border: 1px solid rgba(255,255,255,0.18); }
 .howto.dark .ht-card { background: #110F28; border: 1.5px solid rgba(255,255,255,0.30); box-shadow: none; }
+/* Game start screen */
+.intro-main { justify-content: center; }
+.intro-card { width: min(620px, 100%); display: flex; flex-direction: column; gap: 10px; padding: 26px 30px; border-radius: 16px; }
+.theme-dark .intro-card { border: 1.5px solid rgba(255,255,255,0.78); }
+.theme-light .intro-card { background: #FFFFFF; border-radius: 28px; box-shadow: 0 1px 2px rgba(30,42,58,0.04), 0 12px 30px rgba(30,42,58,0.08); }
+.intro-art { display: grid; place-items: center; height: 150px; margin-bottom: 4px; }
+.intro-art svg { width: 260px; height: 146px; }
+.intro-art .emoji-art { font-size: 40px; }
+.intro-skill, .intro-label { font-size: 14px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
+.theme-dark .intro-skill { color: var(--d-go); }
+.theme-light .intro-skill { color: #1E6FD9; }
+.intro-title { font-family: var(--display); font-size: 40px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 10px; }
+.intro-label { margin-top: 4px; }
+.theme-dark .intro-label, .theme-dark .intro-meta { color: var(--d-text-2); }
+.theme-light .intro-label, .theme-light .intro-meta { color: var(--l-text-2); }
+.intro-learn { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.intro-learn li { display: flex; gap: 12px; align-items: flex-start; font-size: 20px; line-height: 1.4; }
+.intro-learn li svg { flex: 0 0 auto; margin-top: 2px; }
+.theme-dark .intro-learn li svg { color: var(--d-go); }
+.theme-light .intro-learn li svg { color: var(--l-go); }
+.intro-meta { font-size: 16px; margin-top: 8px; }
+#inStart { min-width: 220px; }
 </style>
 <style>
 /* Keep content clear of the iPad status bar and home indicator when opened from the home screen. */
@@ -1353,6 +1375,30 @@ h1, .home-head h1 { font-weight: 800; letter-spacing: -0.02em; }
     </div>
   </div>
 </div>
+
+<!-- GAME START SCREEN -->
+<section id="intro" class="screen game" hidden>
+  <div class="topbar">
+    <button class="pill go-home" type="button">🏠 Home</button>
+    <button class="pill howto-btn" type="button">📖 How to play</button>
+    <span class="spacer"></span>
+    <button class="pill sound-toggle" type="button"></button>
+  </div>
+  <div class="guide"><span class="pip-slot"></span><div class="bubble"><p class="say" aria-live="polite"></p><button class="replay" type="button" aria-label="Hear it again">🔊</button></div></div>
+  <div class="tb-main intro-main">
+    <div class="intro-card">
+      <div class="intro-art" id="inArt" aria-hidden="true"></div>
+      <span class="intro-skill" id="inSkill"></span>
+      <h2 class="intro-title" id="inTitle"></h2>
+      <div class="intro-label">You will learn</div>
+      <ul class="intro-learn" id="inLearn"></ul>
+      <div class="intro-meta" id="inMeta"></div>
+    </div>
+  </div>
+  <div class="controls">
+    <button class="big go" id="inStart" type="button">Start<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
+  </div>
+</section>
 
 <!-- FINISH -->
 <section id="finish" class="screen" hidden>
@@ -4418,6 +4464,77 @@ $('#htClose').addEventListener('click', closeHowto);
 $('#howto').addEventListener('click', e => { if (e.target.id === 'howto') closeHowto(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#howto').hidden) closeHowto(); });
 $$('.howto-btn').forEach(b => b.addEventListener('click', openHowto));
+
+// =====================================================
+// GAME START SCREEN: what the child will learn, then Start
+// =====================================================
+const GAME_INFO = {
+  apple: { start: startApple, track: 'little', title: 'Apple Basket', skill: 'Counting', q: 5, mins: 4,
+    learn: ['Count apples up to 10', 'Match a number to the right amount of apples'],
+    speech: 'Apple Basket! You will learn to count apples, up to ten. Press Start when you are ready.' },
+  take: { start: startTake, track: 'little', title: 'Take Away', skill: 'Subtraction', q: 5, mins: 4,
+    learn: ['Take away by eating some apples', 'Count how many apples are left', 'Read take-away sums like 5 − 2 = 3'],
+    speech: 'Take Away! You will learn what taking away means, and how to count what is left. Press Start when you are ready.' },
+  big: { start: startBig, track: 'little', title: 'Big Numbers', skill: 'Tens and hundreds', q: 5, mins: 5,
+    learn: ['A green stick is 10, and a blue square is 100', 'Add big numbers, like 50 + 200'],
+    speech: 'Big Numbers! You will learn about tens and hundreds, and how to add big numbers. Press Start when you are ready.' },
+  share: { start: startShare, track: 'little', title: 'Fair Share', skill: 'Sharing', q: 5, mins: 4,
+    learn: ['Fair means everyone gets the same', 'Share apples equally between friends', 'Your first division sums, like 6 ÷ 2 = 3'],
+    speech: 'Fair Share! You will learn to share apples fairly, so every friend gets the same. Press Start when you are ready.' },
+  groups: { start: startGroups, track: 'little', title: 'Groups Of', skill: 'Groups', q: 5, mins: 4,
+    learn: ['Count in 2s, 5s and 10s', 'Your first times sums, like 3 groups of 2 = 6'],
+    speech: 'Groups Of! You will learn to count in twos, fives and tens. It is quicker than counting one by one. Press Start when you are ready.' },
+  tile: { start: startTile, track: 'explore', title: 'Tile Builder', skill: 'Times tables', q: 6, mins: 5,
+    learn: ['What a times table means: rows of tiles', 'Count rows in jumps, like 4, 8, 12', 'Times table facts, like 3 × 4 = 12'],
+    speech: 'Tile Builder. You will learn what times tables really mean, by building rows of tiles. Press Start when you are ready.' },
+  tquiz: { start: startTquiz, track: 'explore', title: 'Times Tables Quiz', skill: 'Times tables, test style', q: 10, mins: 6,
+    learn: ['Practise × and ÷ facts, like in a test', 'Choose which tables to practise', 'Get rows of squares to count if you are stuck'],
+    speech: 'Times Tables Quiz. You will practise times and divide facts, like in a real test. Press Start when you are ready.' },
+  divide: { start: startDivide, track: 'explore', title: 'Share It', skill: 'Division', q: 6, mins: 5,
+    learn: ['Division means sharing into equal groups', 'Use times tables to divide: 4 × 5 = 20, so 20 ÷ 4 = 5', 'Fact families: one fact gives you four'],
+    speech: 'Share It. You will learn how division works, and how times tables help you divide. Press Start when you are ready.' },
+  grid: { start: startGrid, track: 'explore', title: 'Hundred Grid', skill: 'Fractions and percentages', q: 6, mins: 5,
+    learn: ['Percent means out of 100', 'Shade fractions and percents on a grid of 100', 'Turn fractions into percents, step by step'],
+    speech: 'Hundred Grid. You will learn what percent means, and how to turn fractions into percents, step by step. Press Start when you are ready.' },
+  wall: { start: startWall, track: 'explore', title: 'Fraction Wall', skill: 'Quick fraction facts', q: 8, mins: 5,
+    learn: ['Key facts: ½ = 50%, ¼ = 25%, ⅒ = 10%', 'Use them to work out ¾, ⅖ and ⅔ quickly'],
+    speech: 'Fraction Wall. You will learn the key fraction facts, and how to use them to answer quickly. Press Start when you are ready.' },
+  quiz: { start: startQuiz, track: 'explore', title: 'Percent Quiz', skill: 'Fractions to percents, test style', q: 8, mins: 5,
+    learn: ['Turn fractions into percents, like in a test', 'Get the two steps if you are stuck'],
+    speech: 'Percent Quiz. You will practise turning fractions into percents, like in a real test. Press Start when you are ready.' },
+  pbar: { start: startPbar, track: 'explore', title: 'Percent Bars', skill: 'Percent of an amount', q: 6, mins: 5,
+    learn: ['Find a percent of an amount, like 25% of 60', 'Quick ways: halve it, or divide by 10'],
+    speech: 'Percent Bars. You will learn how to find a percent of a number, using two bars. Press Start when you are ready.' },
+  pofq: { start: startPofq, track: 'explore', title: 'Percent Of Quiz', skill: 'Percent of an amount, test style', q: 10, mins: 6,
+    learn: ['Find percents of numbers, like in a test', 'Includes 5%: find 10%, then halve it'],
+    speech: 'Percent Of Quiz. You will practise finding percents of numbers, like in a real test. Press Start when you are ready.' }
+};
+const inScreen = $('#intro'), inGuide = makeGuide(inScreen, 0.92);
+const LEARN_TICK = svgIcon('<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>', 24, 2);
+let introGame = null;
+function openIntro(cardId) {
+  const id = GAME_CARDS[cardId], info = GAME_INFO[id];
+  if (!info) return;
+  RUN++; Voice.stop(); Sfx.ensure(); Voice.unlock();
+  introGame = id; Prof.game = id;
+  inScreen.classList.toggle('theme-dark', info.track === 'explore');
+  inScreen.classList.toggle('theme-light', info.track !== 'explore');
+  $('#inArt').innerHTML = $('#' + cardId + ' .art').innerHTML;
+  $('#inSkill').textContent = info.skill;
+  $('#inTitle').textContent = info.title;
+  $('#inLearn').innerHTML = info.learn.map(t => `<li>${LEARN_TICK}<span>${t}</span></li>`).join('');
+  $('#inMeta').textContent = `${info.q} questions · about ${info.mins} minutes`;
+  show('intro'); inScreen.scrollTop = 0;
+  inGuide.say(info.speech);
+}
+// Game cards open the start screen first (this listens before each card's own start).
+$('.home-tracks').addEventListener('click', e => {
+  const card = e.target.closest('.card');
+  if (!card || !GAME_CARDS[card.id]) return;
+  e.stopPropagation();
+  openIntro(card.id);
+}, true);
+$('#inStart').addEventListener('click', () => { const info = GAME_INFO[introGame]; if (info) info.start(); });
 
 function startApp() {
   if (!Prof.data.players.length) openAdd(); else openWho();
