@@ -742,6 +742,16 @@ h1, h2, .say, .qcard, .big { letter-spacing: -0.01em; }
 #voice .form-card { margin-block: 8px; }
 .vc-opt .ic { display: grid; place-items: center; color: var(--d-go); }
 .who-foot .link { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; background: #FFFFFF; color: var(--l-ink); box-shadow: var(--l-soft); border-radius: 999px; padding: 0 20px; min-height: 48px; font-size: 16px; font-weight: 500; }
+/* Animal drawings for player pictures and stickers */
+.av, .who-card .big-av, .who-card.explore .big-av { background: transparent; overflow: hidden; font-size: 0; }
+.av svg, .big-av svg, .avs button svg, .sticker svg, .book span svg { width: 100%; height: 100%; display: block; }
+.avs button { padding: 4px; background: transparent; font-size: 0; }
+.who-card.add .big-av { background: #FFFFFF; font-size: 48px; }
+.sticker { width: 150px; height: 150px; font-size: 0; filter: drop-shadow(0 10px 16px rgba(30,42,58,0.22)); }
+.book { gap: 8px; }
+.book span { width: 52px; height: 52px; display: inline-block; filter: drop-shadow(0 3px 5px rgba(30,42,58,0.18)); }
+.avs { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 560px) { .avs { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 </style>
 <style>
 /* Keep content clear of the iPad status bar and home indicator when opened from the home screen. */
@@ -1392,6 +1402,93 @@ const Sfx = {
 };
 
 // ---------- Shared UI ----------
+// Maths with Pip animal drawings (viewBox 0 0 100 100). Used for player pictures and reward stickers.
+const INK = '#1E2A3A';
+const eyes = (x1, x2, y, r = 4.5) => `<circle cx="${x1}" cy="${y}" r="${r}" fill="${INK}"/><circle cx="${x2}" cy="${y}" r="${r}" fill="${INK}"/><circle cx="${x1 + 1.5}" cy="${y - 1.5}" r="1.4" fill="#FFFFFF"/><circle cx="${x2 + 1.5}" cy="${y - 1.5}" r="1.4" fill="#FFFFFF"/>`;
+const smile = (y, w = 6) => `<path d="M${50 - w} ${y} Q50 ${y + 5} ${50 + w} ${y}" stroke="${INK}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
+const cheeks = (y, x1 = 28, x2 = 72) => `<circle cx="${x1}" cy="${y}" r="5" fill="#FF9AAE" opacity=".55"/><circle cx="${x2}" cy="${y}" r="5" fill="#FF9AAE" opacity=".55"/>`;
+
+const ANIMALS = {
+  fox: { name: 'Fox', tint: '#FFE6D2', svg:
+    `<path d="M16 40 L24 8 L46 28 Z" fill="#E8692A"/><path d="M84 40 L76 8 L54 28 Z" fill="#E8692A"/><path d="M22 34 L26 16 L38 28 Z" fill="#FFD3B0"/><path d="M78 34 L74 16 L62 28 Z" fill="#FFD3B0"/>` +
+    `<path d="M12 40 Q50 18 88 40 Q84 72 50 90 Q16 72 12 40 Z" fill="#F58A3C"/>` +
+    `<path d="M18 50 Q36 58 50 88 Q26 78 18 50 Z" fill="#FFF4EA"/><path d="M82 50 Q64 58 50 88 Q74 78 82 50 Z" fill="#FFF4EA"/>` +
+    eyes(37, 63, 52) + `<ellipse cx="50" cy="75" rx="5.5" ry="4" fill="${INK}"/>` },
+  panda: { name: 'Panda', tint: '#E9EEF5', svg:
+    `<circle cx="24" cy="24" r="12" fill="#2B3240"/><circle cx="76" cy="24" r="12" fill="#2B3240"/>` +
+    `<circle cx="50" cy="54" r="35" fill="#FFFFFF" stroke="#DCE2EA" stroke-width="2"/>` +
+    `<ellipse cx="37" cy="52" rx="9" ry="12" transform="rotate(-22 37 52)" fill="#2B3240"/><ellipse cx="63" cy="52" rx="9" ry="12" transform="rotate(22 63 52)" fill="#2B3240"/>` +
+    `<circle cx="38" cy="51" r="3.6" fill="#FFFFFF"/><circle cx="62" cy="51" r="3.6" fill="#FFFFFF"/>` +
+    `<ellipse cx="50" cy="66" rx="5.5" ry="4" fill="#2B3240"/>` + smile(72, 5) + cheeks(66, 26, 74) },
+  tiger: { name: 'Tiger', tint: '#FFF0D6', svg:
+    `<circle cx="24" cy="26" r="11" fill="#F29A2E"/><circle cx="76" cy="26" r="11" fill="#F29A2E"/><circle cx="24" cy="26" r="5.5" fill="#FFE2B8"/><circle cx="76" cy="26" r="5.5" fill="#FFE2B8"/>` +
+    `<circle cx="50" cy="55" r="35" fill="#F7A73C"/>` +
+    `<path d="M44 21 L50 33 L56 21" fill="${INK}"/><path d="M16 50 L28 52 L16 58 Z" fill="${INK}"/><path d="M84 50 L72 52 L84 58 Z" fill="${INK}"/>` +
+    `<ellipse cx="50" cy="70" rx="17" ry="13" fill="#FFF3E2"/>` + eyes(37, 63, 50) +
+    `<ellipse cx="50" cy="64" rx="5.5" ry="4" fill="#E2615B"/>` + smile(71, 5) },
+  rabbit: { name: 'Rabbit', tint: '#FFE8EE', svg:
+    `<ellipse cx="35" cy="22" rx="9" ry="22" fill="#F1F3F8"/><ellipse cx="65" cy="22" rx="9" ry="22" fill="#F1F3F8"/><ellipse cx="35" cy="22" rx="4" ry="15" fill="#FFB3C1"/><ellipse cx="65" cy="22" rx="4" ry="15" fill="#FFB3C1"/>` +
+    `<circle cx="50" cy="60" r="32" fill="#FAFBFE" stroke="#DCE2EA" stroke-width="2"/>` + eyes(38, 62, 56) +
+    `<ellipse cx="50" cy="67" rx="4.5" ry="3.5" fill="#FF8FA6"/>` + smile(73, 5) + cheeks(68, 30, 70) },
+  unicorn: { name: 'Unicorn', tint: '#EFE8FF', svg:
+    `<path d="M50 3 L43 30 L57 30 Z" fill="#FFC24B"/><path d="M45.5 20 L54.5 17 M44.5 25 L55.5 22" stroke="#E0A020" stroke-width="2" stroke-linecap="round"/>` +
+    `<circle cx="28" cy="34" r="10" fill="#FF8FC7"/><circle cx="21" cy="50" r="10" fill="#B99BFF"/><circle cx="23" cy="66" r="9" fill="#7FD6F0"/>` +
+    `<circle cx="52" cy="58" r="31" fill="#FBF8FF" stroke="#E2D9F5" stroke-width="2"/>` +
+    `<path d="M66 30 L72 18 L76 34 Z" fill="#FBF8FF" stroke="#E2D9F5" stroke-width="2" stroke-linejoin="round"/>` +
+    `<path d="M38 55 Q42 51 46 55" stroke="${INK}" stroke-width="2.8" fill="none" stroke-linecap="round"/><path d="M58 55 Q62 51 66 55" stroke="${INK}" stroke-width="2.8" fill="none" stroke-linecap="round"/>` +
+    smile(68, 5) + cheeks(64, 34, 70) },
+  frog: { name: 'Frog', tint: '#DDF6E5', svg:
+    `<circle cx="30" cy="30" r="15" fill="#4CB96B"/><circle cx="70" cy="30" r="15" fill="#4CB96B"/><circle cx="30" cy="30" r="9" fill="#FFFFFF"/><circle cx="70" cy="30" r="9" fill="#FFFFFF"/><circle cx="31" cy="31" r="4.5" fill="${INK}"/><circle cx="71" cy="31" r="4.5" fill="${INK}"/>` +
+    `<ellipse cx="50" cy="62" rx="40" ry="28" fill="#5CCB7B"/><ellipse cx="50" cy="70" rx="25" ry="14" fill="#A5E8B7"/>` +
+    `<path d="M34 62 Q50 76 66 62" stroke="${INK}" stroke-width="2.8" fill="none" stroke-linecap="round"/>` + cheeks(62, 22, 78) },
+  koala: { name: 'Koala', tint: '#E6EBF2', svg:
+    `<circle cx="18" cy="36" r="17" fill="#9FAAB9"/><circle cx="82" cy="36" r="17" fill="#9FAAB9"/><circle cx="18" cy="36" r="9" fill="#EAD9E3"/><circle cx="82" cy="36" r="9" fill="#EAD9E3"/>` +
+    `<circle cx="50" cy="56" r="32" fill="#AEB8C6"/>` + eyes(37, 63, 50, 4) +
+    `<ellipse cx="50" cy="63" rx="9" ry="12" fill="#3B4250"/>` + cheeks(68, 30, 70) },
+  owl: { name: 'Owl', tint: '#F3E6DA', svg:
+    `<path d="M20 30 L26 10 L40 24 Z" fill="#8A5D3F"/><path d="M80 30 L74 10 L60 24 Z" fill="#8A5D3F"/>` +
+    `<path d="M16 38 Q16 18 50 18 Q84 18 84 38 L84 64 Q84 92 50 92 Q16 92 16 64 Z" fill="#9C6C4B"/>` +
+    `<ellipse cx="50" cy="72" rx="22" ry="18" fill="#E9C9A8"/>` +
+    `<circle cx="35" cy="46" r="14" fill="#FFFFFF" stroke="#FFC24B" stroke-width="3"/><circle cx="65" cy="46" r="14" fill="#FFFFFF" stroke="#FFC24B" stroke-width="3"/>` +
+    `<circle cx="36" cy="47" r="6" fill="${INK}"/><circle cx="64" cy="47" r="6" fill="${INK}"/><circle cx="38" cy="45" r="2" fill="#FFFFFF"/><circle cx="66" cy="45" r="2" fill="#FFFFFF"/>` +
+    `<path d="M45 58 L55 58 L50 67 Z" fill="#F28C28"/>` },
+  bee: { name: 'Bee', tint: '#FFF5D1', svg:
+    `<ellipse cx="30" cy="26" rx="14" ry="10" fill="#D9F0FF" stroke="#A9D4F5" stroke-width="2"/><ellipse cx="70" cy="26" rx="14" ry="10" fill="#D9F0FF" stroke="#A9D4F5" stroke-width="2"/>` +
+    `<path d="M42 22 Q38 10 32 8 M58 22 Q62 10 68 8" stroke="${INK}" stroke-width="2.6" fill="none" stroke-linecap="round"/>` +
+    `<circle cx="50" cy="58" r="32" fill="#FFC93C"/><rect x="22" y="66" width="56" height="8" rx="4" fill="${INK}"/><rect x="29" y="80" width="42" height="7" rx="3.5" fill="${INK}"/>` +
+    eyes(39, 61, 50) + smile(58, 5) + cheeks(56, 30, 70) },
+  whale: { name: 'Whale', tint: '#DDEBFF', svg:
+    `<path d="M50 20 Q46 10 40 12 M50 20 Q54 10 60 12 M50 20 L50 30" stroke="#7FB4FF" stroke-width="3.2" fill="none" stroke-linecap="round"/>` +
+    `<path d="M80 52 L96 38 L94 64 Z" fill="#3F78DC"/>` +
+    `<path d="M8 60 Q10 32 48 32 Q84 32 84 60 Q84 84 48 84 Q12 84 8 60 Z" fill="#4F8BEF"/>` +
+    `<path d="M14 66 Q46 90 78 66 Q66 82 46 82 Q24 82 14 66 Z" fill="#CFE2FF"/>` +
+    `<circle cx="34" cy="52" r="4.5" fill="${INK}"/><circle cx="35.5" cy="50.5" r="1.4" fill="#FFFFFF"/>` +
+    `<path d="M24 62 Q32 68 40 62" stroke="${INK}" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="24" cy="56" r="4.5" fill="#FF9AAE" opacity=".55"/>` },
+  lion: { name: 'Lion', tint: '#FFEBC9', svg:
+    `<circle cx="50" cy="52" r="41" fill="#D9862A"/>` +
+    `<circle cx="27" cy="28" r="8" fill="#F7B955"/><circle cx="73" cy="28" r="8" fill="#F7B955"/>` +
+    `<circle cx="50" cy="56" r="28" fill="#FFC56B"/><ellipse cx="50" cy="68" rx="14" ry="10" fill="#FFF0D6"/>` +
+    eyes(39, 61, 51) + `<ellipse cx="50" cy="62" rx="5" ry="3.8" fill="#9A5B33"/>` + smile(69, 5) },
+  penguin: { name: 'Penguin', tint: '#E3EAF5', svg:
+    `<ellipse cx="50" cy="56" rx="33" ry="38" fill="#2B3A55"/>` +
+    `<path d="M50 38 Q34 22 30 44 Q28 64 50 84 Q72 64 70 44 Q66 22 50 38 Z" fill="#FFFFFF"/>` +
+    eyes(41, 59, 48, 4) + `<path d="M44 56 L56 56 L50 64 Z" fill="#F7A23B"/>` + cheeks(58, 34, 66) +
+    `<ellipse cx="38" cy="92" rx="8" ry="4" fill="#F7A23B"/><ellipse cx="62" cy="92" rx="8" ry="4" fill="#F7A23B"/>` }
+};
+const AVATAR_KEYS = ['fox', 'panda', 'tiger', 'rabbit', 'unicorn', 'frog', 'koala', 'owl'];
+const STICKER_KEYS = ['fox', 'panda', 'tiger', 'rabbit', 'unicorn', 'frog', 'koala', 'owl', 'bee', 'whale', 'lion', 'penguin'];
+// A player picture: the animal inside a soft tinted circle.
+const avatarSvg = key => `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="50" fill="${ANIMALS[key].tint}"/><g transform="translate(9 9) scale(.82)">${ANIMALS[key].svg}</g></svg>`;
+// A sticker: the animal with a thick white "die-cut" edge and a soft shadow (shadow added in CSS).
+const stickerSvg = key => {
+  const silhouette = ANIMALS[key].svg.replace(/ (fill|stroke|stroke-width|opacity|stroke-linecap|stroke-linejoin)="[^"]*"/g, '');
+  return `<svg viewBox="-8 -8 116 116" aria-hidden="true"><g fill="#FFFFFF" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="round" stroke-linecap="round">${silhouette}</g>${ANIMALS[key].svg}</svg>`;
+};
+// Players chosen before the drawings existed stored an emoji; map those to the matching drawing.
+const OLD_EMOJI = { "🦊": "fox", "🐼": "panda", "🐯": "tiger", "🐰": "rabbit", "🦄": "unicorn", "🐸": "frog", "🐨": "koala", "🦉": "owl", "🐝": "bee", "🐳": "whale", "🦁": "lion", "🐧": "penguin", "🐢": "frog", "🦋": "bee", "🐙": "whale", "🦒": "lion" };
+const animalKey = a => ANIMALS[a] ? a : OLD_EMOJI[a] || "fox";
+const avatarHTML = a => avatarSvg(animalKey(a));
+const stickerHTML = a => stickerSvg(animalKey(a));
 // ---------- Icons and drawings (the app's own pictures, used instead of emoji) ----------
 const svgIcon = (d, size = 22, w = 2.2) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const ICONS = {
@@ -1706,7 +1803,7 @@ $('#apHelp').addEventListener('click', apHelp);
 $('#apHear').addEventListener('click', () => { if (AP.target) apGuide.say(askText(AP.target)); });
 $('#goApple').addEventListener('click', startApple);
 
-const STICKERS = ['🦊', '🐢', '🦄', '🐝', '🐳', '🦁', '🐸', '🐼', '🦋', '🐙', '🦒', '🐧'];
+const STICKERS = STICKER_KEYS;
 function finishLittle(what, again) {
   RUN++;
   const s = pick(STICKERS);
@@ -1714,10 +1811,10 @@ function finishLittle(what, again) {
   const max = Prof.sCount * 3, stars = Prof.sStars;
   Prof.finish(stars, max);
   $('#finish').classList.remove('explore');
-  $('#fnArt').innerHTML = `<div class="sticker">${s}</div>`;
+  $('#fnArt').innerHTML = `<div class="sticker">${stickerHTML(s)}</div>`;
   $('#fnTitle').textContent = 'You did it!';
   $('#fnSub').textContent = `You finished 5 ${what} and got ★ ${stars} of ${max}. Here is a new sticker!`;
-  $('#fnBook').innerHTML = `<div class="book-label">Your sticker book</div><div class="book">${book.map(x => `<span>${x}</span>`).join('')}</div>`;
+  $('#fnBook').innerHTML = `<div class="book-label">Your sticker book</div><div class="book">${book.map(x => `<span>${stickerHTML(x)}</span>`).join('')}</div>`;
   $('#fnAgain').onclick = again;
   show('finish');
   Sfx.chime(); confetti($('#finish'));
@@ -3652,7 +3749,7 @@ $('#goPofq').addEventListener('click', startPofq);
 // =====================================================
 // PLAYERS: one profile per child, with saved progress
 // =====================================================
-const AVATARS = ['🦊', '🐼', '🐯', '🐰', '🦄', '🐸', '🐨', '🦉'];
+const AVATARS = AVATAR_KEYS;
 const MAX_PLAYERS = 6;
 const GAME_CARDS = { goApple: 'apple', goTake: 'take', goBig: 'big', goShare: 'share', goGroups: 'groups', goTile: 'tile', goTquiz: 'tquiz', goDivide: 'divide', goGrid: 'grid', goWall: 'wall', goQuiz: 'quiz', goPbar: 'pbar', goPofq: 'pofq' };
 const outc = m => m === 0 ? 'first' : m === 1 ? 'hint' : 'helped';
@@ -3714,7 +3811,7 @@ function renderHome() {
   $('#home').classList.toggle('theme-light', !p || p.track !== 'explore');
   const chip = $('#playerChip');
   chip.textContent = '';
-  if (p) { const av = document.createElement('span'); av.className = 'av'; av.textContent = p.avatar; chip.append(av, ` ${p.name} · Switch`); }
+  if (p) { const av = document.createElement('span'); av.className = 'av'; av.innerHTML = avatarHTML(p.avatar); chip.append(av, ` ${p.name} · Switch`); }
   else chip.textContent = 'Players';
   const mine = p ? p.track : 'little';
   $$('.track-group').forEach(g => g.classList.toggle('mine', g.dataset.track === mine));
@@ -3743,7 +3840,7 @@ function renderWho() {
   Prof.data.players.forEach(p => {
     const item = document.createElement('div'); item.className = 'who-item';
     const b = document.createElement('button'); b.type = 'button'; b.className = 'who-card ' + p.track;
-    const av = document.createElement('span'); av.className = 'big-av'; av.textContent = p.avatar;
+    const av = document.createElement('span'); av.className = 'big-av'; av.innerHTML = avatarHTML(p.avatar);
     const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = p.name;
     const tr = document.createElement('span'); tr.className = 'track'; tr.textContent = p.track === 'little' ? 'Ages 4–6' : 'Ages 8–11';
     b.append(av, nm, tr);
@@ -3780,7 +3877,7 @@ function choosePlayer(id) {
 
 // ---------- Add a player ----------
 const PF = { track: null, avatar: AVATARS[0] };
-$('#pfAvs').innerHTML = AVATARS.map(a => `<button type="button" data-a="${a}" aria-label="Picture ${a}">${a}</button>`).join('');
+$('#pfAvs').innerHTML = AVATARS.map(a => `<button type="button" data-a="${a}" aria-label="${ANIMALS[a].name}" title="${ANIMALS[a].name}">${avatarSvg(a)}</button>`).join('');
 $('#pfAvs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; PF.avatar = b.dataset.a; renderAdd(); });
 $('#pfTrack').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; PF.track = b.dataset.track; renderAdd(); });
 function renderAdd() {
@@ -3790,7 +3887,7 @@ function renderAdd() {
 function openAdd() {
   RUN++;
   PF.track = null;
-  const used = Prof.data.players.map(p => p.avatar);
+  const used = Prof.data.players.map(p => animalKey(p.avatar));
   PF.avatar = AVATARS.find(a => !used.includes(a)) || AVATARS[0];
   $('#pfName').value = ''; $('#pfErr').hidden = true;
   const first = !Prof.data.players.length;
@@ -4024,7 +4121,7 @@ function renderParent() {
   const ps = Prof.data.players, p = ps.find(x => x.id === parentSel), body = $('#ptBody');
   if (!p) { body.innerHTML = '<div class="pt-card"><p class="pt-empty">There are no players yet.</p><div class="pt-actions"><button class="pt-btn" type="button" data-act="add">＋ Add a player</button></div></div>'; return; }
   const st = playerStats(p), name = esc(p.name);
-  const kids = ps.map(x => `<button type="button" class="pt-kid ${x.id === p.id ? 'sel' : ''}" data-act="kid" data-id="${x.id}"><span class="av">${x.avatar}</span>${esc(x.name)}</button>`).join('');
+  const kids = ps.map(x => `<button type="button" class="pt-kid ${x.id === p.id ? 'sel' : ''}" data-act="kid" data-id="${x.id}"><span class="av">${avatarHTML(x.avatar)}</span>${esc(x.name)}</button>`).join('');
 
   let summary;
   if (!st.all) summary = `${name} has not played any games yet. Progress will appear here after the first game.`;
