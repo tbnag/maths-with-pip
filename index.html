@@ -415,6 +415,20 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
 .tq-row i { width: 20px; height: 20px; border-radius: 5px; background: var(--tile); flex: 0 0 auto; }
 .tq-row .lab { margin-left: 10px; font-family: var(--display); font-weight: 700; font-size: 20px; color: #B06E00; min-width: 2.5em; }
 
+/* Percent Bars and Percent Of Quiz */
+#pof { background: linear-gradient(180deg, var(--lav) 0%, var(--lav-2) 70%); }
+.po-bars { display: none; width: min(760px, 100%); background: var(--white); border-radius: 20px; padding: 14px 16px; box-shadow: 0 4px 0 rgba(27,42,51,.08); flex-direction: column; gap: 10px; }
+#pof.show-bars .po-bars { display: flex; }
+.po-row { display: grid; grid-template-columns: 76px minmax(0, 1fr) auto; align-items: center; gap: 10px; }
+.po-lab { font-weight: 700; font-size: 15px; color: var(--ink-2); }
+.po-end { font-family: var(--display); font-weight: 700; font-size: 20px; color: var(--violet-dark); min-width: 2.6em; }
+.po-bar { display: flex; height: 44px; border-radius: 10px; overflow: hidden; border: 2px solid var(--violet-dark); }
+.po-bar i { flex: 1; min-width: 0; border-right: 2px solid var(--violet-dark); background: #F5F2FF; display: grid; place-items: center; font-style: normal; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--violet-dark); white-space: nowrap; overflow: hidden; transition: background .2s; }
+.po-bar i:last-child { border-right: 0; }
+.po-bar.amt i { background: #FFF6E5; color: #8A5300; font-size: 17px; }
+.po-bar i.on { background: #FF7AA2; color: var(--white); }
+.po-bar i.half.on { background: linear-gradient(90deg, #FF7AA2 50%, #FFD1DE 50%); }
+
 @media (max-width: 760px) {
   .pip { width: 70px; height: 70px; }
   .say { font-size: 19px; }
@@ -559,6 +573,20 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
       <span class="age">Test-style practice</span>
       <h2>Percent Quiz</h2>
       <p>Turn fractions into percents, like in a real test. Help is one tap away.</p>
+      <span class="play">Play ▶</span>
+    </button>
+    <button class="card explore" id="goPbar" type="button">
+      <div class="art" aria-hidden="true"><svg viewBox="0 0 160 90" width="200" height="112"><g stroke="#5039B5" stroke-width="1.5"><rect x="14" y="16" width="33" height="20" fill="#FF7AA2"/><rect x="47" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="80" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="113" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="14" y="44" width="33" height="20" fill="#FF7AA2"/><rect x="47" y="44" width="33" height="20" fill="#F5F2FF"/><rect x="80" y="44" width="33" height="20" fill="#F5F2FF"/><rect x="113" y="44" width="33" height="20" fill="#F5F2FF"/></g><g font-family="Fredoka, sans-serif" font-weight="700" font-size="11" text-anchor="middle" fill="#1B2A33"><text x="30" y="30">25%</text><text x="30" y="58">15</text><text x="80" y="82" font-size="13" fill="#5039B5">25% of 60 = 15</text></g></svg></div>
+      <span class="age">Percent of an amount</span>
+      <h2>Percent Bars</h2>
+      <p>Use two bars to find 25% of 60, step by step.</p>
+      <span class="play">Play ▶</span>
+    </button>
+    <button class="card explore" id="goPofq" type="button">
+      <div class="art" aria-hidden="true"><div class="art-text">25% of 60 = ?</div></div>
+      <span class="age">Percent of an amount, test style</span>
+      <h2>Percent Of Quiz</h2>
+      <p>Find percents of numbers, like in a real test.</p>
       <span class="play">Play ▶</span>
     </button>
   </div>
@@ -744,6 +772,33 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
   <div class="controls">
     <button class="big ghost lockable" id="tqHelpBtn" type="button">💡 Show me how</button>
     <button class="big violet lockable" id="tqCheck" type="button">✓ Check</button>
+  </div>
+</section>
+
+<!-- PERCENT BARS and PERCENT OF QUIZ -->
+<section id="pof" class="screen" hidden>
+  <div class="topbar">
+    <button class="pill go-home" type="button">🏠 Home</button>
+    <div class="progress" id="poProg" aria-label="Progress"></div>
+    <span class="stars" id="poStars">★ 0</span>
+    <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
+    <span class="spacer"></span>
+    <button class="pill sound-toggle" type="button"></button>
+  </div>
+  <div class="guide"><span class="pip-slot"></span><div class="bubble"><p class="say" aria-live="polite"></p><button class="replay" type="button" aria-label="Hear it again">🔊</button></div></div>
+  <div class="tb-main">
+    <div class="qcard" id="poQ">&nbsp;</div>
+    <div class="po-bars" id="poBars"></div>
+    <div class="tb-work">
+      <div class="numpad-wrap">
+        <div class="entry empty" id="poEntry">?</div>
+        <div class="numpad lockable" id="poPad"></div>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <button class="big ghost lockable" id="poHelp" type="button">💡 Show me how</button>
+    <button class="big violet lockable" id="poCheck" type="button">✓ Check</button>
   </div>
 </section>
 
@@ -2990,11 +3045,237 @@ $('#tqHelpBtn').addEventListener('click', tqHelp);
 $('#goTquiz').addEventListener('click', startTquiz);
 
 // =====================================================
+// PERCENT BARS (learn) and PERCENT OF QUIZ (ages 8–11): finding a percentage of an amount
+// =====================================================
+const poScreen = $('#pof'), poGuide = makeGuide(poScreen, 1.0);
+const poPad = makePad($('#poPad'), $('#poEntry'));
+const PO = { q: 0, total: 6, quiz: false, p: 50, A: 60, d: 2, a: 1, part: 30, t: 30, steps: [], step: 0, sm: 0, mistakes: 0, stars: 0, rev: 0, shade: 0, half: false, easier: false, prev: '' };
+const PO_LEARN = [[50], [25], [10], [75], [20, 30, 40, 60, 70, 80, 90], [25, 75, 10, 20, 30, 40, 50]];
+const PO_QUIZ = [50, 25, 75, 10, 20, 30, 40, 60, 70, 80, 90, 5];
+// How many equal parts make 100% for each percent, and how many of those parts the percent is.
+function poSplit(p) {
+  if (p === 5) return { d: 10, a: 1, half: true };
+  for (const d of [2, 4, 5, 10]) { const a = p * d / 100; if (Number.isInteger(a)) return { d, a, half: false }; }
+}
+function poAmount(d, half) {
+  if (half) return 20 * rand(2, 10);
+  return d === 2 ? 2 * rand(4, 40) : d === 4 ? 4 * rand(3, 25) : d === 5 ? 5 * rand(3, 20) : 10 * rand(2, 20);
+}
+const poKey = () => `${PO.p}% of ${PO.A}`;
+
+function poBars() {
+  const { d, A, part, rev, shade, half } = PO;
+  const u = 100 / d;
+  const top = Array.from({ length: d }, (_, i) => `<i class="${i < shade ? 'on' : ''}${half && i === 0 ? ' half' : ''}">${u}%</i>`).join('');
+  const bot = Array.from({ length: d }, (_, i) => `<i class="${i < shade ? 'on' : ''}${half && i === 0 ? ' half' : ''}">${i < rev ? part : '?'}</i>`).join('');
+  $('#poBars').innerHTML =
+    `<div class="po-row"><span class="po-lab">Percent</span><div class="po-bar pct">${top}</div><span class="po-end">100%</span></div>` +
+    `<div class="po-row"><span class="po-lab">Amount</span><div class="po-bar amt">${bot}</div><span class="po-end">${A}</span></div>`;
+}
+function poShowBars(on) { poScreen.classList.toggle('show-bars', on); if (on) poBars(); }
+const poQ = ans => `${PO.p}% of ${PO.A} = ${ans}`;
+
+function poTip() {
+  const { p, A, t } = PO, ten = A / 10;
+  switch (p) {
+    case 50: return `Pip’s tip: 50 percent is half. Half of ${A} is ${t}.`;
+    case 25: return `Pip’s tip: 25 percent is half of a half. Half of ${A} is ${A / 2}, and half of that is ${t}.`;
+    case 75: return `Pip’s tip: 75 percent is 50 percent plus 25 percent. ${A / 2} plus ${A / 4} is ${t}.`;
+    case 10: return `Pip’s tip: 10 percent means divide by 10. ${A} divided by 10 is ${t}.`;
+    case 5: return `Pip’s tip: find 10 percent first, which is ${ten}. 5 percent is half of that, so ${t}.`;
+    default: return `Pip’s tip: find 10 percent first, which is ${ten}. ${p} percent is ${p / 10} times that, so ${t}.`;
+  }
+}
+
+function poSetup(p, A) {
+  const { d, a, half } = poSplit(p);
+  const part = A / d, t = p * A / 100;
+  // Steps: size of one part, then (if needed) the parts we want. 5% uses 10% then halves it.
+  const steps = half ? [{ target: part, kind: 'part' }, { target: t, kind: 'half' }]
+    : a > 1 ? [{ target: part, kind: 'part' }, { target: t, kind: 'many' }]
+    : [{ target: part, kind: 'part' }];
+  Object.assign(PO, { p, A, d, a, half, part, t, steps, rev: 0, shade: 0 });
+}
+
+async function startPbar() { return startPof(false); }
+async function startPofq() { return startPof(true); }
+async function startPof(quiz) {
+  const r = ++RUN;
+  Prof.begin(quiz ? 'pofq' : 'pbar');
+  Sfx.ensure(); Voice.unlock();
+  show('pof');
+  const introDone = introSkip(poScreen, nr => poNext(nr));
+  Object.assign(PO, { q: 0, total: quiz ? 10 : 6, quiz, stars: 0, easier: false, prev: '', mistakes: 0 });
+  $('#poStars').textContent = '★ 0'; poPad.set('');
+  renderProgress($('#poProg'), PO.total, 0);
+  busy(poScreen, true);
+  if (quiz) {
+    poShowBars(false); $('#poQ').textContent = 'Percent Of Quiz';
+    await poGuide.say('Percent quiz! Find a percent of a number, like in a real test.'); if (!alive(r)) return;
+    await poGuide.say('If you get stuck, press Show me how, and we will use the bars, step by step.'); if (!alive(r)) return;
+  } else {
+    poSetup(25, 60); poShowBars(true); $('#poQ').textContent = poQ('?');
+    await poGuide.say('Percent means out of 100. So 100 percent is the whole amount.'); if (!alive(r)) return;
+    await poGuide.say('Look at the two bars. The top bar is the percent. The bottom bar is the amount, 60.'); if (!alive(r)) return;
+    await poGuide.say('To find 25 percent, split both bars into 4 equal parts. Each part of 60 is 15.'); if (!alive(r)) return;
+    PO.rev = 4; PO.shade = 1; poBars(); $('#poQ').textContent = poQ(15);
+    await poGuide.say('So 25 percent of 60 is 15. Your turn!'); if (!alive(r)) return;
+  }
+  introDone();
+  poNext(r);
+}
+
+async function poNext(r) {
+  let p, A, key;
+  do {
+    if (PO.easier) p = pick([50, 10, 25]);
+    else if (PO.quiz) p = pick(PO_QUIZ);
+    else p = pick(PO_LEARN[PO.q]);
+    const s = poSplit(p);
+    A = poAmount(s.d, s.half);
+    key = p + 'of' + A;
+  } while (key === PO.prev);
+  poSetup(p, A);
+  // The learning game uses steps, except its last question; the quiz asks in one line.
+  const stepped = !PO.quiz && PO.q < PO.total - 1;
+  Object.assign(PO, { step: stepped ? 1 : 0, sm: 0, mistakes: 0, easier: false, prev: key });
+  poPad.set('');
+  poShowBars(stepped);
+  busy(poScreen, false);
+  if (stepped) return poAskStep(r);
+  $('#poQ').textContent = poQ('?');
+  if (!PO.quiz && PO.q === PO.total - 1) { await poGuide.say('Last one. Try it in your head, without the bars!'); if (!alive(r)) return; }
+  await poGuide.say(`What is ${p} percent of ${A}? Type it, then press Check.`);
+}
+
+async function poAskStep(r) {
+  const { p, A, d, a, part, steps, step } = PO, s = steps[step - 1];
+  if (s.kind === 'part') {
+    $('#poQ').textContent = `${p}% of ${A}: 1 part = ?`;
+    await poGuide.say(PO.half
+      ? `Step 1: find 10 percent first. Split ${A} into 10 equal parts. How much is one part?`
+      : a === 1
+        ? `Step 1: ${p} percent is one of ${numWord(d)} equal parts. Split ${A} into ${numWord(d)} equal parts. How much is one part?`
+        : `Step 1: ${p} percent is ${numWord(a)} parts of ${100 / d} percent. First split ${A} into ${numWord(d)} equal parts. How much is one part?`);
+  } else if (s.kind === 'many') {
+    $('#poQ').textContent = `${p}% of ${A} = ${a} × ${part} = ?`;
+    await poGuide.say(`Step 2: ${p} percent is ${numWord(a)} parts. How much is ${numWord(a)} parts of ${part}?`);
+  } else {
+    $('#poQ').textContent = `${p}% of ${A} = half of ${part} = ?`;
+    await poGuide.say(`Step 2: 10 percent is ${part}. 5 percent is half of 10 percent. What is half of ${part}?`);
+  }
+}
+
+const poTarget = () => PO.step ? PO.steps[PO.step - 1].target : PO.t;
+
+function poHint(v) {
+  const { p, A, d, a, part, t } = PO, kind = PO.step ? PO.steps[PO.step - 1].kind : 'direct';
+  if (kind === 'many') return v === part ? `${part} is one part. ${p} percent is ${numWord(a)} parts, so we need ${numWord(a)} lots of ${part}.` : `Not yet. Count in ${part}s, ${numWord(a)} times. Look at the bottom bar.`;
+  if (kind === 'half') return v === part ? `${part} is 10 percent. 5 percent is half of that.` : `Not yet. What is half of ${part}?`;
+  if (v === p) return `${p} is the percent, not the amount. 100 percent is ${A}, so ${p} percent must be smaller than ${A}.`;
+  if (v === A - p) return `That is ${A} take away ${p}. A percent of a number is a part of it. Share ${A} into equal parts.`;
+  if (kind === 'part') return PO.half ? `Not yet. 10 percent means divide by 10. What is ${A} divided by 10?` : `Not yet. Share ${A} into ${numWord(d)} equal parts: ${A} divided by ${d}.`;
+  if (v === part && t !== part) return `${part} is only one part. Count the parts you need.`;
+  return 'Not yet. Find one part first, then count the parts you need.';
+}
+
+async function poCheck() {
+  const r = RUN;
+  busy(poScreen, true);
+  if (poPad.get() === '') { await poGuide.say('Type your answer with the number buttons first.'); if (alive(r)) busy(poScreen, false); return; }
+  const v = +poPad.get();
+  if (v === poTarget()) return PO.step && PO.step < PO.steps.length ? poStepDone(r, false) : poCorrect(r);
+  PO.mistakes++; PO.sm++;
+  if (PO.sm === 1) { await poGuide.say(poHint(v)); poPad.set(''); }
+  else if (PO.sm === 2) { if (PO.step === 0) return poToSteps(r); await poWatch(r); }
+  else return PO.step && PO.step < PO.steps.length ? poStepDone(r, true) : poShow(r);
+  if (alive(r)) busy(poScreen, false);
+}
+
+async function poToSteps(r) {
+  PO.step = 1; PO.sm = 0; poPad.set('');
+  poShowBars(true);
+  await poGuide.say("Let's use the bars, step by step."); if (!alive(r)) return;
+  await poAskStep(r);
+  if (alive(r)) busy(poScreen, false);
+}
+
+async function poStepDone(r, revealed) {
+  if (!revealed) Sfx.chime();
+  PO.rev = PO.d; poBars();
+  await poGuide.say(`${revealed ? 'Look' : 'Yes'}! Each part is ${PO.part}.`); if (!alive(r)) return;
+  PO.step++; PO.sm = 0; poPad.set('');
+  await poAskStep(r);
+  if (alive(r)) busy(poScreen, false);
+}
+
+async function poWatch(r) {
+  const { d, part, a, steps, step } = PO, kind = steps[step - 1].kind;
+  if (kind === 'part') {
+    await poGuide.say(`Watch me. I split ${PO.A} into ${numWord(d)} equal parts and count in ${part}s.`); if (!alive(r)) return;
+    for (let i = 1; i <= d; i++) { PO.rev = i; poBars(); await Voice.say(String(i * part), 1.0); if (!alive(r)) return; }
+    await poGuide.say(`${d} parts make ${PO.A}. How much is one part? Type it.`);
+  } else if (kind === 'many') {
+    await poGuide.say(`Watch me count ${numWord(a)} parts of ${part}.`); if (!alive(r)) return;
+    for (let i = 1; i <= a; i++) { PO.shade = i; poBars(); await Voice.say(String(i * part), 1.0); if (!alive(r)) return; }
+    await poGuide.say('Now type it.');
+  } else {
+    PO.shade = 1; poBars();
+    await poGuide.say(`Half of ${part}: split ${part} into two equal parts. What is one of them?`);
+  }
+  poPad.set('');
+}
+
+function poShade() { PO.rev = PO.d; PO.shade = PO.half ? 1 : PO.a; poBars(); }
+
+async function poShow(r) {
+  Prof.rec(poKey(), 'helped');
+  poShowBars(true); poShade();
+  $('#poQ').textContent = poQ(PO.t);
+  await poGuide.say(`${PO.p} percent of ${PO.A} is ${PO.t}. ${poTip()} Let's try another one.`); if (!alive(r)) return;
+  PO.easier = true;
+  await wait(900);
+  poAdvance(r);
+}
+
+async function poCorrect(r) {
+  Prof.rec(poKey(), outc(PO.mistakes));
+  PO.stars += [3, 2, 1, 0][Math.min(PO.mistakes, 3)]; $('#poStars').textContent = '★ ' + PO.stars;
+  Sfx.chime(); confetti(poScreen); poGuide.cheer();
+  if (poScreen.classList.contains('show-bars')) poShade();
+  $('#poQ').textContent = poQ(PO.t);
+  await poGuide.say(`Yes! ${PO.p} percent of ${PO.A} is ${PO.t}. ${poTip()}`); if (!alive(r)) return;
+  await wait(500);
+  poAdvance(r);
+}
+
+function poAdvance(r) {
+  if (!alive(r)) return;
+  PO.q++;
+  renderProgress($('#poProg'), PO.total, PO.q);
+  if (PO.q < PO.total) return poNext(r);
+  if (PO.quiz) finishExplorer('pofq', 'Percent Of Quiz complete!', PO.stars, PO.total * 3, startPofq);
+  else finishExplorer('pbar', 'Percent Bars complete!', PO.stars, PO.total * 3, startPbar);
+}
+
+async function poHelp() {
+  const r = RUN; busy(poScreen, true);
+  if (PO.step === 0) { PO.mistakes += Math.max(1, 2 - PO.sm); return poToSteps(r); }
+  if (PO.sm < 2) { PO.mistakes += 2 - PO.sm; PO.sm = 2; await poWatch(r); if (alive(r)) busy(poScreen, false); }
+  else { PO.mistakes++; PO.sm = 3; PO.step < PO.steps.length ? await poStepDone(r, true) : await poShow(r); }
+}
+
+$('#poCheck').addEventListener('click', poCheck);
+$('#poHelp').addEventListener('click', poHelp);
+$('#goPbar').addEventListener('click', startPbar);
+$('#goPofq').addEventListener('click', startPofq);
+
+// =====================================================
 // PLAYERS: one profile per child, with saved progress
 // =====================================================
 const AVATARS = ['🦊', '🐼', '🐯', '🐰', '🦄', '🐸', '🐨', '🦉'];
 const MAX_PLAYERS = 6;
-const GAME_CARDS = { goApple: 'apple', goTake: 'take', goBig: 'big', goShare: 'share', goGroups: 'groups', goTile: 'tile', goTquiz: 'tquiz', goDivide: 'divide', goGrid: 'grid', goWall: 'wall', goQuiz: 'quiz' };
+const GAME_CARDS = { goApple: 'apple', goTake: 'take', goBig: 'big', goShare: 'share', goGroups: 'groups', goTile: 'tile', goTquiz: 'tquiz', goDivide: 'divide', goGrid: 'grid', goWall: 'wall', goQuiz: 'quiz', goPbar: 'pbar', goPofq: 'pofq' };
 const outc = m => m === 0 ? 'first' : m === 1 ? 'hint' : 'helped';
 const Prof = {
   data: store.get('mwp_players', { players: [], last: null }),
@@ -3300,8 +3581,8 @@ $('#pinCheck').addEventListener('click', () => {
 $('#pinCancel').addEventListener('click', () => PIN.onCancel());
 
 // ---------- Parent page ----------
-const GAME_NAMES = { apple: 'Apple Basket', take: 'Take Away', big: 'Big Numbers', share: 'Fair Share', groups: 'Groups Of', tile: 'Tile Builder', tquiz: 'Times Tables Quiz', divide: 'Share It', grid: 'Hundred Grid', wall: 'Fraction Wall', quiz: 'Percent Quiz' };
-const TRACK_GAMES = { little: ['apple', 'take', 'big', 'share', 'groups'], explore: ['tile', 'tquiz', 'divide', 'grid', 'wall', 'quiz'] };
+const GAME_NAMES = { apple: 'Apple Basket', take: 'Take Away', big: 'Big Numbers', share: 'Fair Share', groups: 'Groups Of', tile: 'Tile Builder', tquiz: 'Times Tables Quiz', divide: 'Share It', grid: 'Hundred Grid', wall: 'Fraction Wall', quiz: 'Percent Quiz', pbar: 'Percent Bars', pofq: 'Percent Of Quiz' };
+const TRACK_GAMES = { little: ['apple', 'take', 'big', 'share', 'groups'], explore: ['tile', 'tquiz', 'divide', 'grid', 'wall', 'quiz', 'pbar', 'pofq'] };
 const DAY = 86400000;
 const startOfDay = t => { const d = new Date(t); d.setHours(0, 0, 0, 0); return d.getTime(); };
 const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
@@ -3324,6 +3605,7 @@ function itemLabel(game, k) {
     case 'groups': return `Groups: ${k}`;
     case 'divide': return `Division: ${k}`;
     case 'tquiz': return `Times tables: ${k}`;
+    case 'pbar': case 'pofq': return `Percent of an amount: ${k}`;
     default: return k;
   }
 }

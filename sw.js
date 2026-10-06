@@ -1,4 +1,4 @@
-const CACHE = 'pip-202610051924';
+const CACHE = 'pip-202610060833';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
