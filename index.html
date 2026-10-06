@@ -16,7 +16,7 @@
 <title>Maths with Pip</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: full-screen kids' app, one screen at a time. Single bright look by choice (no dark theme): sky for Little Learners, lavender for Explorers. */
 :root {
@@ -752,6 +752,48 @@ h1, h2, .say, .qcard, .big { letter-spacing: -0.01em; }
 .book span { width: 52px; height: 52px; display: inline-block; filter: drop-shadow(0 3px 5px rgba(30,42,58,0.18)); }
 .avs { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; }
 @media (max-width: 560px) { .avs { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* =====================================================================
+   FLAT LOOK (October 2026): Work Sans, flat outlined cards, side-lit background
+   ===================================================================== */
+:root { --display: "Work Sans", system-ui, sans-serif; --body: "Work Sans", system-ui, sans-serif; }
+body { letter-spacing: 0; }
+h1, .home-head h1 { font-weight: 800; letter-spacing: -0.02em; }
+.say { font-weight: 700; }
+.card h2 { font-weight: 500; letter-spacing: 0.005em; }
+.card .age, .track-h span, .pt-eyebrow, .home-head p, .sh-pile-label { font-weight: 500; letter-spacing: 0.16em; }
+
+/* Background: darker on the left, softly lighter towards the right */
+.screen.theme-dark, #finish.explore {
+  background:
+    radial-gradient(70% 90% at 78% 40%, rgba(70, 60, 150, 0.30) 0%, rgba(70, 60, 150, 0) 70%),
+    linear-gradient(100deg, #09081A 0%, #110F28 32%, #18153A 100%) !important;
+}
+
+/* Flat cards: no fill, no shadow, a thin white border */
+.theme-dark .card, .theme-dark .card.little, .theme-dark .card.explore {
+  background: transparent; border: 1.5px solid rgba(255,255,255,0.78); box-shadow: none; border-radius: 16px;
+}
+.theme-dark .card:hover, .theme-dark .card:focus-visible { border-color: #FFFFFF; background: rgba(255,255,255,0.04); transform: none; }
+
+/* Flat panels and controls on dark screens */
+.theme-dark .qcard, .theme-dark .board, .theme-dark .hgrid, .theme-dark .wall, .theme-dark .tq-help, .theme-dark .po-bars,
+.theme-dark .dv-pile, .theme-dark .dv-family, .theme-dark .pt-card, .theme-dark .form-card, #finish.explore .finish-card {
+  background: transparent; border: 1.5px solid rgba(255,255,255,0.30); box-shadow: none; border-radius: 16px;
+}
+.theme-dark .qcard { border-color: rgba(255,255,255,0.78); }
+.theme-dark .pill, .theme-dark .icon-btn, .theme-dark .replay, .theme-dark .pt-kid, .theme-dark .pt-btn {
+  background: transparent !important; border: 1.5px solid rgba(255,255,255,0.35); box-shadow: none;
+}
+.theme-dark .numpad button, .theme-dark .choice, .theme-dark .tq-pick button, .theme-dark .vc-opt, .theme-dark .seg button {
+  background: transparent; border: 1.5px solid rgba(255,255,255,0.30); box-shadow: none;
+}
+.theme-dark .choice.sel, .theme-dark .vc-opt.sel, .theme-dark .seg button.sel { border-color: var(--d-go); background: rgba(61,220,151,0.10); }
+.theme-dark .big.go, .theme-dark .big.violet, #finish.explore .big.go, .howto.dark .big.go { box-shadow: none; }
+.theme-dark .big.ghost { background: transparent; }
+.theme-dark .entry { box-shadow: none; }
+.theme-dark .pt-week div, .theme-dark .ht-steps li { background: transparent; border: 1px solid rgba(255,255,255,0.18); }
+.howto.dark .ht-card { background: #110F28; border: 1.5px solid rgba(255,255,255,0.30); box-shadow: none; }
 </style>
 <style>
 /* Keep content clear of the iPad status bar and home indicator when opened from the home screen. */
@@ -802,7 +844,7 @@ h1, h2, .say, .qcard, .big { letter-spacing: -0.01em; }
     </button>
     <button class="card little" id="goTake" type="button">
       <div class="art" aria-hidden="true">
-        <svg viewBox="0 0 160 90" width="200" height="112"><ellipse cx="80" cy="62" rx="64" ry="20" fill="#fff" stroke="#E0D3B8" stroke-width="2"/><g transform="translate(28 34)"><path d="M20 11c-4-3-13-3-15 6-2 9 4 19 9 20 3 1 4-1 6-1s3 2 6 1c5-1 11-11 9-20-2-9-11-9-15-6z" fill="#E5383B"/><path d="M22 7c3-4 8-4 10-2-2 3-6 4-10 2z" fill="#4CAF50"/></g><g transform="translate(62 34)"><path d="M20 11c-4-3-13-3-15 6-2 9 4 19 9 20 3 1 4-1 6-1s3 2 6 1c5-1 11-11 9-20-2-9-11-9-15-6z" fill="#E5383B"/><path d="M22 7c3-4 8-4 10-2-2 3-6 4-10 2z" fill="#4CAF50"/></g><g transform="translate(96 34)" opacity=".55"><path d="M16 12c2 3 2 6 0 9-2 3-2 7 1 10 1 2 0 4-1 5h8c-1-1-2-3-1-5 3-3 3-7 1-10-2-3-2-6 0-9z" fill="#F6E7B8" stroke="#C9A85A" stroke-width="1.5"/></g><text x="80" y="22" text-anchor="middle" font-family="Lexend, sans-serif" font-weight="700" font-size="20" fill="#9A5B00">3 − 1 = 2</text></svg>
+        <svg viewBox="0 0 160 90" width="200" height="112"><ellipse cx="80" cy="62" rx="64" ry="20" fill="#fff" stroke="#E0D3B8" stroke-width="2"/><g transform="translate(28 34)"><path d="M20 11c-4-3-13-3-15 6-2 9 4 19 9 20 3 1 4-1 6-1s3 2 6 1c5-1 11-11 9-20-2-9-11-9-15-6z" fill="#E5383B"/><path d="M22 7c3-4 8-4 10-2-2 3-6 4-10 2z" fill="#4CAF50"/></g><g transform="translate(62 34)"><path d="M20 11c-4-3-13-3-15 6-2 9 4 19 9 20 3 1 4-1 6-1s3 2 6 1c5-1 11-11 9-20-2-9-11-9-15-6z" fill="#E5383B"/><path d="M22 7c3-4 8-4 10-2-2 3-6 4-10 2z" fill="#4CAF50"/></g><g transform="translate(96 34)" opacity=".55"><path d="M16 12c2 3 2 6 0 9-2 3-2 7 1 10 1 2 0 4-1 5h8c-1-1-2-3-1-5 3-3 3-7 1-10-2-3-2-6 0-9z" fill="#F6E7B8" stroke="#C9A85A" stroke-width="1.5"/></g><text x="80" y="22" text-anchor="middle" font-family="Work Sans, sans-serif" font-weight="700" font-size="20" fill="#9A5B00">3 − 1 = 2</text></svg>
       </div>
       <span class="age">Subtraction</span>
       <h2>Take Away</h2>
@@ -811,7 +853,7 @@ h1, h2, .say, .qcard, .big { letter-spacing: -0.01em; }
     </button>
     <button class="card little" id="goBig" type="button">
       <div class="art" aria-hidden="true">
-        <svg viewBox="0 0 160 90" width="200" height="112"><rect x="20" y="18" width="54" height="54" rx="4" fill="#2FA3E6" stroke="#1B6FA3" stroke-width="2"/><rect x="80" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><rect x="96" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><rect x="112" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><text x="47" y="86" text-anchor="middle" font-family="Lexend, sans-serif" font-weight="700" font-size="12" fill="#1B6FA3">100</text><text x="102" y="86" text-anchor="middle" font-family="Lexend, sans-serif" font-weight="700" font-size="12" fill="#1F7F57">10 10 10</text></svg>
+        <svg viewBox="0 0 160 90" width="200" height="112"><rect x="20" y="18" width="54" height="54" rx="4" fill="#2FA3E6" stroke="#1B6FA3" stroke-width="2"/><rect x="80" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><rect x="96" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><rect x="112" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><text x="47" y="86" text-anchor="middle" font-family="Work Sans, sans-serif" font-weight="700" font-size="12" fill="#1B6FA3">100</text><text x="102" y="86" text-anchor="middle" font-family="Work Sans, sans-serif" font-weight="700" font-size="12" fill="#1F7F57">10 10 10</text></svg>
       </div>
       <span class="age">Adding tens and hundreds</span>
       <h2>Big Numbers</h2>
@@ -839,7 +881,7 @@ h1, h2, .say, .qcard, .big { letter-spacing: -0.01em; }
   <div class="cards">
     <button class="card explore" id="goTile" type="button">
       <div class="art" aria-hidden="true">
-        <svg viewBox="0 0 160 90" width="200" height="112"><g fill="#7B61FF" stroke="#5039B5" stroke-width="2"><rect x="38" y="12" width="18" height="18" rx="4"/><rect x="60" y="12" width="18" height="18" rx="4"/><rect x="82" y="12" width="18" height="18" rx="4"/><rect x="104" y="12" width="18" height="18" rx="4"/><rect x="38" y="34" width="18" height="18" rx="4"/><rect x="60" y="34" width="18" height="18" rx="4"/><rect x="82" y="34" width="18" height="18" rx="4"/><rect x="104" y="34" width="18" height="18" rx="4"/></g><g fill="#FFB627" stroke="#D48C00" stroke-width="2"><rect x="38" y="56" width="18" height="18" rx="4"/><rect x="60" y="56" width="18" height="18" rx="4"/><rect x="82" y="56" width="18" height="18" rx="4"/><rect x="104" y="56" width="18" height="18" rx="4"/></g><text x="140" y="70" font-family="Lexend, sans-serif" font-weight="700" font-size="16" fill="#B06E00">12</text></svg>
+        <svg viewBox="0 0 160 90" width="200" height="112"><g fill="#7B61FF" stroke="#5039B5" stroke-width="2"><rect x="38" y="12" width="18" height="18" rx="4"/><rect x="60" y="12" width="18" height="18" rx="4"/><rect x="82" y="12" width="18" height="18" rx="4"/><rect x="104" y="12" width="18" height="18" rx="4"/><rect x="38" y="34" width="18" height="18" rx="4"/><rect x="60" y="34" width="18" height="18" rx="4"/><rect x="82" y="34" width="18" height="18" rx="4"/><rect x="104" y="34" width="18" height="18" rx="4"/></g><g fill="#FFB627" stroke="#D48C00" stroke-width="2"><rect x="38" y="56" width="18" height="18" rx="4"/><rect x="60" y="56" width="18" height="18" rx="4"/><rect x="82" y="56" width="18" height="18" rx="4"/><rect x="104" y="56" width="18" height="18" rx="4"/></g><text x="140" y="70" font-family="Work Sans, sans-serif" font-weight="700" font-size="16" fill="#B06E00">12</text></svg>
       </div>
       <span class="age">Times tables</span>
       <h2>Tile Builder</h2>
@@ -871,7 +913,7 @@ h1, h2, .say, .qcard, .big { letter-spacing: -0.01em; }
     </button>
     <button class="card explore" id="goWall" type="button">
       <div class="art" aria-hidden="true">
-        <svg viewBox="0 0 160 90" width="200" height="112"><g stroke="#5039B5" stroke-width="1.5"><rect x="20" y="8" width="120" height="14" rx="3" fill="#E3DDFF"/><rect x="20" y="26" width="60" height="14" rx="3" fill="#FF7AA2"/><rect x="80" y="26" width="60" height="14" rx="3" fill="#F5F2FF"/><rect x="20" y="44" width="24" height="14" rx="3" fill="#FF7AA2"/><rect x="44" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="68" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="92" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="116" y="44" width="24" height="14" rx="3" fill="#F5F2FF"/></g><line x1="20" y1="70" x2="140" y2="70" stroke="#1B2A33" stroke-width="2"/><line x1="44" y1="26" x2="44" y2="70" stroke="#6A4FD6" stroke-width="2" stroke-dasharray="3 3"/><g font-family="Lexend, sans-serif" font-weight="700" font-size="11" fill="#1B2A33" text-anchor="middle"><text x="20" y="84">0</text><text x="44" y="84" fill="#6A4FD6">20</text><text x="80" y="84">50</text><text x="140" y="84">100</text></g></svg>
+        <svg viewBox="0 0 160 90" width="200" height="112"><g stroke="#5039B5" stroke-width="1.5"><rect x="20" y="8" width="120" height="14" rx="3" fill="#E3DDFF"/><rect x="20" y="26" width="60" height="14" rx="3" fill="#FF7AA2"/><rect x="80" y="26" width="60" height="14" rx="3" fill="#F5F2FF"/><rect x="20" y="44" width="24" height="14" rx="3" fill="#FF7AA2"/><rect x="44" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="68" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="92" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="116" y="44" width="24" height="14" rx="3" fill="#F5F2FF"/></g><line x1="20" y1="70" x2="140" y2="70" stroke="#1B2A33" stroke-width="2"/><line x1="44" y1="26" x2="44" y2="70" stroke="#6A4FD6" stroke-width="2" stroke-dasharray="3 3"/><g font-family="Work Sans, sans-serif" font-weight="700" font-size="11" fill="#1B2A33" text-anchor="middle"><text x="20" y="84">0</text><text x="44" y="84" fill="#6A4FD6">20</text><text x="80" y="84">50</text><text x="140" y="84">100</text></g></svg>
       </div>
       <span class="age">Quick fraction facts</span>
       <h2>Fraction Wall</h2>
@@ -880,7 +922,7 @@ h1, h2, .say, .qcard, .big { letter-spacing: -0.01em; }
     </button>
     <button class="card explore" id="goQuiz" type="button">
       <div class="art" aria-hidden="true">
-        <svg viewBox="0 0 160 90" width="200" height="112"><g font-family="Lexend, sans-serif" font-weight="700" text-anchor="middle"><text x="52" y="38" font-size="22" fill="#5039B5">2</text><rect x="40" y="44" width="24" height="3" rx="1.5" fill="#5039B5"/><text x="52" y="70" font-size="22" fill="#5039B5">5</text><text x="84" y="58" font-size="24" fill="#4A5A66">=</text><text x="122" y="58" font-size="28" fill="#C2185B">40%</text></g></svg>
+        <svg viewBox="0 0 160 90" width="200" height="112"><g font-family="Work Sans, sans-serif" font-weight="700" text-anchor="middle"><text x="52" y="38" font-size="22" fill="#5039B5">2</text><rect x="40" y="44" width="24" height="3" rx="1.5" fill="#5039B5"/><text x="52" y="70" font-size="22" fill="#5039B5">5</text><text x="84" y="58" font-size="24" fill="#4A5A66">=</text><text x="122" y="58" font-size="28" fill="#C2185B">40%</text></g></svg>
       </div>
       <span class="age">Test-style practice</span>
       <h2>Percent Quiz</h2>
@@ -888,7 +930,7 @@ h1, h2, .say, .qcard, .big { letter-spacing: -0.01em; }
       <span class="play">Play ▶</span>
     </button>
     <button class="card explore" id="goPbar" type="button">
-      <div class="art" aria-hidden="true"><svg viewBox="0 0 160 90" width="200" height="112"><g stroke="#5039B5" stroke-width="1.5"><rect x="14" y="16" width="33" height="20" fill="#FF7AA2"/><rect x="47" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="80" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="113" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="14" y="44" width="33" height="20" fill="#FF7AA2"/><rect x="47" y="44" width="33" height="20" fill="#F5F2FF"/><rect x="80" y="44" width="33" height="20" fill="#F5F2FF"/><rect x="113" y="44" width="33" height="20" fill="#F5F2FF"/></g><g font-family="Lexend, sans-serif" font-weight="700" font-size="11" text-anchor="middle" fill="#1B2A33"><text x="30" y="30">25%</text><text x="30" y="58">15</text><text x="80" y="82" font-size="13" fill="#5039B5">25% of 60 = 15</text></g></svg></div>
+      <div class="art" aria-hidden="true"><svg viewBox="0 0 160 90" width="200" height="112"><g stroke="#5039B5" stroke-width="1.5"><rect x="14" y="16" width="33" height="20" fill="#FF7AA2"/><rect x="47" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="80" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="113" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="14" y="44" width="33" height="20" fill="#FF7AA2"/><rect x="47" y="44" width="33" height="20" fill="#F5F2FF"/><rect x="80" y="44" width="33" height="20" fill="#F5F2FF"/><rect x="113" y="44" width="33" height="20" fill="#F5F2FF"/></g><g font-family="Work Sans, sans-serif" font-weight="700" font-size="11" text-anchor="middle" fill="#1B2A33"><text x="30" y="30">25%</text><text x="30" y="58">15</text><text x="80" y="82" font-size="13" fill="#5039B5">25% of 60 = 15</text></g></svg></div>
       <span class="age">Percent of an amount</span>
       <h2>Percent Bars</h2>
       <p>Use two bars to find 25% of 60, step by step.</p>
@@ -1520,15 +1562,15 @@ const SWEET_SVG = '<svg viewBox="0 0 30 20" aria-hidden="true"><path d="M8 10 L1
 // Pictures on the home screen cards
 const CARD_ART = {
   goShare: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><ellipse cx="58" cy="88" rx="48" ry="18" fill="#DCE3EC"/><ellipse cx="58" cy="84" rx="48" ry="18" fill="#FFFFFF"/><ellipse cx="142" cy="88" rx="48" ry="18" fill="#DCE3EC"/><ellipse cx="142" cy="84" rx="48" ry="18" fill="#FFFFFF"/><circle cx="46" cy="72" r="13" fill="#E8453C"/><circle cx="70" cy="72" r="13" fill="#E8453C"/><circle cx="130" cy="72" r="13" fill="#E8453C"/><circle cx="154" cy="72" r="13" fill="#E8453C"/><g transform="translate(34 4) scale(.5)">' + FRIEND_SVG.bear.replace(/<\/?svg[^>]*>/g, '') + '</g><g transform="translate(118 4) scale(.5)">' + FRIEND_SVG.rabbit.replace(/<\/?svg[^>]*>/g, '') + '</g></svg>',
-  goGroups: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><g fill="#FFFFFF" stroke="#C9D8E6" stroke-width="2"><rect x="14" y="20" width="52" height="52" rx="14"/><rect x="74" y="20" width="52" height="52" rx="14"/><rect x="134" y="20" width="52" height="52" rx="14"/></g><g fill="#E8453C"><circle cx="31" cy="46" r="9"/><circle cx="49" cy="46" r="9"/><circle cx="91" cy="46" r="9"/><circle cx="109" cy="46" r="9"/><circle cx="151" cy="46" r="9"/><circle cx="169" cy="46" r="9"/></g><g font-family="Lexend, sans-serif" font-weight="700" font-size="18" fill="#1E9E63" text-anchor="middle"><text x="40" y="100">2</text><text x="100" y="100">4</text><text x="160" y="100">6</text></g></svg>',
+  goGroups: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><g fill="#FFFFFF" stroke="#C9D8E6" stroke-width="2"><rect x="14" y="20" width="52" height="52" rx="14"/><rect x="74" y="20" width="52" height="52" rx="14"/><rect x="134" y="20" width="52" height="52" rx="14"/></g><g fill="#E8453C"><circle cx="31" cy="46" r="9"/><circle cx="49" cy="46" r="9"/><circle cx="91" cy="46" r="9"/><circle cx="109" cy="46" r="9"/><circle cx="151" cy="46" r="9"/><circle cx="169" cy="46" r="9"/></g><g font-family="Work Sans, sans-serif" font-weight="700" font-size="18" fill="#1E9E63" text-anchor="middle"><text x="40" y="100">2</text><text x="100" y="100">4</text><text x="160" y="100">6</text></g></svg>',
   goTile: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true">' + [0, 1, 2].map(r => [0, 1, 2, 3].map(c => `<rect x="${34 + c * 34}" y="${17 + r * 34}" width="28" height="28" rx="7" fill="${r === 2 ? '#C98A12' : '#3E63C4'}"/><rect x="${34 + c * 34}" y="${14 + r * 34}" width="28" height="28" rx="7" fill="${r === 2 ? '#FFC24B' : '#79B0FF'}"/>`).join('')).join('') + '</svg>',
-  goTquiz: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="22" y="31" width="156" height="64" rx="16" fill="#0B0920"/><rect x="22" y="26" width="156" height="64" rx="16" fill="#2B2552"/><text x="100" y="70" text-anchor="middle" font-family="Lexend, sans-serif" font-size="32" font-weight="700" fill="#F3F1FF">7 × 8 = <tspan fill="#FFC24B">?</tspan></text></svg>',
+  goTquiz: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="22" y="26" width="156" height="64" rx="16" fill="none" stroke="rgba(255,255,255,0.78)" stroke-width="2"/><text x="100" y="70" text-anchor="middle" font-family="Work Sans, sans-serif" font-size="32" font-weight="700" fill="#F3F1FF">7 × 8 = <tspan fill="#FFC24B">?</tspan></text></svg>',
   goDivide: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><path d="M34 60 h40 l-6 50 h-28 z" fill="#5B45C9"/><path d="M34 56 h40 l-6 50 h-28 z" fill="#8C78FF"/><path d="M80 60 h40 l-6 50 h-28 z" fill="#5B45C9"/><path d="M80 56 h40 l-6 50 h-28 z" fill="#8C78FF"/><path d="M126 60 h40 l-6 50 h-28 z" fill="#5B45C9"/><path d="M126 56 h40 l-6 50 h-28 z" fill="#8C78FF"/><circle cx="54" cy="42" r="9" fill="#FF6FA0"/><circle cx="100" cy="42" r="9" fill="#FFC24B"/><circle cx="146" cy="42" r="9" fill="#3DDC97"/><circle cx="54" cy="20" r="9" fill="#FFC24B"/><circle cx="100" cy="20" r="9" fill="#3DDC97"/><circle cx="146" cy="20" r="9" fill="#FF6FA0"/></svg>',
-  goGrid: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="44" y="8" width="112" height="108" rx="12" fill="#0B0920"/><rect x="44" y="4" width="112" height="108" rx="12" fill="#2B2552"/><rect x="52" y="12" width="96" height="27" rx="4" fill="#FF6FA0"/><rect x="52" y="41" width="58" height="9" rx="3" fill="#FF6FA0"/><rect x="112" y="41" width="36" height="9" rx="3" fill="#3B3470"/><rect x="52" y="52" width="96" height="52" rx="4" fill="#3B3470"/><text x="100" y="86" text-anchor="middle" font-family="Lexend, sans-serif" font-size="22" font-weight="700" fill="#F3F1FF">36%</text></svg>',
+  goGrid: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="44" y="4" width="112" height="108" rx="12" fill="none" stroke="rgba(255,255,255,0.78)" stroke-width="2"/><rect x="52" y="12" width="96" height="27" rx="4" fill="#FF6FA0"/><rect x="52" y="41" width="58" height="9" rx="3" fill="#FF6FA0"/><rect x="112" y="41" width="36" height="9" rx="3" fill="#3B3470"/><rect x="52" y="52" width="96" height="52" rx="4" fill="#3B3470"/><text x="100" y="86" text-anchor="middle" font-family="Work Sans, sans-serif" font-size="22" font-weight="700" fill="#F3F1FF">36%</text></svg>',
   goWall: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="24" y="14" width="152" height="18" rx="5" fill="#3B3470"/><rect x="24" y="38" width="74" height="18" rx="5" fill="#3B3470"/><rect x="102" y="38" width="74" height="18" rx="5" fill="#3B3470"/><rect x="24" y="62" width="27" height="18" rx="5" fill="#FF6FA0"/><rect x="55" y="62" width="27" height="18" rx="5" fill="#3B3470"/><rect x="86" y="62" width="27" height="18" rx="5" fill="#3B3470"/><rect x="117" y="62" width="27" height="18" rx="5" fill="#3B3470"/><rect x="148" y="62" width="28" height="18" rx="5" fill="#3B3470"/><path d="M53 82 V100" stroke="#FFC24B" stroke-width="3" stroke-dasharray="4 4"/><path d="M24 104 H176" stroke="#B4ADD6" stroke-width="3" stroke-linecap="round"/><circle cx="53" cy="104" r="6" fill="#FFC24B"/></svg>',
-  goQuiz: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="22" y="31" width="156" height="64" rx="16" fill="#0B0920"/><rect x="22" y="26" width="156" height="64" rx="16" fill="#2B2552"/><text x="100" y="70" text-anchor="middle" font-family="Lexend, sans-serif" font-size="30" font-weight="700" fill="#F3F1FF">⅖ = <tspan fill="#FF6FA0">?%</tspan></text></svg>',
-  goPbar: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="20" y="24" width="40" height="30" rx="7" fill="#B23E6A"/><rect x="20" y="20" width="40" height="30" rx="7" fill="#FF6FA0"/><rect x="62" y="24" width="38" height="30" rx="7" fill="#24203F"/><rect x="62" y="20" width="38" height="30" rx="7" fill="#3B3470"/><rect x="102" y="24" width="38" height="30" rx="7" fill="#24203F"/><rect x="102" y="20" width="38" height="30" rx="7" fill="#3B3470"/><rect x="142" y="24" width="38" height="30" rx="7" fill="#24203F"/><rect x="142" y="20" width="38" height="30" rx="7" fill="#3B3470"/><rect x="20" y="68" width="40" height="30" rx="7" fill="#C98A12"/><rect x="20" y="64" width="40" height="30" rx="7" fill="#FFC24B"/><rect x="62" y="68" width="38" height="30" rx="7" fill="#24203F"/><rect x="62" y="64" width="38" height="30" rx="7" fill="#3B3470"/><rect x="102" y="68" width="38" height="30" rx="7" fill="#24203F"/><rect x="102" y="64" width="38" height="30" rx="7" fill="#3B3470"/><rect x="142" y="68" width="38" height="30" rx="7" fill="#24203F"/><rect x="142" y="64" width="38" height="30" rx="7" fill="#3B3470"/><text x="40" y="40" text-anchor="middle" font-family="Lexend, sans-serif" font-size="13" font-weight="700" fill="#15122B">25%</text><text x="40" y="84" text-anchor="middle" font-family="Lexend, sans-serif" font-size="14" font-weight="700" fill="#15122B">15</text></svg>',
-  goPofq: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="16" y="31" width="168" height="64" rx="16" fill="#0B0920"/><rect x="16" y="26" width="168" height="64" rx="16" fill="#2B2552"/><text x="100" y="69" text-anchor="middle" font-family="Lexend, sans-serif" font-size="26" font-weight="700" fill="#F3F1FF"><tspan fill="#FF6FA0">25%</tspan> of <tspan fill="#FFC24B">60</tspan></text></svg>'
+  goQuiz: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="22" y="26" width="156" height="64" rx="16" fill="none" stroke="rgba(255,255,255,0.78)" stroke-width="2"/><text x="100" y="70" text-anchor="middle" font-family="Work Sans, sans-serif" font-size="30" font-weight="700" fill="#F3F1FF">⅖ = <tspan fill="#FF6FA0">?%</tspan></text></svg>',
+  goPbar: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="20" y="24" width="40" height="30" rx="7" fill="#B23E6A"/><rect x="20" y="20" width="40" height="30" rx="7" fill="#FF6FA0"/><rect x="62" y="24" width="38" height="30" rx="7" fill="#24203F"/><rect x="62" y="20" width="38" height="30" rx="7" fill="#3B3470"/><rect x="102" y="24" width="38" height="30" rx="7" fill="#24203F"/><rect x="102" y="20" width="38" height="30" rx="7" fill="#3B3470"/><rect x="142" y="24" width="38" height="30" rx="7" fill="#24203F"/><rect x="142" y="20" width="38" height="30" rx="7" fill="#3B3470"/><rect x="20" y="68" width="40" height="30" rx="7" fill="#C98A12"/><rect x="20" y="64" width="40" height="30" rx="7" fill="#FFC24B"/><rect x="62" y="68" width="38" height="30" rx="7" fill="#24203F"/><rect x="62" y="64" width="38" height="30" rx="7" fill="#3B3470"/><rect x="102" y="68" width="38" height="30" rx="7" fill="#24203F"/><rect x="102" y="64" width="38" height="30" rx="7" fill="#3B3470"/><rect x="142" y="68" width="38" height="30" rx="7" fill="#24203F"/><rect x="142" y="64" width="38" height="30" rx="7" fill="#3B3470"/><text x="40" y="40" text-anchor="middle" font-family="Work Sans, sans-serif" font-size="13" font-weight="700" fill="#15122B">25%</text><text x="40" y="84" text-anchor="middle" font-family="Work Sans, sans-serif" font-size="14" font-weight="700" fill="#15122B">15</text></svg>',
+  goPofq: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="16" y="26" width="168" height="64" rx="16" fill="none" stroke="rgba(255,255,255,0.78)" stroke-width="2"/><text x="100" y="69" text-anchor="middle" font-family="Work Sans, sans-serif" font-size="26" font-weight="700" fill="#F3F1FF"><tspan fill="#FF6FA0">25%</tspan> of <tspan fill="#FFC24B">60</tspan></text></svg>'
 };
 Object.entries(CARD_ART).forEach(([id, art]) => { const a = $('#' + id + ' .art'); if (a) a.innerHTML = art; });
 
@@ -2760,7 +2802,7 @@ $('#goGrid').addEventListener('click', startGrid);
 $('#goQuiz').addEventListener('click', startQuiz);
 
 // Home card picture for the Hundred Grid
-if ($('#gridArt')) $('#gridArt').innerHTML = Array.from({ length: 100 }, (_, i) => `<rect x="${40 + (i % 10) * 8}" y="${6 + Math.floor(i / 10) * 8}" width="7" height="7" rx="1.5" fill="${i < 25 ? '#FF7AA2' : '#FFFFFF'}"/>`).join('') + '<text x="134" y="52" text-anchor="middle" font-family="Lexend, sans-serif" font-weight="700" font-size="16" fill="#C2185B">25%</text>';
+if ($('#gridArt')) $('#gridArt').innerHTML = Array.from({ length: 100 }, (_, i) => `<rect x="${40 + (i % 10) * 8}" y="${6 + Math.floor(i / 10) * 8}" width="7" height="7" rx="1.5" fill="${i < 25 ? '#FF7AA2' : '#FFFFFF'}"/>`).join('') + '<text x="134" y="52" text-anchor="middle" font-family="Work Sans, sans-serif" font-weight="700" font-size="16" fill="#C2185B">25%</text>';
 
 
 // =====================================================
@@ -4275,7 +4317,7 @@ const HOWTO = {
 };
 
 // Line icons for the How to play steps (instead of emoji)
-const numIcon = n => svgIcon('<circle cx="12" cy="12" r="9"/><text x="12" y="16.3" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor" stroke="none" font-family="Lexend, sans-serif">' + n + '</text>', 26, 2);
+const numIcon = n => svgIcon('<circle cx="12" cy="12" r="9"/><text x="12" y="16.3" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor" stroke="none" font-family="Work Sans, sans-serif">' + n + '</text>', 26, 2);
 const HT_ICON = {
   '👂': svgIcon('<path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>', 26, 2),
   '🔢': svgIcon('<path d="M9 4L7 20"/><path d="M17 4l-2 16"/><path d="M4 9h16"/><path d="M3 15h16"/>', 26, 2),
