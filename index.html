@@ -429,6 +429,18 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
 .po-bar i.on { background: #FF7AA2; color: var(--white); }
 .po-bar i.half.on { background: linear-gradient(90deg, #FF7AA2 50%, #FFD1DE 50%); }
 
+/* How to play card */
+.howto { position: fixed; inset: 0; z-index: 50; background: rgba(27,42,51,.55); display: grid; place-items: center; padding: 16px; }
+.ht-card { background: var(--white); border-radius: 28px; padding: 22px; width: min(660px, 100%); max-height: 100%; overflow: auto; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+.ht-card h2 { font-family: var(--display); font-weight: 700; font-size: 30px; margin: 0; text-wrap: balance; }
+.ht-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.ht-steps li { display: grid; grid-template-columns: 36px 44px minmax(0, 1fr) 48px; align-items: center; gap: 10px; background: var(--sky-2); border-radius: 16px; padding: 10px 12px; border: 3px solid transparent; transition: border-color .2s, background .2s; }
+.ht-steps li.reading { border-color: var(--sun); background: #FFF6E0; }
+.ht-n { width: 36px; height: 36px; border-radius: 50%; background: var(--violet); color: var(--white); display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 18px; }
+.ht-ic { font-size: 32px; text-align: center; line-height: 1; }
+.ht-tx { font-size: 19px; line-height: 1.35; overflow-wrap: anywhere; }
+.ht-say { width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--sky); font-size: 22px; }
+
 @media (max-width: 760px) {
   .pip { width: 70px; height: 70px; }
   .say { font-size: 19px; }
@@ -677,6 +689,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
   <div class="topbar">
     <button class="pill go-home" type="button">🏠 Home</button>
     <div class="progress" id="shProg" aria-label="Progress"></div>
+    <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
     <span class="spacer"></span>
     <button class="pill sound-toggle" type="button"></button>
@@ -699,6 +712,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
   <div class="topbar">
     <button class="pill go-home" type="button">🏠 Home</button>
     <div class="progress" id="gpProg" aria-label="Progress"></div>
+    <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
     <span class="spacer"></span>
     <button class="pill sound-toggle" type="button"></button>
@@ -721,6 +735,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <button class="pill go-home" type="button">🏠 Home</button>
     <div class="progress" id="dvProg" aria-label="Progress"></div>
     <span class="stars" id="dvStars">★ 0</span>
+    <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
     <span class="spacer"></span>
     <button class="pill sound-toggle" type="button"></button>
@@ -753,6 +768,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <button class="pill go-home" type="button">🏠 Home</button>
     <div class="progress" id="tqProg" aria-label="Progress"></div>
     <span class="stars" id="tqStars">★ 0</span>
+    <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
     <span class="spacer"></span>
     <button class="pill sound-toggle" type="button"></button>
@@ -781,6 +797,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <button class="pill go-home" type="button">🏠 Home</button>
     <div class="progress" id="poProg" aria-label="Progress"></div>
     <span class="stars" id="poStars">★ 0</span>
+    <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
     <span class="spacer"></span>
     <button class="pill sound-toggle" type="button"></button>
@@ -807,6 +824,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
   <div class="topbar">
     <button class="pill go-home" type="button">🏠 Home</button>
     <div class="progress" id="apProg" aria-label="Progress"></div>
+    <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
     <span class="spacer"></span>
     <button class="pill sound-toggle" type="button"></button>
@@ -849,6 +867,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <button class="pill go-home" type="button">🏠 Home</button>
     <div class="progress" id="tbProg" aria-label="Progress"></div>
     <span class="stars" id="tbStars">★ 0</span>
+    <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
     <span class="spacer"></span>
     <button class="pill sound-toggle" type="button"></button>
@@ -878,6 +897,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
   <div class="topbar">
     <button class="pill go-home" type="button">🏠 Home</button>
     <div class="progress" id="tkProg" aria-label="Progress"></div>
+    <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
     <span class="spacer"></span>
     <button class="pill sound-toggle" type="button"></button>
@@ -899,6 +919,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
   <div class="topbar">
     <button class="pill go-home" type="button">🏠 Home</button>
     <div class="progress" id="bgProg" aria-label="Progress"></div>
+    <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
     <span class="spacer"></span>
     <button class="pill sound-toggle" type="button"></button>
@@ -930,6 +951,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <button class="pill go-home" type="button">🏠 Home</button>
     <div class="progress" id="gdProg" aria-label="Progress"></div>
     <span class="stars" id="gdStars">★ 0</span>
+    <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
     <span class="spacer"></span>
     <button class="pill sound-toggle" type="button"></button>
@@ -961,6 +983,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <button class="pill go-home" type="button">🏠 Home</button>
     <div class="progress" id="wlProg" aria-label="Progress"></div>
     <span class="stars" id="wlStars">★ 0</span>
+    <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
     <span class="spacer"></span>
     <button class="pill sound-toggle" type="button"></button>
@@ -976,6 +999,18 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <button class="big violet lockable" id="wlCheck" type="button">✓ Check</button>
   </div>
 </section>
+
+<!-- HOW TO PLAY card (shared by every game) -->
+<div class="howto" id="howto" role="dialog" aria-modal="true" aria-labelledby="htTitle" hidden>
+  <div class="ht-card">
+    <h2 id="htTitle">How to play</h2>
+    <ol class="ht-steps" id="htSteps"></ol>
+    <div class="row">
+      <button class="big ghost" id="htRead" type="button">🔊 Read to me</button>
+      <button class="big go" id="htClose" type="button">✓ Got it</button>
+    </div>
+  </div>
+</div>
 
 <!-- FINISH -->
 <section id="finish" class="screen" hidden>
@@ -1012,7 +1047,7 @@ const alive = r => r === RUN;
 // ---------- Voice (built-in text-to-speech) ----------
 const hasTTS = 'speechSynthesis' in window;
 const Voice = {
-  on: store.get('sound', true), auto: null, prefs: { uri: null, speed: 1, pitch: 1.1 },
+  on: store.get('sound', true), hold: false, auto: null, prefs: { uri: null, speed: 1, pitch: 1.1 },
   init() {
     if (!hasTTS) return;
     const choose = () => {
@@ -1032,7 +1067,7 @@ const Voice = {
   say(text, rate = 0.9) {
     return new Promise(res => {
       const est = 500 + text.length * 60 / rate;
-      if (!this.on || !hasTTS) { setTimeout(res, this.on ? est * 0.7 : Math.min(est * 0.5, 1800)); return; }
+      if (!this.on || !hasTTS || this.hold) { setTimeout(res, this.on && !this.hold ? est * 0.7 : Math.min(est * 0.5, 1800)); return; }
       speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
       const v = this.current();
@@ -3708,6 +3743,138 @@ $('#ptBody').addEventListener('click', e => {
   }
 });
 $('#ptClose').addEventListener('click', openWho);
+
+// =====================================================
+// HOW TO PLAY: written steps for every game, with a button to hear each step
+// =====================================================
+const HOWTO = {
+  apple: ['Apple Basket', [
+    ['👂', 'Listen to Pip. Pip asks for some apples.'],
+    ['🔢', 'Look at the big number and the red dots. They show how many apples.'],
+    ['👆', 'Tap an apple, or drag it into the basket.'],
+    ['↩️', 'Too many? Tap an apple in the basket to put it back on the tree.'],
+    ['✅', 'Press Done when the basket is ready.'],
+    ['🙋', 'Stuck? Press Help me, and Pip will show you.']]],
+  take: ['Take Away', [
+    ['👂', 'Pip tells you how many apples to eat.'],
+    ['👆', 'Tap that many apples to eat them.'],
+    ['👀', 'Count the apples that are left on the plate.'],
+    ['✅', 'Tap the number, then press Done.'],
+    ['🙋', 'Stuck? Press Help me.']]],
+  big: ['Big Numbers', [
+    ['🟩', 'A green stick is worth 10.'],
+    ['🟦', 'A big blue square is worth 100.'],
+    ['👆', 'Tap every block to put it in the Together box.'],
+    ['🔢', 'Count the big squares first: 100, 200. Then count on the sticks: 210, 220.'],
+    ['✅', 'Tap the number, then press Done.'],
+    ['🙋', 'Stuck? Press Help me.']]],
+  share: ['Fair Share', [
+    ['⚖️', 'Fair means every friend gets the same number of apples.'],
+    ['👆', 'Tap a friend’s plate to give that friend one apple.'],
+    ['↩️', 'Too many on one plate? Tap an apple on the plate to take it back.'],
+    ['👀', 'When all the apples are shared, count the apples on one plate.'],
+    ['✅', 'Tap the number, then press Done.'],
+    ['🙋', 'Stuck? Press Help me.']]],
+  groups: ['Groups Of', [
+    ['👀', 'Look at the groups. Every group has the same number of things.'],
+    ['👆', 'Tap each group to count in jumps, like 2, 4, 6.'],
+    ['✅', 'Tap how many there are altogether, then press Done.'],
+    ['🙋', 'Stuck? Press Help me.']]],
+  tile: ['Tile Builder', [
+    ['📖', 'Read the question, for example “3 rows of 4”. Rows go across, like lines in a book.'],
+    ['👆', 'Tap or drag on the board to build the rows of tiles.'],
+    ['✅', 'Press Check. Pip counts the rows in jumps: 4, 8, 12.'],
+    ['🔢', 'In later questions, type the answer to a sum like 3 × 4 on the number pad.'],
+    ['💡', 'Stuck? Press Show me how.']]],
+  tquiz: ['Times Tables Quiz', [
+    ['🎯', 'Choose which times tables you want to practise.'],
+    ['📖', 'Read the question, for example 7 × 8 or 56 ÷ 7.'],
+    ['🔢', 'Type your answer on the number pad, then press Check.'],
+    ['💡', 'Stuck? Show me how draws rows of squares for you to count.'],
+    ['⭐', 'Right first time gives 3 stars.']]],
+  divide: ['Share It', [
+    ['🍬', 'Share the sweets equally into the bags.'],
+    ['🤲', 'Press Share one round. Every bag gets one sweet.'],
+    ['🔁', 'Keep pressing until all the sweets are shared.'],
+    ['🔢', 'Type how many sweets are in one bag, then press Check.'],
+    ['✖️', 'In later questions, use your times tables. For 20 ÷ 4, think: 4 × what makes 20?'],
+    ['💡', 'Stuck? Press Show me how.']]],
+  grid: ['Hundred Grid', [
+    ['💯', 'The grid has 100 squares. Percent means out of 100.'],
+    ['👆', 'Tap or drag to shade squares. Tap the last shaded square again to remove it.'],
+    ['✅', 'Press Check when you have shaded the right amount.'],
+    ['1️⃣', 'Fraction questions have two steps. Step 1: how many squares are in one part?'],
+    ['2️⃣', 'Step 2: how many squares are in the parts you need? That number is the percent.'],
+    ['💡', 'Stuck? Press Show me how.']]],
+  wall: ['Fraction Wall', [
+    ['🧱', 'Every bar on the wall is one whole, which is 100%.'],
+    ['👀', 'Look at the pink pieces. Follow the dotted line down to the percent ruler.'],
+    ['👆', 'Tap the answer, then press Check.'],
+    ['💬', 'Listen to Pip’s tip. It teaches you a quick way to remember the answer.'],
+    ['💡', 'Stuck? Press Show me how.']]],
+  quiz: ['Percent Quiz', [
+    ['📖', 'Read the fraction, for example 2/5 = ?%.'],
+    ['🔢', 'Type the percent on the number pad, then press Check.'],
+    ['1️⃣', 'Stuck? Show me how splits the question into two steps. Step 1: find one part.'],
+    ['2️⃣', 'Step 2: find the parts you need. That number is the percent.']]],
+  pbar: ['Percent Bars', [
+    ['📊', 'The top bar shows the percent. The bottom bar shows the amount. 100% is the whole amount.'],
+    ['1️⃣', 'Step 1: split the amount into equal parts. Type how much one part is.'],
+    ['2️⃣', 'Step 2: count the parts you need. Type the answer.'],
+    ['✅', 'Press Check after each step.'],
+    ['💬', 'Listen to Pip’s tip for the quick way. For example, 50% means half.']]],
+  pofq: ['Percent Of Quiz', [
+    ['📖', 'Read the question, for example 25% of 60.'],
+    ['🔢', 'Type your answer on the number pad, then press Check.'],
+    ['⚡', 'Quick ways: 50% is half. 25% is half of a half. 10% means divide by 10.'],
+    ['💡', 'Stuck? Show me how shows the bars, step by step.']]]
+};
+
+let htScreen = null, htReadRun = 0;
+const htRate = () => Prof.cur && Prof.cur.track === 'little' ? 0.85 : 1.0;
+// Speaks even while the How to play card holds the game's own voice back.
+function htSay(text) { const held = Voice.hold; Voice.hold = false; const p = Voice.say(text, htRate()); Voice.hold = held; return p; }
+function openHowto() {
+  const h = HOWTO[Prof.game]; if (!h) return;
+  htScreen = $$('.screen').find(s => !s.hidden);
+  Voice.hold = true; Voice.stop();
+  // If Pip is still introducing the game, skip the introduction so the first question is ready behind the card.
+  const skip = htScreen && $('.skip-intro', htScreen);
+  if (skip && !skip.hidden) skip.click();
+  $('#htTitle').textContent = `How to play ${h[0]}`;
+  $('#htSteps').innerHTML = h[1].map(([ic, tx], i) =>
+    `<li><span class="ht-n">${i + 1}</span><span class="ht-ic" aria-hidden="true">${ic}</span><span class="ht-tx">${tx}</span><button type="button" class="ht-say" data-i="${i}" aria-label="Read step ${i + 1} aloud">🔊</button></li>`).join('');
+  $('#howto').hidden = false;
+  $('#htClose').focus();
+}
+function closeHowto() {
+  htReadRun++;
+  Voice.stop(); Voice.hold = false;
+  $('#howto').hidden = true;
+  // Repeat Pip's current instruction for the question that is waiting.
+  if (htScreen) { const rep = $('.replay', htScreen); if (rep) rep.click(); }
+}
+$('#htSteps').addEventListener('click', e => {
+  const b = e.target.closest('.ht-say'); if (!b) return;
+  htReadRun++;
+  const li = b.closest('li');
+  $$('#htSteps li').forEach(x => x.classList.toggle('reading', x === li));
+  htSay($('.ht-tx', li).textContent).then(() => li.classList.remove('reading'));
+});
+$('#htRead').addEventListener('click', async () => {
+  const run = ++htReadRun;
+  for (const li of $$('#htSteps li')) {
+    if (run !== htReadRun || $('#howto').hidden) return;
+    $$('#htSteps li').forEach(x => x.classList.toggle('reading', x === li));
+    li.scrollIntoView({ block: 'nearest' });
+    await htSay(`Step ${$('.ht-n', li).textContent}. ${$('.ht-tx', li).textContent}`);
+  }
+  if (run === htReadRun) $$('#htSteps li').forEach(x => x.classList.remove('reading'));
+});
+$('#htClose').addEventListener('click', closeHowto);
+$('#howto').addEventListener('click', e => { if (e.target.id === 'howto') closeHowto(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#howto').hidden) closeHowto(); });
+$$('.howto-btn').forEach(b => b.addEventListener('click', openHowto));
 
 function startApp() {
   if (!Prof.data.players.length) openAdd(); else openWho();
