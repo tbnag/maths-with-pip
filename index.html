@@ -16,7 +16,7 @@
 <title>Maths with Pip</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: full-screen kids' app, one screen at a time. Single bright look by choice (no dark theme): sky for Little Learners, lavender for Explorers. */
 :root {
@@ -452,6 +452,226 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
+
+/* =====================================================================
+   NEW DESIGN (October 2026)
+   Ages 8–11 screens use .theme-dark (deep plum); ages 4–6 screens use .theme-light (soft sky).
+   Maths objects keep a solid "toy block" edge; controls are light and modern.
+   ===================================================================== */
+:root {
+  --display: "Lexend", system-ui, sans-serif;
+  --body: "Lexend", system-ui, sans-serif;
+  --d-bg: #15122B; --d-panel: #1E1A3A; --d-panel-2: #2B2552; --d-block: #3B3470; --d-block-edge: #24203F;
+  --d-text: #F3F1FF; --d-text-2: #B4ADD6; --d-line: rgba(255,255,255,0.09); --d-glass: rgba(255,255,255,0.07);
+  --d-go: #3DDC97; --d-go-ink: #0B2419; --d-pink: #FF6FA0; --d-yellow: #FFC24B; --d-blue: #79B0FF;
+  --l-bg: #EAF5FF; --l-ink: #1E2A3A; --l-text-2: #4C5B6B; --l-go: #1E9E63; --l-soft: 0 2px 10px rgba(30,42,58,0.08);
+}
+body { font-family: var(--body); letter-spacing: -0.005em; }
+h1, h2, .say, .qcard, .big { letter-spacing: -0.01em; }
+
+/* ---------- Shared controls (light by default) ---------- */
+.big { border-radius: 999px; box-shadow: none; gap: 10px; font-weight: 600; }
+.big:active { transform: scale(0.98); box-shadow: none; }
+.big.go, .big.violet { background: var(--l-go); color: #FFFFFF; box-shadow: 0 12px 28px rgba(30,158,99,0.30), inset 0 1px 0 rgba(255,255,255,0.30); }
+.big.ghost { background: #DDEBFA; color: #17457F; border: 0; }
+.big svg, .pill svg, .replay svg, .icon-btn svg { flex: 0 0 auto; }
+.pill { border: 0; background: #FFFFFF; box-shadow: var(--l-soft); font-weight: 500; font-size: 16px; min-height: 48px; }
+.icon-btn { width: 48px; height: 48px; min-height: 48px; padding: 0; justify-content: center; border-radius: 50%; }
+.skip-intro { gap: 8px; }
+.progress { gap: 6px; align-items: center; }
+.pd { width: 30px; height: 8px; border-radius: 4px; border: 0; font-size: 0; background: #C9D8E6; }
+.pd.done { background: var(--l-go); }
+.stars { color: #B7791F; }
+.replay { width: auto; height: 48px; border-radius: 999px; padding: 0 18px 0 14px; display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 500; background: #FFFFFF !important; box-shadow: var(--l-soft); color: var(--l-ink); }
+.bubble { background: transparent; box-shadow: none; padding: 0; }
+.bubble::before { display: none; }
+.say { font-weight: 600; }
+.qcard { border-radius: 24px; box-shadow: var(--l-soft); }
+.numpad button { border-radius: 18px; box-shadow: var(--l-soft); font-family: var(--display); }
+.numpad button:active { transform: scale(0.97); box-shadow: none; }
+.entry { border-radius: 22px; border-width: 2px; }
+.choice { border-radius: 24px; border: 3px solid transparent; box-shadow: var(--l-soft); }
+.choice.sel { border-color: var(--l-go); background: #E6F7EE; }
+.sum-card, .target, .pile, .finish-card, .form-card, .ht-card { box-shadow: var(--l-soft); }
+.area { box-shadow: var(--l-soft); border-radius: 28px; }
+.who-card { box-shadow: 0 1px 2px rgba(30,42,58,0.04), 0 12px 30px rgba(30,42,58,0.08); border-radius: 28px; }
+.card { box-shadow: 0 1px 2px rgba(30,42,58,0.04), 0 10px 26px rgba(30,42,58,0.07); border-radius: 24px; }
+.card .art { border-radius: 18px; }
+.card .age, .track-h span { font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+.card .play { background: rgba(30,158,99,0.12); color: #146B43; font-size: 16px; padding: 8px 18px; }
+.stat .new { background: #FFE08A; color: #5A3B00; }
+#who, #addp { background: var(--l-bg) !important; }
+
+/* ---------- Ages 4–6: light theme ---------- */
+.screen.theme-light { background: var(--l-bg) !important; color: var(--l-ink); }
+.theme-light .card { background: #FFFFFF; }
+.theme-light .card .art { background: #F4F8FC; }
+.theme-light .card .age { color: #1E6FD9; }
+.theme-light .gp-group { border-color: transparent; box-shadow: var(--l-soft); }
+.theme-light .gp-group.done { border-color: var(--l-go); }
+.theme-light .together { background: rgba(255,255,255,0.7); }
+
+/* ---------- Ages 8–11: dark theme ---------- */
+.screen.theme-dark { background: var(--d-bg) !important; color: var(--d-text); }
+.theme-dark .pill, .theme-dark .icon-btn, .theme-dark .replay { background: var(--d-glass) !important; color: var(--d-text); box-shadow: none; }
+.theme-dark .say { color: var(--d-text); }
+.theme-dark .pd { background: rgba(255,255,255,0.16); }
+.theme-dark .pd.done { background: var(--d-go); }
+.theme-dark .stars { color: var(--d-yellow); }
+.theme-dark .big.go, .theme-dark .big.violet { background: var(--d-go); color: var(--d-go-ink); box-shadow: 0 10px 28px rgba(61,220,151,0.28), inset 0 1px 0 rgba(255,255,255,0.40); }
+.theme-dark .big.ghost { background: rgba(255,194,75,0.08); border: 1px solid rgba(255,194,75,0.35); color: #FFE2A3; }
+.theme-dark .qcard { background: linear-gradient(180deg, #221D44 0%, #1B1736 100%); color: var(--d-text); border: 1px solid var(--d-line); box-shadow: 0 20px 48px rgba(0,0,0,0.25); }
+.theme-dark .numpad button { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: var(--d-text); box-shadow: none; }
+.theme-dark .entry { background: rgba(255,194,75,0.06); border: 1px solid rgba(255,194,75,0.7); box-shadow: 0 0 0 5px rgba(255,194,75,0.12); color: var(--d-yellow); }
+.theme-dark .entry.empty { color: rgba(255,194,75,0.45); }
+.theme-dark .chip { background: var(--d-glass); border: 0; color: var(--d-text-2); }
+.theme-dark .chip b { color: var(--d-text); }
+.theme-dark .form-hint { color: var(--d-text-2); }
+/* Panels that hold the maths */
+.theme-dark .board, .theme-dark .hgrid, .theme-dark .wall, .theme-dark .tq-help, .theme-dark .po-bars, .theme-dark .dv-pile, .theme-dark .dv-family {
+  background: linear-gradient(180deg, #221D44 0%, #1B1736 100%); border: 1px solid var(--d-line); box-shadow: 0 20px 48px rgba(0,0,0,0.25); color: var(--d-text);
+}
+/* Tile Builder */
+.theme-dark .cell { background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.14); }
+.theme-dark .cell.on { background: var(--d-blue); border: 0; box-shadow: 0 3px 0 #3E63C4; }
+.theme-dark .cell.on.lit { background: var(--d-yellow); box-shadow: 0 3px 0 #C98A12; }
+.theme-dark .rlabel { color: var(--d-yellow); }
+/* Hundred Grid */
+.theme-dark .hgrid i { background: rgba(255,255,255,0.07); }
+.theme-dark .hgrid i.alt { background: rgba(255,255,255,0.14); }
+.theme-dark .hgrid i.on { background: var(--d-pink); }
+.theme-dark .hgrid i.alt.on { background: #E84A7F; }
+.theme-dark .fbar { color: var(--d-pink); }
+.theme-dark .fbar .segs { border-color: rgba(255,255,255,0.28); }
+.theme-dark .fbar .segs i { background: rgba(255,255,255,0.06); border-right-color: rgba(255,255,255,0.28); color: var(--d-text); }
+.theme-dark .fbar .segs i.on { background: var(--d-pink); color: #2A0A18; }
+/* Fraction Wall */
+.theme-dark .wl-lab { color: var(--d-text); }
+.theme-dark .wl-bar { border-color: rgba(255,255,255,0.18); }
+.theme-dark .wl-bar i { background: rgba(255,255,255,0.05); border-right-color: rgba(255,255,255,0.18); color: var(--d-text-2); }
+.theme-dark .wl-row.learned .wl-bar i { background: rgba(255,255,255,0.13); color: var(--d-text); }
+.theme-dark .wl-row .wl-bar i.on { background: var(--d-pink); color: #2A0A18; }
+.theme-dark .wl-row.active .wl-bar { border-color: var(--d-yellow); box-shadow: 0 0 0 3px rgba(255,194,75,0.35); }
+.theme-dark .wl-scale { border-top-color: var(--d-text); }
+.theme-dark .wl-scale .tk { background: var(--d-text); }
+.theme-dark .wl-scale .tl { color: var(--d-text-2); }
+.theme-dark .wl-guide { border-left-color: var(--d-yellow); }
+.theme-dark .wl-guide span { background: var(--d-yellow); color: var(--d-bg); }
+/* Times Tables Quiz */
+.theme-dark .tq-pick button { background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%); border: 1px solid var(--d-line); color: var(--d-text); box-shadow: none; }
+.theme-dark .tq-cap, .theme-dark .tq-row .rn { color: var(--d-text-2); }
+.theme-dark .tq-row i { background: var(--d-blue); box-shadow: 0 2px 0 #3E63C4; }
+.theme-dark .tq-row .lab { color: var(--d-yellow); }
+/* Share It */
+.theme-dark .dv-label, .theme-dark .dv-rounds { color: var(--d-text-2); }
+.theme-dark .dv-bag { background: var(--d-block); border: 0; box-shadow: 0 5px 0 var(--d-block-edge); }
+.theme-dark .dv-bag .n { color: var(--d-yellow); }
+.theme-dark .dv-family { color: var(--d-text); }
+.theme-dark .dv-family .t { color: var(--d-text-2); }
+/* Percent Bars and Percent Of Quiz */
+.theme-dark .po-lab { color: var(--d-text-2); }
+.theme-dark .po-end { color: var(--d-yellow); }
+.theme-dark .po-bar { border: 0; gap: 8px; overflow: visible; height: 56px; }
+.theme-dark .po-bar i { border: 0; border-radius: 12px; background: var(--d-block); color: var(--d-text); box-shadow: 0 4px 0 var(--d-block-edge); font-size: 17px; }
+.theme-dark .po-bar.amt i { background: var(--d-panel-2); color: var(--d-yellow); box-shadow: inset 0 0 0 2px rgba(255,194,75,0.35); }
+.theme-dark .po-bar i.on { background: var(--d-pink); color: #2A0A18; box-shadow: 0 4px 0 #B23E6A; }
+.theme-dark .po-bar i.half.on { background: linear-gradient(90deg, var(--d-pink) 50%, #6B3A55 50%); }
+/* Home cards on the dark home screen */
+.theme-dark .card, .theme-dark .card.little, .theme-dark .card.explore { background: linear-gradient(180deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.015) 100%); border: 1px solid var(--d-line); box-shadow: none; color: var(--d-text); }
+.theme-dark .card .art, .theme-dark .card.little .art, .theme-dark .card.explore .art { background: transparent; }
+.theme-dark .card .age { color: var(--d-text-2); }
+.theme-dark .card p, .theme-dark .stat { color: var(--d-text-2); }
+.theme-dark .card .play { background: rgba(61,220,151,0.12); color: #8DF2C6; }
+.theme-dark .track-h.little { color: var(--d-yellow); }
+.theme-dark .track-h.explore { color: var(--d-go); }
+.theme-dark .link { color: var(--d-text-2); }
+.theme-dark .home-foot { color: var(--d-text-2); }
+/* Finish screen */
+#finish.explore { background: var(--d-bg) !important; }
+#finish.explore .finish-card { background: linear-gradient(180deg, #221D44 0%, #1B1736 100%); color: var(--d-text); border: 1px solid var(--d-line); box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
+#finish.explore .finish-card p, #finish.explore .book-label { color: var(--d-text-2); }
+#finish.explore .big.go { background: var(--d-go); color: var(--d-go-ink); }
+#finish.explore .big.ghost { background: var(--d-glass); color: var(--d-text); }
+#finish:not(.explore) { background: var(--l-bg) !important; }
+
+/* ---------- Home screen text ---------- */
+.home-head > div { display: flex; flex-direction: column-reverse; gap: 10px; }
+.home-head p { font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #1E6FD9; margin: 0; }
+.theme-dark .home-head p { color: var(--d-go); }
+.home-head h1 { font-weight: 700; letter-spacing: -0.02em; }
+
+/* ---------- iPad and computer layout: words on the left, maths on the right ---------- */
+@media (min-width: 900px) {
+  .screen.game {
+    display: grid; grid-template-columns: 300px minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas: "top top" "guide main" "guide controls"; column-gap: 40px; row-gap: 20px; padding: 24px 40px 28px;
+  }
+  .screen.game > .topbar { grid-area: top; }
+  .screen.game > .guide { grid-area: guide; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 18px; padding-top: 8px; }
+  .screen.game > .guide .pip { width: 84px; height: 84px; }
+  .screen.game > .guide .bubble { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .screen.game > .guide .say { font-size: 28px; line-height: 1.3; }
+  .screen.game > .ap-main, .screen.game > .lt-main, .screen.game > .tb-main { grid-area: main; min-width: 0; }
+  .screen.game > .controls { grid-area: controls; justify-content: flex-end; }
+  .screen.game .area { width: max(280px, min(100%, calc((100dvh - 250px) * 1.6))); }
+  #home { display: grid; grid-template-columns: 300px minmax(0, 1fr); grid-template-rows: auto auto 1fr; grid-template-areas: "top top" "head tracks" "foot tracks"; column-gap: 40px; row-gap: 20px; padding: 24px 40px 28px; align-content: start; }
+  #home > .topbar { grid-area: top; }
+  #home > .home-head { grid-area: head; flex-direction: column; align-items: flex-start; text-align: left; padding-top: 12px; justify-content: flex-start; }
+  #home > .home-head .pip { width: 72px; height: 72px; }
+  #home > .home-head h1 { font-size: 40px; line-height: 1.15; }
+  #home > .home-tracks { grid-area: tracks; width: auto; margin: 0; }
+  #home > #showAll { grid-area: foot; align-self: start; justify-self: start; }
+  #home > .home-foot { display: none; }
+}
+
+/* ---------- Own drawings in place of emoji ---------- */
+.sh-face svg { width: 76px; height: 70px; display: block; }
+.gp-items i { display: inline-grid; place-items: center; }
+.gp-items svg { width: 30px; height: 30px; display: block; }
+.sw svg { width: 22px; height: 26px; display: block; }
+.sw { display: inline-block; line-height: 0; }
+/* ---------- Polish after the first screenshots ---------- */
+@media (min-width: 900px) {
+  .screen.game > .guide .say { flex: 0 0 auto; }
+  .screen.game > .guide .bubble { flex: 0 0 auto; }
+}
+@media (max-width: 899px) {
+  .theme-light .sh-plate { width: 150px; min-height: 104px; }
+  .theme-light .sh-plate .ap { width: 32px; height: 32px; }
+  .screen.game > .guide .say { font-size: 19px; }
+}
+#home .card p, #home .card .play { display: none; }
+#home .card { gap: 8px; }
+.home-tracks:not(.all) .track-h { display: none; }
+.stat { font-size: 15px; font-weight: 600; }
+.theme-light .sh-plate { width: 200px; min-height: 130px; box-shadow: 0 1px 2px rgba(30,42,58,0.05), 0 10px 24px rgba(30,42,58,0.10); }
+.theme-light .sh-plate .ap { width: 40px; height: 40px; }
+.theme-light .sh-pile { background: #FFFFFF; border: 2px dashed #C9D8E6; box-shadow: var(--l-soft); }
+.theme-light .sh-pile .ap { width: 46px; height: 46px; }
+.sh-pile-label { font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--l-text-2); }
+.theme-dark .po-bar i { font-size: 20px; }
+.theme-dark .choice { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.10); color: var(--d-text); box-shadow: none; }
+.theme-dark .choice.sel { border-color: var(--d-go); background: rgba(61,220,151,0.12); }
+@media (min-width: 900px) {
+  .screen.game { grid-template-rows: auto 1fr auto; }
+  .screen.game .tb-work { flex-wrap: nowrap; gap: 24px; align-items: flex-start; }
+  .screen.game .dv-board { width: min(440px, 100%); }
+  .screen.game .numpad-wrap { width: 270px; flex: 0 0 auto; }
+}
+.sw svg { width: 28px; height: 19px; }
+@media (min-width: 900px) {
+  .screen.game .ap-main { flex-wrap: nowrap; align-items: flex-start; }
+  .screen.game .area { width: max(280px, min(calc(100% - 196px), calc((100dvh - 300px) * 1.6))); }
+}
+.gp-items svg { width: 40px; height: 40px; }
+@media (max-width: 899px) {
+  .screen.game { overflow-x: hidden; }
+  .screen.game .bubble { flex-wrap: wrap; }
+  .screen.game .say { flex: 1 1 200px; }
+  .screen.theme-light .sh-plate { width: 150px; min-height: 104px; }
+  .screen.theme-light .sh-plate .ap { width: 32px; height: 32px; }
+  .screen.game .qcard { max-width: 100%; overflow-wrap: anywhere; font-size: 28px; }
+}
 </style>
 <style>
 /* Keep content clear of the iPad status bar and home indicator when opened from the home screen. */
@@ -502,7 +722,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     </button>
     <button class="card little" id="goTake" type="button">
       <div class="art" aria-hidden="true">
-        <svg viewBox="0 0 160 90" width="200" height="112"><ellipse cx="80" cy="62" rx="64" ry="20" fill="#fff" stroke="#E0D3B8" stroke-width="2"/><g transform="translate(28 34)"><path d="M20 11c-4-3-13-3-15 6-2 9 4 19 9 20 3 1 4-1 6-1s3 2 6 1c5-1 11-11 9-20-2-9-11-9-15-6z" fill="#E5383B"/><path d="M22 7c3-4 8-4 10-2-2 3-6 4-10 2z" fill="#4CAF50"/></g><g transform="translate(62 34)"><path d="M20 11c-4-3-13-3-15 6-2 9 4 19 9 20 3 1 4-1 6-1s3 2 6 1c5-1 11-11 9-20-2-9-11-9-15-6z" fill="#E5383B"/><path d="M22 7c3-4 8-4 10-2-2 3-6 4-10 2z" fill="#4CAF50"/></g><g transform="translate(96 34)" opacity=".55"><path d="M16 12c2 3 2 6 0 9-2 3-2 7 1 10 1 2 0 4-1 5h8c-1-1-2-3-1-5 3-3 3-7 1-10-2-3-2-6 0-9z" fill="#F6E7B8" stroke="#C9A85A" stroke-width="1.5"/></g><text x="80" y="22" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="20" fill="#9A5B00">3 − 1 = 2</text></svg>
+        <svg viewBox="0 0 160 90" width="200" height="112"><ellipse cx="80" cy="62" rx="64" ry="20" fill="#fff" stroke="#E0D3B8" stroke-width="2"/><g transform="translate(28 34)"><path d="M20 11c-4-3-13-3-15 6-2 9 4 19 9 20 3 1 4-1 6-1s3 2 6 1c5-1 11-11 9-20-2-9-11-9-15-6z" fill="#E5383B"/><path d="M22 7c3-4 8-4 10-2-2 3-6 4-10 2z" fill="#4CAF50"/></g><g transform="translate(62 34)"><path d="M20 11c-4-3-13-3-15 6-2 9 4 19 9 20 3 1 4-1 6-1s3 2 6 1c5-1 11-11 9-20-2-9-11-9-15-6z" fill="#E5383B"/><path d="M22 7c3-4 8-4 10-2-2 3-6 4-10 2z" fill="#4CAF50"/></g><g transform="translate(96 34)" opacity=".55"><path d="M16 12c2 3 2 6 0 9-2 3-2 7 1 10 1 2 0 4-1 5h8c-1-1-2-3-1-5 3-3 3-7 1-10-2-3-2-6 0-9z" fill="#F6E7B8" stroke="#C9A85A" stroke-width="1.5"/></g><text x="80" y="22" text-anchor="middle" font-family="Lexend, sans-serif" font-weight="700" font-size="20" fill="#9A5B00">3 − 1 = 2</text></svg>
       </div>
       <span class="age">Subtraction</span>
       <h2>Take Away</h2>
@@ -511,7 +731,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     </button>
     <button class="card little" id="goBig" type="button">
       <div class="art" aria-hidden="true">
-        <svg viewBox="0 0 160 90" width="200" height="112"><rect x="20" y="18" width="54" height="54" rx="4" fill="#2FA3E6" stroke="#1B6FA3" stroke-width="2"/><rect x="80" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><rect x="96" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><rect x="112" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><text x="47" y="86" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="12" fill="#1B6FA3">100</text><text x="102" y="86" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="12" fill="#1F7F57">10 10 10</text></svg>
+        <svg viewBox="0 0 160 90" width="200" height="112"><rect x="20" y="18" width="54" height="54" rx="4" fill="#2FA3E6" stroke="#1B6FA3" stroke-width="2"/><rect x="80" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><rect x="96" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><rect x="112" y="18" width="12" height="54" rx="3" fill="#3DBE8B" stroke="#1F7F57" stroke-width="2"/><text x="47" y="86" text-anchor="middle" font-family="Lexend, sans-serif" font-weight="700" font-size="12" fill="#1B6FA3">100</text><text x="102" y="86" text-anchor="middle" font-family="Lexend, sans-serif" font-weight="700" font-size="12" fill="#1F7F57">10 10 10</text></svg>
       </div>
       <span class="age">Adding tens and hundreds</span>
       <h2>Big Numbers</h2>
@@ -539,7 +759,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
   <div class="cards">
     <button class="card explore" id="goTile" type="button">
       <div class="art" aria-hidden="true">
-        <svg viewBox="0 0 160 90" width="200" height="112"><g fill="#7B61FF" stroke="#5039B5" stroke-width="2"><rect x="38" y="12" width="18" height="18" rx="4"/><rect x="60" y="12" width="18" height="18" rx="4"/><rect x="82" y="12" width="18" height="18" rx="4"/><rect x="104" y="12" width="18" height="18" rx="4"/><rect x="38" y="34" width="18" height="18" rx="4"/><rect x="60" y="34" width="18" height="18" rx="4"/><rect x="82" y="34" width="18" height="18" rx="4"/><rect x="104" y="34" width="18" height="18" rx="4"/></g><g fill="#FFB627" stroke="#D48C00" stroke-width="2"><rect x="38" y="56" width="18" height="18" rx="4"/><rect x="60" y="56" width="18" height="18" rx="4"/><rect x="82" y="56" width="18" height="18" rx="4"/><rect x="104" y="56" width="18" height="18" rx="4"/></g><text x="140" y="70" font-family="Fredoka, sans-serif" font-weight="700" font-size="16" fill="#B06E00">12</text></svg>
+        <svg viewBox="0 0 160 90" width="200" height="112"><g fill="#7B61FF" stroke="#5039B5" stroke-width="2"><rect x="38" y="12" width="18" height="18" rx="4"/><rect x="60" y="12" width="18" height="18" rx="4"/><rect x="82" y="12" width="18" height="18" rx="4"/><rect x="104" y="12" width="18" height="18" rx="4"/><rect x="38" y="34" width="18" height="18" rx="4"/><rect x="60" y="34" width="18" height="18" rx="4"/><rect x="82" y="34" width="18" height="18" rx="4"/><rect x="104" y="34" width="18" height="18" rx="4"/></g><g fill="#FFB627" stroke="#D48C00" stroke-width="2"><rect x="38" y="56" width="18" height="18" rx="4"/><rect x="60" y="56" width="18" height="18" rx="4"/><rect x="82" y="56" width="18" height="18" rx="4"/><rect x="104" y="56" width="18" height="18" rx="4"/></g><text x="140" y="70" font-family="Lexend, sans-serif" font-weight="700" font-size="16" fill="#B06E00">12</text></svg>
       </div>
       <span class="age">Times tables</span>
       <h2>Tile Builder</h2>
@@ -571,16 +791,16 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     </button>
     <button class="card explore" id="goWall" type="button">
       <div class="art" aria-hidden="true">
-        <svg viewBox="0 0 160 90" width="200" height="112"><g stroke="#5039B5" stroke-width="1.5"><rect x="20" y="8" width="120" height="14" rx="3" fill="#E3DDFF"/><rect x="20" y="26" width="60" height="14" rx="3" fill="#FF7AA2"/><rect x="80" y="26" width="60" height="14" rx="3" fill="#F5F2FF"/><rect x="20" y="44" width="24" height="14" rx="3" fill="#FF7AA2"/><rect x="44" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="68" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="92" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="116" y="44" width="24" height="14" rx="3" fill="#F5F2FF"/></g><line x1="20" y1="70" x2="140" y2="70" stroke="#1B2A33" stroke-width="2"/><line x1="44" y1="26" x2="44" y2="70" stroke="#6A4FD6" stroke-width="2" stroke-dasharray="3 3"/><g font-family="Fredoka, sans-serif" font-weight="700" font-size="11" fill="#1B2A33" text-anchor="middle"><text x="20" y="84">0</text><text x="44" y="84" fill="#6A4FD6">20</text><text x="80" y="84">50</text><text x="140" y="84">100</text></g></svg>
+        <svg viewBox="0 0 160 90" width="200" height="112"><g stroke="#5039B5" stroke-width="1.5"><rect x="20" y="8" width="120" height="14" rx="3" fill="#E3DDFF"/><rect x="20" y="26" width="60" height="14" rx="3" fill="#FF7AA2"/><rect x="80" y="26" width="60" height="14" rx="3" fill="#F5F2FF"/><rect x="20" y="44" width="24" height="14" rx="3" fill="#FF7AA2"/><rect x="44" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="68" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="92" y="44" width="24" height="14" fill="#F5F2FF"/><rect x="116" y="44" width="24" height="14" rx="3" fill="#F5F2FF"/></g><line x1="20" y1="70" x2="140" y2="70" stroke="#1B2A33" stroke-width="2"/><line x1="44" y1="26" x2="44" y2="70" stroke="#6A4FD6" stroke-width="2" stroke-dasharray="3 3"/><g font-family="Lexend, sans-serif" font-weight="700" font-size="11" fill="#1B2A33" text-anchor="middle"><text x="20" y="84">0</text><text x="44" y="84" fill="#6A4FD6">20</text><text x="80" y="84">50</text><text x="140" y="84">100</text></g></svg>
       </div>
-      <span class="age">Fast fractions</span>
+      <span class="age">Quick fraction facts</span>
       <h2>Fraction Wall</h2>
       <p>See where each fraction lands on a percent ruler, and learn the fast way.</p>
       <span class="play">Play ▶</span>
     </button>
     <button class="card explore" id="goQuiz" type="button">
       <div class="art" aria-hidden="true">
-        <svg viewBox="0 0 160 90" width="200" height="112"><g font-family="Fredoka, sans-serif" font-weight="700" text-anchor="middle"><text x="52" y="38" font-size="22" fill="#5039B5">2</text><rect x="40" y="44" width="24" height="3" rx="1.5" fill="#5039B5"/><text x="52" y="70" font-size="22" fill="#5039B5">5</text><text x="84" y="58" font-size="24" fill="#4A5A66">=</text><text x="122" y="58" font-size="28" fill="#C2185B">40%</text></g></svg>
+        <svg viewBox="0 0 160 90" width="200" height="112"><g font-family="Lexend, sans-serif" font-weight="700" text-anchor="middle"><text x="52" y="38" font-size="22" fill="#5039B5">2</text><rect x="40" y="44" width="24" height="3" rx="1.5" fill="#5039B5"/><text x="52" y="70" font-size="22" fill="#5039B5">5</text><text x="84" y="58" font-size="24" fill="#4A5A66">=</text><text x="122" y="58" font-size="28" fill="#C2185B">40%</text></g></svg>
       </div>
       <span class="age">Test-style practice</span>
       <h2>Percent Quiz</h2>
@@ -588,7 +808,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
       <span class="play">Play ▶</span>
     </button>
     <button class="card explore" id="goPbar" type="button">
-      <div class="art" aria-hidden="true"><svg viewBox="0 0 160 90" width="200" height="112"><g stroke="#5039B5" stroke-width="1.5"><rect x="14" y="16" width="33" height="20" fill="#FF7AA2"/><rect x="47" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="80" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="113" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="14" y="44" width="33" height="20" fill="#FF7AA2"/><rect x="47" y="44" width="33" height="20" fill="#F5F2FF"/><rect x="80" y="44" width="33" height="20" fill="#F5F2FF"/><rect x="113" y="44" width="33" height="20" fill="#F5F2FF"/></g><g font-family="Fredoka, sans-serif" font-weight="700" font-size="11" text-anchor="middle" fill="#1B2A33"><text x="30" y="30">25%</text><text x="30" y="58">15</text><text x="80" y="82" font-size="13" fill="#5039B5">25% of 60 = 15</text></g></svg></div>
+      <div class="art" aria-hidden="true"><svg viewBox="0 0 160 90" width="200" height="112"><g stroke="#5039B5" stroke-width="1.5"><rect x="14" y="16" width="33" height="20" fill="#FF7AA2"/><rect x="47" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="80" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="113" y="16" width="33" height="20" fill="#F5F2FF"/><rect x="14" y="44" width="33" height="20" fill="#FF7AA2"/><rect x="47" y="44" width="33" height="20" fill="#F5F2FF"/><rect x="80" y="44" width="33" height="20" fill="#F5F2FF"/><rect x="113" y="44" width="33" height="20" fill="#F5F2FF"/></g><g font-family="Lexend, sans-serif" font-weight="700" font-size="11" text-anchor="middle" fill="#1B2A33"><text x="30" y="30">25%</text><text x="30" y="58">15</text><text x="80" y="82" font-size="13" fill="#5039B5">25% of 60 = 15</text></g></svg></div>
       <span class="age">Percent of an amount</span>
       <h2>Percent Bars</h2>
       <p>Use two bars to find 25% of 60, step by step.</p>
@@ -613,7 +833,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
   <div class="topbar"><span class="spacer"></span><button class="pill sound-toggle" type="button"></button></div>
   <div class="who-head"><span class="pip-slot"></span><h1>Who is playing?</h1></div>
   <div class="who-grid" id="whoGrid"></div>
-  <div class="who-foot"><button class="link" id="whoManage" type="button">🔒 Parent page</button></div>
+  <div class="who-foot"><button class="link" id="whoManage" type="button">Parent page</button></div>
 </section>
 
 <!-- ADD A PLAYER -->
@@ -633,7 +853,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <p class="err" id="pfErr" role="alert" hidden></p>
     <div class="row">
       <button class="big ghost" id="pfCancel" type="button">Cancel</button>
-      <button class="big go" id="pfSave" type="submit">✓ Save player</button>
+      <button class="big go" id="pfSave" type="submit"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Save player</button>
     </div>
   </form>
 </section>
@@ -658,7 +878,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
         <li><b>Windows computer:</b> in the Edge browser, voices marked "Natural sounding" are available while the computer is online.</li>
       </ul>
     </details>
-    <div class="row"><button class="big go" id="vcDone" type="button">✓ Done</button></div>
+    <div class="row"><button class="big go" id="vcDone" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Done</button></div>
   </div>
 </section>
 
@@ -673,7 +893,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <div class="entry" id="pinGateEntry" hidden>?</div>
     <p class="err" id="pinMsg" role="alert" hidden></p>
     <div class="numpad" id="pinPad"></div>
-    <button class="big violet" id="pinCheck" type="button" hidden>✓ Check</button>
+    <button class="big violet" id="pinCheck" type="button" hidden>Check<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
     <button class="link" id="pinForgot" type="button">Forgot the PIN?</button>
   </div>
 </section>
@@ -687,7 +907,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
 <!-- FAIR SHARE -->
 <section id="share" class="screen" hidden>
   <div class="topbar">
-    <button class="pill go-home" type="button">🏠 Home</button>
+    <button class="pill go-home" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Home</button>
     <div class="progress" id="shProg" aria-label="Progress"></div>
     <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
@@ -702,15 +922,15 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <div class="choices lockable" id="shChoices" hidden></div>
   </div>
   <div class="controls">
-    <button class="big ghost lockable" id="shHelp" type="button">🙋 Help me</button>
-    <button class="big go lockable" id="shDone" type="button">✓ Done</button>
+    <button class="big ghost lockable" id="shHelp" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V7a2 2 0 0 1 4 0v4"/><path d="M11 10V5a2 2 0 0 1 4 0v6"/><path d="M15 10a2 2 0 0 1 4 0v4a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-3l-2.5-4a1.8 1.8 0 0 1 3-2L7 14"/></svg>Help me</button>
+    <button class="big go lockable" id="shDone" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Done</button>
   </div>
 </section>
 
 <!-- GROUPS OF -->
 <section id="groups" class="screen" hidden>
   <div class="topbar">
-    <button class="pill go-home" type="button">🏠 Home</button>
+    <button class="pill go-home" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Home</button>
     <div class="progress" id="gpProg" aria-label="Progress"></div>
     <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
@@ -724,15 +944,15 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <div class="choices lockable" id="gpChoices" hidden></div>
   </div>
   <div class="controls">
-    <button class="big ghost lockable" id="gpHelp" type="button">🙋 Help me</button>
-    <button class="big go lockable" id="gpDone" type="button">✓ Done</button>
+    <button class="big ghost lockable" id="gpHelp" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V7a2 2 0 0 1 4 0v4"/><path d="M11 10V5a2 2 0 0 1 4 0v6"/><path d="M15 10a2 2 0 0 1 4 0v4a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-3l-2.5-4a1.8 1.8 0 0 1 3-2L7 14"/></svg>Help me</button>
+    <button class="big go lockable" id="gpDone" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Done</button>
   </div>
 </section>
 
 <!-- SHARE IT -->
 <section id="divide" class="screen" data-mode="deal" hidden>
   <div class="topbar">
-    <button class="pill go-home" type="button">🏠 Home</button>
+    <button class="pill go-home" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Home</button>
     <div class="progress" id="dvProg" aria-label="Progress"></div>
     <span class="stars" id="dvStars">★ 0</span>
     <button class="pill howto-btn" type="button">📖 How to play</button>
@@ -747,7 +967,7 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
       <div class="dv-board">
         <div class="dv-pile" id="dvPile"></div>
         <div class="dv-bags" id="dvBags"></div>
-        <div class="dv-foot"><button class="big ghost lockable" id="dvDeal" type="button">🤲 Share one round</button><span class="dv-rounds" id="dvRounds"></span></div>
+        <div class="dv-foot"><button class="big ghost lockable" id="dvDeal" type="button">Share one round</button><span class="dv-rounds" id="dvRounds"></span></div>
       </div>
       <div class="numpad-wrap">
         <div class="entry empty" id="dvEntry">?</div>
@@ -757,15 +977,15 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <div class="dv-family" id="dvFamily" hidden></div>
   </div>
   <div class="controls">
-    <button class="big ghost lockable" id="dvHelp" type="button">💡 Show me how</button>
-    <button class="big violet lockable" id="dvCheck" type="button">✓ Check</button>
+    <button class="big ghost lockable" id="dvHelp" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>Show me how</button>
+    <button class="big violet lockable" id="dvCheck" type="button">Check<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
   </div>
 </section>
 
 <!-- TIMES TABLES QUIZ -->
 <section id="tquiz" class="screen" data-mode="pick" hidden>
   <div class="topbar">
-    <button class="pill go-home" type="button">🏠 Home</button>
+    <button class="pill go-home" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Home</button>
     <div class="progress" id="tqProg" aria-label="Progress"></div>
     <span class="stars" id="tqStars">★ 0</span>
     <button class="pill howto-btn" type="button">📖 How to play</button>
@@ -786,15 +1006,15 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     </div>
   </div>
   <div class="controls">
-    <button class="big ghost lockable" id="tqHelpBtn" type="button">💡 Show me how</button>
-    <button class="big violet lockable" id="tqCheck" type="button">✓ Check</button>
+    <button class="big ghost lockable" id="tqHelpBtn" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>Show me how</button>
+    <button class="big violet lockable" id="tqCheck" type="button">Check<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
   </div>
 </section>
 
 <!-- PERCENT BARS and PERCENT OF QUIZ -->
 <section id="pof" class="screen" hidden>
   <div class="topbar">
-    <button class="pill go-home" type="button">🏠 Home</button>
+    <button class="pill go-home" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Home</button>
     <div class="progress" id="poProg" aria-label="Progress"></div>
     <span class="stars" id="poStars">★ 0</span>
     <button class="pill howto-btn" type="button">📖 How to play</button>
@@ -814,15 +1034,15 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     </div>
   </div>
   <div class="controls">
-    <button class="big ghost lockable" id="poHelp" type="button">💡 Show me how</button>
-    <button class="big violet lockable" id="poCheck" type="button">✓ Check</button>
+    <button class="big ghost lockable" id="poHelp" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>Show me how</button>
+    <button class="big violet lockable" id="poCheck" type="button">Check<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
   </div>
 </section>
 
 <!-- APPLE BASKET -->
 <section id="apple" class="screen" hidden>
   <div class="topbar">
-    <button class="pill go-home" type="button">🏠 Home</button>
+    <button class="pill go-home" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Home</button>
     <div class="progress" id="apProg" aria-label="Progress"></div>
     <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
@@ -856,15 +1076,15 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     </div>
   </div>
   <div class="controls">
-    <button class="big ghost lockable" id="apHelp" type="button">🙋 Help me</button>
-    <button class="big go lockable" id="apDone" type="button">✓ Done</button>
+    <button class="big ghost lockable" id="apHelp" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V7a2 2 0 0 1 4 0v4"/><path d="M11 10V5a2 2 0 0 1 4 0v6"/><path d="M15 10a2 2 0 0 1 4 0v4a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-3l-2.5-4a1.8 1.8 0 0 1 3-2L7 14"/></svg>Help me</button>
+    <button class="big go lockable" id="apDone" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Done</button>
   </div>
 </section>
 
 <!-- TILE BUILDER -->
 <section id="tile" class="screen" data-mode="build" hidden>
   <div class="topbar">
-    <button class="pill go-home" type="button">🏠 Home</button>
+    <button class="pill go-home" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Home</button>
     <div class="progress" id="tbProg" aria-label="Progress"></div>
     <span class="stars" id="tbStars">★ 0</span>
     <button class="pill howto-btn" type="button">📖 How to play</button>
@@ -887,15 +1107,15 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     </div>
   </div>
   <div class="controls">
-    <button class="big ghost lockable" id="tbHelp" type="button">💡 Show me how</button>
-    <button class="big violet lockable" id="tbCheck" type="button">✓ Check</button>
+    <button class="big ghost lockable" id="tbHelp" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>Show me how</button>
+    <button class="big violet lockable" id="tbCheck" type="button">Check<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
   </div>
 </section>
 
 <!-- TAKE AWAY -->
 <section id="take" class="screen" hidden>
   <div class="topbar">
-    <button class="pill go-home" type="button">🏠 Home</button>
+    <button class="pill go-home" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Home</button>
     <div class="progress" id="tkProg" aria-label="Progress"></div>
     <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
@@ -909,15 +1129,15 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <div class="choices lockable" id="tkChoices" hidden></div>
   </div>
   <div class="controls">
-    <button class="big ghost lockable" id="tkHelp" type="button">🙋 Help me</button>
-    <button class="big go lockable" id="tkDone" type="button">✓ Done</button>
+    <button class="big ghost lockable" id="tkHelp" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V7a2 2 0 0 1 4 0v4"/><path d="M11 10V5a2 2 0 0 1 4 0v6"/><path d="M15 10a2 2 0 0 1 4 0v4a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-3l-2.5-4a1.8 1.8 0 0 1 3-2L7 14"/></svg>Help me</button>
+    <button class="big go lockable" id="tkDone" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Done</button>
   </div>
 </section>
 
 <!-- BIG NUMBERS -->
 <section id="big" class="screen" hidden>
   <div class="topbar">
-    <button class="pill go-home" type="button">🏠 Home</button>
+    <button class="pill go-home" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Home</button>
     <div class="progress" id="bgProg" aria-label="Progress"></div>
     <button class="pill howto-btn" type="button">📖 How to play</button>
     <button class="pill skip-intro" type="button" hidden>⏭ Skip intro</button>
@@ -940,15 +1160,15 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <div class="choices lockable" id="bgChoices" hidden></div>
   </div>
   <div class="controls">
-    <button class="big ghost lockable" id="bgHelp" type="button">🙋 Help me</button>
-    <button class="big go lockable" id="bgDone" type="button">✓ Done</button>
+    <button class="big ghost lockable" id="bgHelp" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V7a2 2 0 0 1 4 0v4"/><path d="M11 10V5a2 2 0 0 1 4 0v6"/><path d="M15 10a2 2 0 0 1 4 0v4a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-3l-2.5-4a1.8 1.8 0 0 1 3-2L7 14"/></svg>Help me</button>
+    <button class="big go lockable" id="bgDone" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Done</button>
   </div>
 </section>
 
 <!-- HUNDRED GRID -->
 <section id="grid" class="screen" data-mode="build" hidden>
   <div class="topbar">
-    <button class="pill go-home" type="button">🏠 Home</button>
+    <button class="pill go-home" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Home</button>
     <div class="progress" id="gdProg" aria-label="Progress"></div>
     <span class="stars" id="gdStars">★ 0</span>
     <button class="pill howto-btn" type="button">📖 How to play</button>
@@ -972,15 +1192,15 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     </div>
   </div>
   <div class="controls">
-    <button class="big ghost lockable" id="gdHelp" type="button">💡 Show me how</button>
-    <button class="big violet lockable" id="gdCheck" type="button">✓ Check</button>
+    <button class="big ghost lockable" id="gdHelp" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>Show me how</button>
+    <button class="big violet lockable" id="gdCheck" type="button">Check<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
   </div>
 </section>
 
 <!-- FRACTION WALL -->
 <section id="wall" class="screen" hidden>
   <div class="topbar">
-    <button class="pill go-home" type="button">🏠 Home</button>
+    <button class="pill go-home" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Home</button>
     <div class="progress" id="wlProg" aria-label="Progress"></div>
     <span class="stars" id="wlStars">★ 0</span>
     <button class="pill howto-btn" type="button">📖 How to play</button>
@@ -995,8 +1215,8 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <div class="choices lockable" id="wlChoices" hidden></div>
   </div>
   <div class="controls">
-    <button class="big ghost lockable" id="wlHelp" type="button">💡 Show me how</button>
-    <button class="big violet lockable" id="wlCheck" type="button">✓ Check</button>
+    <button class="big ghost lockable" id="wlHelp" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>Show me how</button>
+    <button class="big violet lockable" id="wlCheck" type="button">Check<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
   </div>
 </section>
 
@@ -1006,8 +1226,8 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <h2 id="htTitle">How to play</h2>
     <ol class="ht-steps" id="htSteps"></ol>
     <div class="row">
-      <button class="big ghost" id="htRead" type="button">🔊 Read to me</button>
-      <button class="big go" id="htClose" type="button">✓ Got it</button>
+      <button class="big ghost" id="htRead" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>Read to me</button>
+      <button class="big go" id="htClose" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Got it</button>
     </div>
   </div>
 </div>
@@ -1020,8 +1240,8 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
     <p id="fnSub"></p>
     <div id="fnBook"></div>
     <div class="row">
-      <button class="big go" id="fnAgain" type="button">↻ Play again</button>
-      <button class="big ghost" id="fnHome" type="button">🏠 Home</button>
+      <button class="big go" id="fnAgain" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>Play again</button>
+      <button class="big ghost" id="fnHome" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Home</button>
     </div>
   </div>
 </section>
@@ -1102,8 +1322,61 @@ const Sfx = {
 };
 
 // ---------- Shared UI ----------
+// ---------- Icons and drawings (the app's own pictures, used instead of emoji) ----------
+const svgIcon = (d, size = 22, w = 2.2) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const ICONS = {
+  home: svgIcon('<path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/>'),
+  help: svgIcon('<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 0 1 4.8 1c0 1.7-2.3 2-2.3 3.5"/><path d="M12 17.5h.01"/>'),
+  soundOn: svgIcon('<path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>'),
+  soundOff: svgIcon('<path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M16 9l5 6"/><path d="M21 9l-5 6"/>'),
+  skip: svgIcon('<path d="M5 5l10 7-10 7z"/><path d="M19 5v14"/>', 18),
+  speaker: svgIcon('<path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/>', 20)
+};
+
+// Fair Share friends
+const FRIEND_SVG = {
+  bear: '<svg viewBox="0 0 96 88" aria-hidden="true"><circle cx="22" cy="20" r="14" fill="#9A5B33"/><circle cx="74" cy="20" r="14" fill="#9A5B33"/><circle cx="22" cy="20" r="7" fill="#E7B98E"/><circle cx="74" cy="20" r="7" fill="#E7B98E"/><circle cx="48" cy="50" r="36" fill="#B8754A"/><ellipse cx="48" cy="62" rx="17" ry="13" fill="#F0CBA5"/><circle cx="36" cy="44" r="4.5" fill="#1E2A3A"/><circle cx="60" cy="44" r="4.5" fill="#1E2A3A"/><ellipse cx="48" cy="56" rx="6" ry="4.5" fill="#1E2A3A"/><path d="M42 66 Q48 71 54 66" stroke="#1E2A3A" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>',
+  rabbit: '<svg viewBox="0 0 96 88" aria-hidden="true"><ellipse cx="32" cy="18" rx="9" ry="22" fill="#E6E9F2"/><ellipse cx="64" cy="18" rx="9" ry="22" fill="#E6E9F2"/><ellipse cx="32" cy="18" rx="4" ry="15" fill="#FFB3C1"/><ellipse cx="64" cy="18" rx="4" ry="15" fill="#FFB3C1"/><circle cx="48" cy="54" r="32" fill="#F4F6FB" stroke="#D5DAE6" stroke-width="2"/><circle cx="37" cy="50" r="4.5" fill="#1E2A3A"/><circle cx="59" cy="50" r="4.5" fill="#1E2A3A"/><ellipse cx="48" cy="60" rx="4.5" ry="3.5" fill="#FF8FA6"/><path d="M42 68 Q48 73 54 68" stroke="#1E2A3A" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="30" cy="62" r="5" fill="#FFC9D3"/><circle cx="66" cy="62" r="5" fill="#FFC9D3"/></svg>',
+  frog: '<svg viewBox="0 0 96 88" aria-hidden="true"><circle cx="30" cy="26" r="14" fill="#4CB96B"/><circle cx="66" cy="26" r="14" fill="#4CB96B"/><circle cx="30" cy="26" r="8" fill="#FFFFFF"/><circle cx="66" cy="26" r="8" fill="#FFFFFF"/><circle cx="31" cy="27" r="4" fill="#1E2A3A"/><circle cx="67" cy="27" r="4" fill="#1E2A3A"/><ellipse cx="48" cy="56" rx="38" ry="28" fill="#5CCB7B"/><ellipse cx="48" cy="64" rx="24" ry="14" fill="#A5E8B7"/><path d="M34 58 Q48 70 62 58" stroke="#1E2A3A" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="24" cy="58" r="5" fill="#FFB3C1"/><circle cx="72" cy="58" r="5" fill="#FFB3C1"/></svg>'
+};
+
+// Groups Of items: cherries for 2s, flowers for 5s, counters for 10s
+const GROUP_SVG = {
+  2: '<svg viewBox="0 0 30 30" aria-hidden="true"><path d="M15 4 Q14 12 15 18" stroke="#6B3E26" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M15 4 q6 -1 9 3 q-6 2 -9 -3z" fill="#4CAF50"/><circle cx="15" cy="21" r="8" fill="#E8453C"/><circle cx="12" cy="18" r="2.5" fill="#FFFFFF" opacity=".55"/></svg>',
+  5: '<svg viewBox="0 0 30 30" aria-hidden="true"><g fill="#FFC24B"><circle cx="15" cy="7" r="5.5"/><circle cx="23" cy="13" r="5.5"/><circle cx="20" cy="22" r="5.5"/><circle cx="10" cy="22" r="5.5"/><circle cx="7" cy="13" r="5.5"/></g><circle cx="15" cy="15" r="4.5" fill="#E07A1F"/></svg>',
+  10: '<svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="16.5" r="11" fill="#2E62C9"/><circle cx="15" cy="15" r="11" fill="#4F8BEF"/><circle cx="11.5" cy="11.5" r="3" fill="#FFFFFF" opacity=".45"/></svg>'
+};
+
+// Share It sweets
+const SWEET_SVG = '<svg viewBox="0 0 30 20" aria-hidden="true"><path d="M8 10 L1 3 L2 17z M22 10 L29 3 L28 17z" fill="#FF9EC4"/><circle cx="15" cy="10" r="8" fill="#FF6FA0"/><path d="M10.5 7.5 q4.5 5.5 9 0" stroke="#FFFFFF" stroke-width="1.8" fill="none" opacity=".6"/></svg>';
+
+// Pictures on the home screen cards
+const CARD_ART = {
+  goShare: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><ellipse cx="58" cy="88" rx="48" ry="18" fill="#DCE3EC"/><ellipse cx="58" cy="84" rx="48" ry="18" fill="#FFFFFF"/><ellipse cx="142" cy="88" rx="48" ry="18" fill="#DCE3EC"/><ellipse cx="142" cy="84" rx="48" ry="18" fill="#FFFFFF"/><circle cx="46" cy="72" r="13" fill="#E8453C"/><circle cx="70" cy="72" r="13" fill="#E8453C"/><circle cx="130" cy="72" r="13" fill="#E8453C"/><circle cx="154" cy="72" r="13" fill="#E8453C"/><g transform="translate(34 4) scale(.5)">' + FRIEND_SVG.bear.replace(/<\/?svg[^>]*>/g, '') + '</g><g transform="translate(118 4) scale(.5)">' + FRIEND_SVG.rabbit.replace(/<\/?svg[^>]*>/g, '') + '</g></svg>',
+  goGroups: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><g fill="#FFFFFF" stroke="#C9D8E6" stroke-width="2"><rect x="14" y="20" width="52" height="52" rx="14"/><rect x="74" y="20" width="52" height="52" rx="14"/><rect x="134" y="20" width="52" height="52" rx="14"/></g><g fill="#E8453C"><circle cx="31" cy="46" r="9"/><circle cx="49" cy="46" r="9"/><circle cx="91" cy="46" r="9"/><circle cx="109" cy="46" r="9"/><circle cx="151" cy="46" r="9"/><circle cx="169" cy="46" r="9"/></g><g font-family="Lexend, sans-serif" font-weight="700" font-size="18" fill="#1E9E63" text-anchor="middle"><text x="40" y="100">2</text><text x="100" y="100">4</text><text x="160" y="100">6</text></g></svg>',
+  goTile: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true">' + [0, 1, 2].map(r => [0, 1, 2, 3].map(c => `<rect x="${34 + c * 34}" y="${17 + r * 34}" width="28" height="28" rx="7" fill="${r === 2 ? '#C98A12' : '#3E63C4'}"/><rect x="${34 + c * 34}" y="${14 + r * 34}" width="28" height="28" rx="7" fill="${r === 2 ? '#FFC24B' : '#79B0FF'}"/>`).join('')).join('') + '</svg>',
+  goTquiz: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="22" y="31" width="156" height="64" rx="16" fill="#0B0920"/><rect x="22" y="26" width="156" height="64" rx="16" fill="#2B2552"/><text x="100" y="70" text-anchor="middle" font-family="Lexend, sans-serif" font-size="32" font-weight="700" fill="#F3F1FF">7 × 8 = <tspan fill="#FFC24B">?</tspan></text></svg>',
+  goDivide: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><path d="M34 60 h40 l-6 50 h-28 z" fill="#5B45C9"/><path d="M34 56 h40 l-6 50 h-28 z" fill="#8C78FF"/><path d="M80 60 h40 l-6 50 h-28 z" fill="#5B45C9"/><path d="M80 56 h40 l-6 50 h-28 z" fill="#8C78FF"/><path d="M126 60 h40 l-6 50 h-28 z" fill="#5B45C9"/><path d="M126 56 h40 l-6 50 h-28 z" fill="#8C78FF"/><circle cx="54" cy="42" r="9" fill="#FF6FA0"/><circle cx="100" cy="42" r="9" fill="#FFC24B"/><circle cx="146" cy="42" r="9" fill="#3DDC97"/><circle cx="54" cy="20" r="9" fill="#FFC24B"/><circle cx="100" cy="20" r="9" fill="#3DDC97"/><circle cx="146" cy="20" r="9" fill="#FF6FA0"/></svg>',
+  goGrid: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="44" y="8" width="112" height="108" rx="12" fill="#0B0920"/><rect x="44" y="4" width="112" height="108" rx="12" fill="#2B2552"/><rect x="52" y="12" width="96" height="27" rx="4" fill="#FF6FA0"/><rect x="52" y="41" width="58" height="9" rx="3" fill="#FF6FA0"/><rect x="112" y="41" width="36" height="9" rx="3" fill="#3B3470"/><rect x="52" y="52" width="96" height="52" rx="4" fill="#3B3470"/><text x="100" y="86" text-anchor="middle" font-family="Lexend, sans-serif" font-size="22" font-weight="700" fill="#F3F1FF">36%</text></svg>',
+  goWall: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="24" y="14" width="152" height="18" rx="5" fill="#3B3470"/><rect x="24" y="38" width="74" height="18" rx="5" fill="#3B3470"/><rect x="102" y="38" width="74" height="18" rx="5" fill="#3B3470"/><rect x="24" y="62" width="27" height="18" rx="5" fill="#FF6FA0"/><rect x="55" y="62" width="27" height="18" rx="5" fill="#3B3470"/><rect x="86" y="62" width="27" height="18" rx="5" fill="#3B3470"/><rect x="117" y="62" width="27" height="18" rx="5" fill="#3B3470"/><rect x="148" y="62" width="28" height="18" rx="5" fill="#3B3470"/><path d="M53 82 V100" stroke="#FFC24B" stroke-width="3" stroke-dasharray="4 4"/><path d="M24 104 H176" stroke="#B4ADD6" stroke-width="3" stroke-linecap="round"/><circle cx="53" cy="104" r="6" fill="#FFC24B"/></svg>',
+  goQuiz: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="22" y="31" width="156" height="64" rx="16" fill="#0B0920"/><rect x="22" y="26" width="156" height="64" rx="16" fill="#2B2552"/><text x="100" y="70" text-anchor="middle" font-family="Lexend, sans-serif" font-size="30" font-weight="700" fill="#F3F1FF">⅖ = <tspan fill="#FF6FA0">?%</tspan></text></svg>',
+  goPbar: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="20" y="24" width="40" height="30" rx="7" fill="#B23E6A"/><rect x="20" y="20" width="40" height="30" rx="7" fill="#FF6FA0"/><rect x="62" y="24" width="38" height="30" rx="7" fill="#24203F"/><rect x="62" y="20" width="38" height="30" rx="7" fill="#3B3470"/><rect x="102" y="24" width="38" height="30" rx="7" fill="#24203F"/><rect x="102" y="20" width="38" height="30" rx="7" fill="#3B3470"/><rect x="142" y="24" width="38" height="30" rx="7" fill="#24203F"/><rect x="142" y="20" width="38" height="30" rx="7" fill="#3B3470"/><rect x="20" y="68" width="40" height="30" rx="7" fill="#C98A12"/><rect x="20" y="64" width="40" height="30" rx="7" fill="#FFC24B"/><rect x="62" y="68" width="38" height="30" rx="7" fill="#24203F"/><rect x="62" y="64" width="38" height="30" rx="7" fill="#3B3470"/><rect x="102" y="68" width="38" height="30" rx="7" fill="#24203F"/><rect x="102" y="64" width="38" height="30" rx="7" fill="#3B3470"/><rect x="142" y="68" width="38" height="30" rx="7" fill="#24203F"/><rect x="142" y="64" width="38" height="30" rx="7" fill="#3B3470"/><text x="40" y="40" text-anchor="middle" font-family="Lexend, sans-serif" font-size="13" font-weight="700" fill="#15122B">25%</text><text x="40" y="84" text-anchor="middle" font-family="Lexend, sans-serif" font-size="14" font-weight="700" fill="#15122B">15</text></svg>',
+  goPofq: '<svg viewBox="0 0 200 120" width="200" height="112" aria-hidden="true"><rect x="16" y="31" width="168" height="64" rx="16" fill="#0B0920"/><rect x="16" y="26" width="168" height="64" rx="16" fill="#2B2552"/><text x="100" y="69" text-anchor="middle" font-family="Lexend, sans-serif" font-size="26" font-weight="700" fill="#F3F1FF"><tspan fill="#FF6FA0">25%</tspan> of <tspan fill="#FFC24B">60</tspan></text></svg>'
+};
+Object.entries(CARD_ART).forEach(([id, art]) => { const a = $('#' + id + ' .art'); if (a) a.innerHTML = art; });
+
+// Theme for each game screen, and icon buttons in every top bar
+['apple', 'take', 'big', 'share', 'groups'].forEach(id => $('#' + id).classList.add('game', 'theme-light'));
+['tile', 'tquiz', 'divide', 'grid', 'wall', 'pof'].forEach(id => $('#' + id).classList.add('game', 'theme-dark'));
+$$('.go-home').forEach(b => { b.innerHTML = ICONS.home; b.classList.add('icon-btn'); b.setAttribute('aria-label', 'Home'); b.title = 'Home'; });
+$$('.howto-btn').forEach(b => { b.innerHTML = ICONS.help; b.classList.add('icon-btn'); b.setAttribute('aria-label', 'How to play'); b.title = 'How to play'; });
+$$('.skip-intro').forEach(b => { b.innerHTML = ICONS.skip + '<span>Skip intro</span>'; });
+$$('.replay').forEach(b => { b.innerHTML = ICONS.speaker + '<span>Hear it again</span>'; });
+$('#apHear').innerHTML = ICONS.speaker;
+$('#voiceBtn').innerHTML = svgIcon('<path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/>', 20) + '<span>Voice</span>';
+
 $$('.pip-slot').forEach(s => s.replaceWith($('#pipTpl').content.firstElementChild.cloneNode(true)));
-function refreshSound() { $$('.sound-toggle').forEach(b => { b.textContent = Voice.on ? '🔊 Sound on' : '🔇 Sound off'; b.setAttribute('aria-pressed', String(Voice.on)); }); }
+function refreshSound() { $$('.sound-toggle').forEach(b => { b.innerHTML = Voice.on ? ICONS.soundOn : ICONS.soundOff; b.classList.add('icon-btn'); b.setAttribute('aria-label', Voice.on ? 'Sound on' : 'Sound off'); b.title = Voice.on ? 'Sound on' : 'Sound off'; b.setAttribute('aria-pressed', String(Voice.on)); }); }
 $$('.sound-toggle').forEach(b => b.addEventListener('click', () => { Voice.on = !Voice.on; store.set('sound', Voice.on); if (!Voice.on) Voice.stop(); else { Sfx.ensure(); Voice.unlock(); } refreshSound(); }));
 refreshSound();
 
@@ -2319,7 +2592,7 @@ $('#goGrid').addEventListener('click', startGrid);
 $('#goQuiz').addEventListener('click', startQuiz);
 
 // Home card picture for the Hundred Grid
-$('#gridArt').innerHTML = Array.from({ length: 100 }, (_, i) => `<rect x="${40 + (i % 10) * 8}" y="${6 + Math.floor(i / 10) * 8}" width="7" height="7" rx="1.5" fill="${i < 25 ? '#FF7AA2' : '#FFFFFF'}"/>`).join('') + '<text x="134" y="52" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="16" fill="#C2185B">25%</text>';
+if ($('#gridArt')) $('#gridArt').innerHTML = Array.from({ length: 100 }, (_, i) => `<rect x="${40 + (i % 10) * 8}" y="${6 + Math.floor(i / 10) * 8}" width="7" height="7" rx="1.5" fill="${i < 25 ? '#FF7AA2' : '#FFFFFF'}"/>`).join('') + '<text x="134" y="52" text-anchor="middle" font-family="Lexend, sans-serif" font-weight="700" font-size="16" fill="#C2185B">25%</text>';
 
 
 // =====================================================
@@ -2486,7 +2759,7 @@ $('#goWall').addEventListener('click', startWall);
 // FAIR SHARE (ages 4–6): sharing equally, the first idea of division
 // =====================================================
 const shScreen = $('#share'), shGuide = makeGuide(shScreen, 0.85), shChoices = $('#shChoices');
-const FRIENDS = [['🐻', 'bear'], ['🐰', 'rabbit'], ['🐸', 'frog']];
+const FRIENDS = [[FRIEND_SVG.bear, 'bear'], [FRIEND_SVG.rabbit, 'rabbit'], [FRIEND_SVG.frog, 'frog']];
 const SH = { q: 0, total: 5, k: 2, m: 1, n: 2, plates: [], pile: 0, phase: 'share', sel: null, mistakes: 0, pm: 0, easier: false, prev: '' };
 // [possible numbers of friends, range for apples each]
 const SH_Q = [[[2], [1, 3]], [[2], [2, 4]], [[3], [1, 2]], [[3], [2, 3]], [[2, 3], [3, 4]]];
@@ -2651,7 +2924,7 @@ $('#goShare').addEventListener('click', startShare);
 const gpScreen = $('#groups'), gpGuide = makeGuide(gpScreen, 0.85), gpChoices = $('#gpChoices');
 const GP = { q: 0, total: 5, k: 2, m: 2, counted: 0, phase: 'count', sel: null, mistakes: 0, pm: 0, easier: false, prev: '' };
 const GP_Q = [[2, [2, 4]], [2, [3, 5]], [10, [2, 4]], [5, [2, 3]], [5, [3, 5]]];
-const GP_ITEM = { 2: ['🍒', 'cherries'], 5: ['🌼', 'flowers'], 10: ['🔵', 'dots'] };
+const GP_ITEM = { 2: [GROUP_SVG[2], 'cherries'], 5: [GROUP_SVG[5], 'flowers'], 10: [GROUP_SVG[10], 'counters'] };
 
 function gpRender() {
   const [e] = GP_ITEM[GP.m], cols = Math.min(GP.m, 5);
@@ -2807,7 +3080,7 @@ $('#goGroups').addEventListener('click', startGroups);
 const dvScreen = $('#divide'), dvGuide = makeGuide(dvScreen, 1.0);
 const dvPad = makePad($('#dvPad'), $('#dvEntry'));
 const DV = { q: 0, total: 6, k: 2, m: 2, n: 4, pile: 0, bags: [], rounds: 0, mistakes: 0, stars: 0, easier: false, prev: '' };
-const SWEET = '<span class="sw">🍬</span>';
+const SWEET = `<span class="sw">${SWEET_SVG}</span>`;
 
 function dvRender() {
   $('#dvPile').innerHTML = `<span class="dv-label">${DV.pile ? `${DV.pile} ${DV.pile === 1 ? 'sweet' : 'sweets'} left to share` : 'All shared!'}</span>` + SWEET.repeat(DV.pile);
@@ -3364,7 +3637,10 @@ const Prof = {
 let showAllGames = false;
 function renderHome() {
   const p = Prof.cur;
-  $('#homeName').textContent = p ? `Hi, ${p.name}!` : 'Maths with Pip';
+  $('#homeName').textContent = p ? `Hi ${p.name}. Where do you want to start?` : 'Maths with Pip';
+  $('#home .home-head p').textContent = !p ? 'Pick a game to play' : p.track === 'little' ? 'Little Learners · ages 4–6' : 'Explorers · ages 8–11';
+  $('#home').classList.toggle('theme-dark', !!p && p.track === 'explore');
+  $('#home').classList.toggle('theme-light', !p || p.track !== 'explore');
   const chip = $('#playerChip');
   chip.textContent = '';
   if (p) { const av = document.createElement('span'); av.className = 'av'; av.textContent = p.avatar; chip.append(av, ` ${p.name} · Switch`); }
@@ -3420,7 +3696,7 @@ function renderWho() {
     add.addEventListener('click', () => withPin(openAdd));
     grid.append(add);
   }
-  $('#whoManage').textContent = '🔒 Parent page';
+  $('#whoManage').textContent = 'Parent page';
 }
 $('#whoManage').addEventListener('click', openParentGate);
 function choosePlayer(id) {
