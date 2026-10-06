@@ -1389,19 +1389,30 @@ const alive = r => r === RUN;
 // ---------- Voice (built-in text-to-speech) ----------
 const hasTTS = 'speechSynthesis' in window;
 const Voice = {
-  on: store.get('sound', true), hold: false, auto: null, prefs: { uri: null, speed: 1, pitch: 1.1 },
+  on: store.get('sound', true), hold: false, auto: null, offline: null, failed: {}, prefs: { uri: null, speed: 1, pitch: 1 },
+  // Ranks the device's voices: natural-sounding first, then British English, then any English.
+  // Joke voices and the older robotic Apple voices are pushed to the bottom.
+  score(v) {
+    let s = 0;
+    if (/premium|enhanced|natural|neural/i.test(v.name)) s += 100;
+    if (/^en[-_]GB/i.test(v.lang)) s += 30; else if (/^en/i.test(v.lang)) s += 10;
+    if (v.localService) s += 5;
+    if (/^(Eddy|Flo|Grandma|Grandpa|Reed|Rocko|Sandy|Shelley)\b/i.test(v.name)) s -= 60;
+    if (/^(Albert|Bad News|Bahh|Bells|Boing|Bubbles|Cellos|Good News|Jester|Organ|Superstar|Trinoids|Whisper|Wobble|Zarvox)\b/i.test(v.name)) s -= 1000;
+    return s;
+  },
   init() {
     if (!hasTTS) return;
-    const choose = () => {
-      const vs = speechSynthesis.getVoices();
-      this.auto = vs.find(v => /en-GB/i.test(v.lang) && /libby|sonia|hazel|serena|kate|female|google uk english female/i.test(v.name))
-        || vs.find(v => /en-GB/i.test(v.lang)) || vs.find(v => /^en/i.test(v.lang)) || null;
+    this.choose = () => {
+      const vs = speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang) && !this.failed[v.voiceURI]).sort((a, b) => this.score(b) - this.score(a));
+      this.auto = vs[0] || null;
+      this.offline = vs.find(v => v.localService) || null;
     };
-    choose();
-    speechSynthesis.onvoiceschanged = choose;
+    this.choose();
+    speechSynthesis.onvoiceschanged = this.choose;
   },
   current() {
-    if (this.prefs.uri && hasTTS) { const v = speechSynthesis.getVoices().find(x => x.voiceURI === this.prefs.uri); if (v) return v; }
+    if (this.prefs.uri && hasTTS && !this.failed[this.prefs.uri]) { const v = speechSynthesis.getVoices().find(x => x.voiceURI === this.prefs.uri); if (v) return v; }
     return this.auto;
   },
   unlock() { if (hasTTS && this.on) { try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } catch (e) {} } },
@@ -1411,14 +1422,27 @@ const Voice = {
       const est = 500 + text.length * 60 / rate;
       if (!this.on || !hasTTS || this.hold) { setTimeout(res, this.on && !this.hold ? est * 0.7 : Math.min(est * 0.5, 1800)); return; }
       speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(text);
+      const make = voice => {
+        const u = new SpeechSynthesisUtterance(text);
+        if (voice) u.voice = voice;
+        u.lang = voice ? voice.lang : 'en-GB';
+        u.rate = Math.min(2, rate * this.prefs.speed); u.pitch = this.prefs.pitch;
+        return u;
+      };
       const v = this.current();
-      if (v) u.voice = v;
-      u.lang = v ? v.lang : 'en-GB';
-      u.rate = Math.min(2, rate * this.prefs.speed); u.pitch = this.prefs.pitch;
       let done = false;
       const fin = () => { if (!done) { done = true; res(); } };
-      u.onend = fin; u.onerror = fin;
+      const u = make(v);
+      u.onend = fin;
+      // An online voice fails without internet: remember that and say it again with an offline voice.
+      u.onerror = e => {
+        const err = e && e.error;
+        if (!done && v && !v.localService && this.offline && !/interrupted|canceled/.test(err || '')) {
+          this.failed[v.voiceURI] = true; this.choose();
+          const u2 = make(this.offline); u2.onend = fin; u2.onerror = fin; speechSynthesis.speak(u2); return;
+        }
+        fin();
+      };
       setTimeout(fin, est * 2 + 1500);
       speechSynthesis.speak(u);
     });
@@ -3950,13 +3974,13 @@ $('#pfForm').addEventListener('submit', e => {
 });
 
 // ---------- Voice settings (one set per player) ----------
-const VOICE_DEFAULT = { uri: null, speed: 1, pitch: 1.1 };
+const VOICE_DEFAULT = { uri: null, speed: 1, pitch: 1 };
 // Joke voices on Apple devices that are not suitable for teaching.
 const NOVELTY = /^(Albert|Bad News|Bahh|Bells|Boing|Bubbles|Cellos|Good News|Jester|Organ|Pipe Organ|Superstar|Trinoids|Whisper|Wobble|Zarvox|Deranged|Hysterical)\b/i;
 const ACCENTS = { 'en-GB': 'British', 'en-US': 'American', 'en-AU': 'Australian', 'en-IE': 'Irish', 'en-IN': 'Indian', 'en-ZA': 'South African', 'en-NZ': 'New Zealand', 'en-CA': 'Canadian', 'en-SG': 'Singapore' };
 const ACCENT_ORDER = ['British', 'Irish', 'Australian', 'New Zealand', 'Indian', 'American', 'Canadian', 'South African', 'Singapore', 'English'];
 const SPEEDS = [['Slow', 0.8], ['Normal', 1], ['Fast', 1.2]];
-const PITCHES = [['Lower', 0.9], ['Normal', 1.1], ['Higher', 1.35]];
+const PITCHES = [['Lower', 0.9], ['Normal', 1], ['Higher', 1.2]];
 const accentOf = v => ACCENTS[v.lang.replace('_', '-')] || 'English';
 const isNatural = v => /premium|enhanced|natural|neural/i.test(v.name);
 function englishVoices() {
@@ -3968,7 +3992,11 @@ function englishVoices() {
 function voiceName(v) {
   return v.name.replace(/^(Microsoft|Google|Apple)\s+/i, '').replace(/\s*-\s*English.*$/i, '').replace(/\s*\((Enhanced|Premium|Natural|Neural)\)/gi, '').replace(/\s+Online\b/i, '').trim();
 }
-function applyVoicePrefs() { Voice.prefs = Object.assign({}, VOICE_DEFAULT, Prof.cur && Prof.cur.voice); }
+function applyVoicePrefs() {
+  Voice.prefs = Object.assign({}, VOICE_DEFAULT, Prof.cur && Prof.cur.voice);
+  // Older saved settings used a raised pitch for Normal and Higher.
+  if (Voice.prefs.pitch === 1.1) Voice.prefs.pitch = 1; else if (Voice.prefs.pitch === 1.35) Voice.prefs.pitch = 1.2;
+}
 function sampleVoice() {
   const p = Prof.cur;
   Voice.say(`Hi ${p ? p.name : 'there'}! I'm Pip. Can you put three apples in my basket?`, p && p.track === 'little' ? 0.85 : 1.0);
@@ -3996,7 +4024,7 @@ function renderVoice() {
     b.addEventListener('click', () => setVoicePref('uri', uri));
     list.append(b);
   };
-  opt(null, 'Automatic', 'The best British voice on this device');
+  opt(null, 'Automatic', Voice.auto ? `Uses the most natural voice on this device: ${voiceName(Voice.auto)}` : 'Uses the most natural voice on this device');
   voices.forEach(v => opt(v.voiceURI, voiceName(v), [accentOf(v), isNatural(v) ? 'Natural sounding' : '', v.localService ? '' : 'Needs internet'].filter(Boolean).join(' · ')));
   if (!voices.length) {
     const none = document.createElement('p'); none.className = 'form-hint';
