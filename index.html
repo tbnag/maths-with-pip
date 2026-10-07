@@ -614,12 +614,13 @@ h1, h2, .say, .qcard, .big { letter-spacing: -0.01em; }
   .screen.game > .ap-main, .screen.game > .lt-main, .screen.game > .tb-main { grid-area: main; min-width: 0; }
   .screen.game > .controls { grid-area: controls; justify-content: flex-end; }
   .screen.game .area { width: max(280px, min(100%, calc((100dvh - 250px) * 1.6))); }
-  #home { display: grid; grid-template-columns: 300px minmax(0, 1fr); grid-template-rows: auto auto 1fr; grid-template-areas: "top top" "head tracks" "foot tracks"; column-gap: 40px; row-gap: 20px; padding: 24px 40px 28px; align-content: start; }
+  #home { display: grid; grid-template-columns: 300px minmax(0, 1fr); grid-template-rows: auto auto auto 1fr; grid-template-areas: "top top" "head tracks" "wallet tracks" "foot tracks"; column-gap: 40px; row-gap: 20px; padding: 24px 40px 28px; align-content: start; }
   #home > .topbar { grid-area: top; }
   #home > .home-head { grid-area: head; flex-direction: column; align-items: flex-start; text-align: left; padding-top: 12px; justify-content: flex-start; }
   #home > .home-head .pip { width: 72px; height: 72px; }
   #home > .home-head h1 { font-size: 40px; line-height: 1.15; }
   #home > .home-tracks { grid-area: tracks; width: auto; margin: 0; }
+  #home > .wallet { grid-area: wallet; grid-template-columns: 1fr; gap: 12px; margin: 0; width: auto; }
   #home > #showAll { grid-area: foot; align-self: start; justify-self: start; }
   #home > .home-foot { display: none; }
 }
@@ -816,6 +817,105 @@ h1, .home-head h1 { font-weight: 800; letter-spacing: -0.02em; }
 .theme-light .intro-learn li svg { color: var(--l-go); }
 .intro-meta { font-size: 16px; margin-top: 8px; }
 #inStart { min-width: 220px; }
+/* Coins strip on the home screen */
+.wallet { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; width: min(1100px, 100%); margin: 8px auto 0; }
+.wallet[hidden] { display: none; }
+.w-card { display: flex; flex-direction: column; gap: 10px; padding: 18px 22px; border-radius: 16px; min-width: 0; }
+.theme-dark .w-card { border: 1.5px solid rgba(255,255,255,0.78); color: var(--d-text); }
+.theme-light .w-card { background: #FFFFFF; border-radius: 24px; box-shadow: 0 1px 2px rgba(30,42,58,0.04), 0 12px 30px rgba(30,42,58,0.08); color: var(--l-ink); }
+.w-lab, .sh-eyebrow { font-size: 14px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
+.theme-dark .w-lab, .theme-dark .sh-eyebrow { color: var(--d-text-2); }
+.theme-light .w-lab, .theme-light .sh-eyebrow { color: #1E6FD9; }
+.w-big { display: flex; align-items: center; gap: 12px; font-size: 40px; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
+.w-coins { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "lab shop" "big shop"; align-items: center; }
+.w-coins .w-lab { grid-area: lab; }
+.w-coins .w-big { grid-area: big; }
+.w-shop { grid-area: shop; min-width: 0; min-height: 56px; padding: 0 22px; font-size: 20px; }
+.w-slots { display: flex; gap: 10px; }
+.w-slots i { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: 18px; font-weight: 600; }
+.theme-dark .w-slots i { border: 2px dashed rgba(255,255,255,0.4); color: var(--d-text-2); }
+.theme-light .w-slots i { border: 2px dashed #B9C9DA; color: var(--l-text-2); }
+.theme-dark .w-slots i.on { border: 0; background: var(--d-go); color: var(--d-go-ink); }
+.theme-light .w-slots i.on { border: 0; background: var(--l-go); color: #FFFFFF; }
+.w-cap { font-size: 15px; line-height: 1.35; }
+.theme-dark .w-cap { color: var(--d-text-2); }
+.theme-light .w-cap { color: var(--l-text-2); }
+.theme-dark .w-goal.done .w-cap { color: var(--d-go); font-weight: 600; }
+.theme-light .w-goal.done .w-cap { color: var(--l-go); font-weight: 600; }
+.w-week { display: flex; gap: 6px; }
+.wk { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; min-width: 0; }
+.wk i { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; }
+.wk b { font-size: 14px; font-weight: 500; white-space: nowrap; }
+.wk.today b { font-weight: 800; text-decoration: underline; text-underline-offset: 4px; }
+.theme-dark .wk i { background: rgba(255,255,255,0.08); }
+.theme-dark .wk.on i { background: #FF8A3D; color: #2A1200; }
+.theme-dark .wk b { color: var(--d-text-2); }
+.theme-light .wk i { background: #E6EEF6; }
+.theme-light .wk.on i { background: #FF8A3D; color: #FFFFFF; }
+.theme-light .wk b { color: var(--l-text-2); }
+@media (max-width: 899px) {
+  .wallet { grid-template-columns: 1fr; }
+}
+
+/* Coins on the finish screen */
+#fnCoins:empty { display: none; }
+#finish .row .big { min-width: 0; }
+#fnCoins { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 22px; border-radius: 18px; width: 100%; box-sizing: border-box; }
+#finish:not(.explore) #fnCoins { background: #FFF6DA; }
+#finish.explore #fnCoins { background: rgba(255,194,75,0.10); border: 1px solid rgba(255,194,75,0.45); }
+.fr-row { display: flex; align-items: center; gap: 10px; }
+.fr-got { font-size: 34px; font-weight: 800; letter-spacing: -0.02em; }
+#finish:not(.explore) .fr-got { color: #9A5B00; }
+#finish.explore .fr-got { color: var(--d-yellow); }
+.fr-total { font-size: 17px; }
+.fr-goal { font-size: 17px; display: flex; align-items: center; gap: 8px; text-align: center; }
+#finish:not(.explore) .fr-total, #finish:not(.explore) .fr-goal { color: var(--l-text-2); }
+#finish.explore .fr-total, #finish.explore .fr-goal { color: var(--d-text-2); }
+#finish:not(.explore) .fr-goal.done { color: var(--l-go); }
+#finish.explore .fr-goal.done { color: var(--d-go); }
+
+/* Shop */
+.sh-wallet { font-size: 18px; font-weight: 700; }
+.sh-wrap { display: grid; grid-template-columns: 1fr; gap: 20px; width: min(1100px, 100%); margin: 0 auto; }
+@media (min-width: 900px) { .sh-wrap { grid-template-columns: 320px minmax(0, 1fr); gap: 36px; padding: 8px 24px 24px; } }
+.sh-me { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+@media (min-width: 900px) { .sh-me { position: sticky; top: 0; align-self: start; } }
+.sh-pic { width: 220px; height: 220px; }
+.sh-pic svg { width: 100%; height: 100%; display: block; }
+.sh-name { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; }
+.sh-note { margin: 0; font-size: 18px; line-height: 1.4; min-height: 2.8em; }
+.theme-dark .sh-note { color: var(--d-text-2); }
+.theme-light .sh-note { color: var(--l-text-2); }
+.sh-act { min-height: 68px; }
+.sh-act .big { min-width: 220px; }
+.sh-act .big.sure { background: #FFC24B; color: #3A2500; box-shadow: none; }
+.sh-tabs { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.sh-tabs button { min-height: 48px; padding: 0 22px; border-radius: 999px; font-size: 17px; font-weight: 600; }
+.theme-dark .sh-tabs button { background: transparent; border: 1.5px solid rgba(255,255,255,0.4); color: var(--d-text); }
+.theme-dark .sh-tabs button.sel { background: #FFFFFF; border-color: #FFFFFF; color: #141129; }
+.theme-light .sh-tabs button { background: #FFFFFF; border: 0; box-shadow: var(--l-soft); color: var(--l-ink); }
+.theme-light .sh-tabs button.sel { background: var(--l-ink); color: #FFFFFF; }
+.sh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+.sh-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 10px 14px; border-radius: 16px; font: inherit; cursor: pointer; transition: transform .1s; }
+.sh-item:active { transform: scale(0.97); }
+.theme-dark .sh-item { background: transparent; border: 1.5px solid rgba(255,255,255,0.35); color: var(--d-text); }
+.theme-dark .sh-item.sel { border-color: #FFFFFF; background: rgba(255,255,255,0.06); }
+.theme-light .sh-item { background: #FFFFFF; border: 3px solid transparent; border-radius: 22px; box-shadow: 0 1px 2px rgba(30,42,58,0.04), 0 8px 20px rgba(30,42,58,0.07); color: var(--l-ink); }
+.theme-light .sh-item.sel { border-color: #1E6FD9; }
+.sh-art { width: 84px; height: 84px; display: grid; place-items: center; }
+.sh-art svg { width: 100%; height: 100%; display: block; }
+.sh-nm { font-size: 16px; font-weight: 600; }
+.tag { display: inline-flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; padding: 4px 12px; border-radius: 999px; }
+.theme-dark .tag.price { color: var(--d-yellow); }
+.theme-light .tag.price { color: #9A5B00; background: #FFF6DA; }
+.tag.price.short svg { filter: grayscale(1); opacity: 0.6; }
+.theme-dark .tag.price.short { color: var(--d-text-2); }
+.theme-light .tag.price.short { color: var(--l-text-2); background: #EEF3F8; }
+.theme-dark .sh-act .big.ghost { background: transparent; border: 1.5px solid rgba(255,255,255,0.6); color: var(--d-text); }
+.theme-dark .tag.own { color: var(--d-text-2); border: 1px solid rgba(255,255,255,0.3); }
+.theme-light .tag.own { color: var(--l-text-2); background: #EEF3F8; }
+.theme-dark .tag.on { background: var(--d-go); color: var(--d-go-ink); }
+.theme-light .tag.on { background: var(--l-go); color: #FFFFFF; }
 </style>
 <style>
 /* Keep content clear of the iPad status bar and home indicator when opened from the home screen. */
@@ -851,6 +951,7 @@ h1, .home-head h1 { font-weight: 800; letter-spacing: -0.02em; }
       <p>Pick a game to play</p>
     </div>
   </div>
+  <div class="wallet" id="wallet" hidden></div>
   <div class="home-tracks">
   <div class="track-group" data-track="little">
   <h2 class="track-h little">Little Learners <span>ages 4–6</span></h2>
@@ -1376,6 +1477,29 @@ h1, .home-head h1 { font-weight: 800; letter-spacing: -0.02em; }
   </div>
 </div>
 
+<!-- SHOP -->
+<section id="shop" class="screen" hidden>
+  <div class="topbar">
+    <button class="pill go-home" type="button">🏠 Home</button>
+    <span class="spacer"></span>
+    <span class="pill sh-wallet" id="shWallet"></span>
+    <button class="pill sound-toggle" type="button"></button>
+  </div>
+  <div class="sh-wrap">
+    <div class="sh-me">
+      <div class="sh-eyebrow">Pip's shop</div>
+      <div class="sh-pic" id="shPic"></div>
+      <div class="sh-name" id="shName"></div>
+      <p class="sh-note" id="shNote"></p>
+      <div class="sh-act" id="shAct"></div>
+    </div>
+    <div class="sh-side">
+      <div class="sh-tabs" id="shTabs"></div>
+      <div class="sh-grid" id="shGrid"></div>
+    </div>
+  </div>
+</section>
+
 <!-- GAME START SCREEN -->
 <section id="intro" class="screen game" hidden>
   <div class="topbar">
@@ -1407,9 +1531,11 @@ h1, .home-head h1 { font-weight: 800; letter-spacing: -0.02em; }
     <h2 id="fnTitle"></h2>
     <p id="fnSub"></p>
     <div id="fnBook"></div>
+    <div id="fnCoins"></div>
     <div class="row">
       <button class="big go" id="fnAgain" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>Play again</button>
       <button class="big ghost" id="fnHome" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Home</button>
+      <button class="big ghost" id="fnShop" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16l-1.5 11h-13z"/><path d="M8.5 9V7a3.5 3.5 0 0 1 7 0v2"/></svg>Shop</button>
     </div>
   </div>
 </section>
@@ -1922,6 +2048,7 @@ function finishLittle(what, again) {
   const book = Prof.sticker(s);
   const max = Prof.sCount * 3, stars = Prof.sStars;
   Prof.finish(stars, max);
+  showReward(Coins.award(stars));
   $('#finish').classList.remove('explore');
   $('#fnArt').innerHTML = `<div class="sticker">${stickerHTML(s)}</div>`;
   $('#fnTitle').textContent = 'You did it!';
@@ -2159,6 +2286,7 @@ $('#goTile').addEventListener('click', startTile);
 function finishExplorer(key, title, stars, max, again) {
   RUN++;
   const { best, isBest } = Prof.finish(stars, max);
+  showReward(Coins.award(stars));
   $('#finish').classList.add('explore');
   $('#fnArt').innerHTML = `<div class="medal">★${stars}</div>`;
   $('#fnTitle').textContent = title;
@@ -3870,7 +3998,7 @@ const Prof = {
   cur: null, game: null, sStars: 0, sCount: 0,
   save() { store.set('mwp_players', this.data); },
   add(name, track, avatar) {
-    const p = { id: 'p' + Date.now().toString(36), name, track, avatar, stickers: [], games: {} };
+    const p = { id: 'p' + Date.now().toString(36), name, track, avatar, stickers: [], games: {}, coins: 0, earned: 0, days: {}, owned: [], wear: {} };
     this.data.players.push(p); this.save(); return p;
   },
   remove(id) {
@@ -3917,13 +4045,14 @@ const Prof = {
 let showAllGames = false;
 function renderHome() {
   const p = Prof.cur;
+  renderWallet();
   $('#homeName').textContent = p ? `Hi ${p.name}. Where do you want to start?` : 'Maths with Pip';
   $('#home .home-head p').textContent = !p ? 'Pick a game to play' : p.track === 'little' ? 'Little Learners · ages 4–6' : 'Explorers · ages 8–11';
   $('#home').classList.toggle('theme-dark', !!p && p.track === 'explore');
   $('#home').classList.toggle('theme-light', !p || p.track !== 'explore');
   const chip = $('#playerChip');
   chip.textContent = '';
-  if (p) { const av = document.createElement('span'); av.className = 'av'; av.innerHTML = avatarHTML(p.avatar); chip.append(av, ` ${p.name} · Switch`); }
+  if (p) { const av = document.createElement('span'); av.className = 'av'; av.innerHTML = playerPic(p); chip.append(av, ` ${p.name} · Switch`); }
   else chip.textContent = 'Players';
   const mine = p ? p.track : 'little';
   $$('.track-group').forEach(g => g.classList.toggle('mine', g.dataset.track === mine));
@@ -3952,7 +4081,7 @@ function renderWho() {
   Prof.data.players.forEach(p => {
     const item = document.createElement('div'); item.className = 'who-item';
     const b = document.createElement('button'); b.type = 'button'; b.className = 'who-card ' + p.track;
-    const av = document.createElement('span'); av.className = 'big-av'; av.innerHTML = avatarHTML(p.avatar);
+    const av = document.createElement('span'); av.className = 'big-av'; av.innerHTML = playerPic(p);
     const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = p.name;
     const tr = document.createElement('span'); tr.className = 'track'; tr.textContent = p.track === 'little' ? 'Ages 4–6' : 'Ages 8–11';
     b.append(av, nm, tr);
@@ -4237,8 +4366,9 @@ function renderParent() {
   const ps = Prof.data.players, p = ps.find(x => x.id === parentSel), body = $('#ptBody');
   if (!p) { body.innerHTML = '<div class="pt-card"><p class="pt-empty">There are no players yet.</p><div class="pt-actions"><button class="pt-btn" type="button" data-act="add">＋ Add a player</button></div></div>'; return; }
   const st = playerStats(p), name = esc(p.name);
-  const kids = ps.map(x => `<button type="button" class="pt-kid ${x.id === p.id ? 'sel' : ''}" data-act="kid" data-id="${x.id}"><span class="av">${avatarHTML(x.avatar)}</span>${esc(x.name)}</button>`).join('');
+  const kids = ps.map(x => `<button type="button" class="pt-kid ${x.id === p.id ? 'sel' : ''}" data-act="kid" data-id="${x.id}"><span class="av">${playerPic(x)}</span>${esc(x.name)}</button>`).join('');
 
+  Coins.ensure(p);
   let summary;
   if (!st.all) summary = `${name} has not played any games yet. Progress will appear here after the first game.`;
   else {
@@ -4246,6 +4376,7 @@ function renderParent() {
       ? `In the last 7 days, ${name} answered <b>${st.wkQ} questions</b> on <b>${st.days} ${st.days === 1 ? 'day' : 'days'}</b>, for ${st.mins ? `about <b>${st.mins} ${st.mins === 1 ? 'minute' : 'minutes'}</b>` : '<b>less than a minute</b>'} in total.`
       : `${name} has not played in the last 7 days.`;
     summary += ` Overall, ${name} gets <b>${pct(st.allFirst, st.all)}%</b> of answers right the first time.`;
+    summary += ` ${name} has <b>${p.coins} coins</b> to spend in the shop (${p.earned} earned so far)${Coins.streak(p) ? ` and has played <b>${Coins.streak(p)} ${Coins.streak(p) === 1 ? 'day' : 'days'} in a row</b>` : ''}.`;
     summary += st.hard[0] ? ` The question that needs the most practice is <b>“${esc(itemLabel(st.hard[0].game, st.hard[0].k))}”</b>.` : ' Nothing needs extra practice at the moment.';
   }
 
@@ -4297,7 +4428,7 @@ $('#ptBody').addEventListener('click', e => {
   if (act === 'pin') { openPin('create', openParent, openParent); return; }
   if ((act === 'reset' || act === 'remove') && p) {
     if (!b.classList.contains('sure')) { b.classList.add('sure'); b.textContent = 'Tap again to confirm'; return; }
-    if (act === 'reset') { p.games = {}; p.stickers = []; p.sessions = []; Prof.save(); renderParent(); return; }
+    if (act === 'reset') { p.games = {}; p.stickers = []; p.sessions = []; p.coins = null; Prof.save(); renderParent(); return; }
     Prof.remove(p.id); parentSel = null;
     if (!Prof.data.players.length) openAdd(); else openParent();
   }
@@ -4535,6 +4666,243 @@ $('.home-tracks').addEventListener('click', e => {
   openIntro(card.id);
 }, true);
 $('#inStart').addEventListener('click', () => { const info = GAME_INFO[introGame]; if (info) info.start(); });
+
+// =====================================================
+// COINS, DAILY GOAL AND SHOP
+// Every star earned in a finished game is also a coin. Coins are spent in the shop
+// on hats, new animals and picture colours. No real money is ever involved.
+// =====================================================
+const DAILY_GOAL = 2, GOAL_BONUS = 10;
+const COIN_SVG = (s = 24) => `<svg class="coin" width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFC24B" stroke="#D48C00" stroke-width="2"/><circle cx="12" cy="12" r="6" fill="none" stroke="#D48C00" stroke-width="1.6"/><path d="M8.6 9 Q9.6 7.2 12 7" stroke="#FFF3C4" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>`;
+const dayKey = t => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+
+// Hats are drawn in the animal's own space: x = 0 is the middle, y = 0 is the top of the head.
+const HATS = {
+  party: `<path d="M-14 0 L0 -30 L14 0 Z" fill="#FF6FA0" stroke="#D94A7D" stroke-width="2" stroke-linejoin="round"/><path d="M-9 -10 L9 -10 M-4.5 -20 L4.5 -20" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/><circle cy="-31" r="5" fill="#FFC24B"/>`,
+  bow: `<path d="M0 -8 L-19 -19 L-19 3 Z" fill="#FF6FA0" stroke="#D94A7D" stroke-width="2" stroke-linejoin="round"/><path d="M0 -8 L19 -19 L19 3 Z" fill="#FF6FA0" stroke="#D94A7D" stroke-width="2" stroke-linejoin="round"/><circle cy="-8" r="5.5" fill="#FF8FB4" stroke="#D94A7D" stroke-width="2"/>`,
+  cap: `<path d="M-19 1 Q-19 -25 0 -25 Q19 -25 19 1 Z" fill="#3F78DC"/><path d="M-2 -1 L32 -1 Q32 5 25 6 L-2 6 Z" fill="#2F5FB5"/><circle cy="-25" r="3.2" fill="#2F5FB5"/>`,
+  beanie: `<path d="M-19 0 Q-19 -27 0 -27 Q19 -27 19 0 Z" fill="#3DBE8B"/><rect x="-21" y="-7" width="42" height="10" rx="5" fill="#2A9A6E"/><circle cy="-29" r="6.5" fill="#FFFFFF" stroke="#DCE2EA" stroke-width="1.5"/>`,
+  flowers: `<path d="M-21 1 Q0 -9 21 1" stroke="#3DBE8B" stroke-width="3.5" fill="none" stroke-linecap="round"/>` +
+    [[-16, -2, '#FF8FC7'], [-5.5, -6, '#FFC24B'], [5.5, -6, '#B99BFF'], [16, -2, '#FF8FC7']].map(([x, y, c]) =>
+      `<g transform="translate(${x} ${y})"><circle cx="-3" r="3.2" fill="${c}"/><circle cx="3" r="3.2" fill="${c}"/><circle cy="-3" r="3.2" fill="${c}"/><circle cy="3" r="3.2" fill="${c}"/><circle r="2.4" fill="#FFF3C4"/></g>`).join(''),
+  chef: `<circle cx="-10" cy="-19" r="9.5" fill="#FFFFFF" stroke="#C9D3DF" stroke-width="2"/><circle cx="10" cy="-19" r="9.5" fill="#FFFFFF" stroke="#C9D3DF" stroke-width="2"/><circle cy="-26" r="10.5" fill="#FFFFFF" stroke="#C9D3DF" stroke-width="2"/><circle cx="-10" cy="-19" r="7.5" fill="#FFFFFF"/><circle cx="10" cy="-19" r="7.5" fill="#FFFFFF"/><circle cy="-22" r="8" fill="#FFFFFF"/><rect x="-14" y="-13" width="28" height="14" rx="2" fill="#FFFFFF" stroke="#C9D3DF" stroke-width="2"/>`,
+  tophat: `<rect x="-14" y="-33" width="28" height="30" rx="3" fill="#2B2F3A"/><rect x="-14" y="-13" width="28" height="6" fill="#E5383B"/><rect x="-23" y="-5" width="46" height="7" rx="3.5" fill="#2B2F3A"/>`,
+  wizard: `<path d="M-15 -1 L5 -40 Q7 -42 8 -38 L15 -1 Z" fill="#7B61FF"/><path d="M-24 0 Q0 -7 24 0 Q0 6 -24 0 Z" fill="#5039B5"/><path d="M1 -24 l1.8 3.7 4 .6 -2.9 2.8 .7 4 -3.6 -1.9 -3.6 1.9 .7 -4 -2.9 -2.8 4 -.6 Z" fill="#FFC24B"/><circle cx="-6" cy="-9" r="1.6" fill="#FFF3C4"/><circle cx="8" cy="-11" r="1.4" fill="#FFF3C4"/>`,
+  crown: `<path d="M-19 0 L-19 -21 L-9.5 -10 L0 -26 L9.5 -10 L19 -21 L19 0 Z" fill="#FFC24B" stroke="#D48C00" stroke-width="2" stroke-linejoin="round"/><circle cy="-6" r="3.6" fill="#E5383B"/><circle cx="-11" cy="-5" r="2.6" fill="#4F8BEF"/><circle cx="11" cy="-5" r="2.6" fill="#3DBE8B"/>`
+};
+// Where the top of each animal's head is (y), and the middle (x).
+const HEAD_TOP = { fox: [50, 30], panda: [50, 21], tiger: [50, 22], rabbit: [50, 30], unicorn: [52, 29], frog: [50, 24], koala: [50, 26], owl: [50, 21], bee: [50, 28], whale: [46, 34], lion: [50, 15], penguin: [50, 20] };
+
+// Picture colours. Gradients are defined inside each picture.
+const BGS = {
+  sky: { fill: '#CFE8FF' }, mint: { fill: '#CFF5E1' }, sun: { fill: '#FFE7A3' }, pink: { fill: '#FFD6E8' }, lavender: { fill: '#E3D9FF' },
+  sunset: { grad: [['0', '#FFB36B'], ['1', '#FF6FA0']] },
+  rainbow: { grad: [['0', '#FF8A8A'], ['.25', '#FFD36B'], ['.5', '#8EE6A8'], ['.75', '#7FC4FF'], ['1', '#C3A6FF']] },
+  night: { fill: '#24306B', extra: `<circle cx="20" cy="28" r="2" fill="#FFF3C4"/><circle cx="80" cy="22" r="1.6" fill="#FFF3C4"/><circle cx="86" cy="64" r="2" fill="#FFF3C4"/><circle cx="14" cy="70" r="1.5" fill="#FFF3C4"/><circle cx="68" cy="88" r="1.4" fill="#FFF3C4"/>` }
+};
+
+const FREE_ANIMALS = ['fox', 'panda', 'tiger', 'rabbit', 'unicorn', 'frog', 'koala', 'owl'];
+const SHOP = [
+  { id: 'party', kind: 'hat', name: 'Party hat', price: 30 },
+  { id: 'bow', kind: 'hat', name: 'Big bow', price: 30 },
+  { id: 'cap', kind: 'hat', name: 'Cap', price: 40 },
+  { id: 'beanie', kind: 'hat', name: 'Woolly hat', price: 40 },
+  { id: 'flowers', kind: 'hat', name: 'Flower crown', price: 50 },
+  { id: 'chef', kind: 'hat', name: 'Chef hat', price: 60 },
+  { id: 'tophat', kind: 'hat', name: 'Top hat', price: 70 },
+  { id: 'wizard', kind: 'hat', name: 'Wizard hat', price: 80 },
+  { id: 'crown', kind: 'hat', name: 'Crown', price: 100 },
+  ...FREE_ANIMALS.map(a => ({ id: a, kind: 'animal', name: ANIMALS[a].name, price: 0 })),
+  { id: 'bee', kind: 'animal', name: 'Bee', price: 60 },
+  { id: 'whale', kind: 'animal', name: 'Whale', price: 60 },
+  { id: 'penguin', kind: 'animal', name: 'Penguin', price: 80 },
+  { id: 'lion', kind: 'animal', name: 'Lion', price: 80 },
+  { id: 'plain', kind: 'bg', name: 'Plain', price: 0 },
+  { id: 'sky', kind: 'bg', name: 'Sky blue', price: 20 },
+  { id: 'mint', kind: 'bg', name: 'Mint', price: 20 },
+  { id: 'sun', kind: 'bg', name: 'Sunshine', price: 30 },
+  { id: 'pink', kind: 'bg', name: 'Pink', price: 30 },
+  { id: 'lavender', kind: 'bg', name: 'Lavender', price: 30 },
+  { id: 'sunset', kind: 'bg', name: 'Sunset', price: 50 },
+  { id: 'night', kind: 'bg', name: 'Night sky', price: 70 },
+  { id: 'rainbow', kind: 'bg', name: 'Rainbow', price: 90 }
+];
+const shopItem = id => SHOP.find(i => i.id === id);
+
+// A player's picture: background colour, animal and hat.
+let picN = 0;
+function picSvg(animal, hat, bg) {
+  const key = animalKey(animal), b = BGS[bg];
+  let defs = '', fill = ANIMALS[key].tint, extra = '';
+  if (b && b.grad) { const gid = 'pg' + (++picN); defs = `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1">${b.grad.map(([o, c]) => `<stop offset="${o}" stop-color="${c}"/>`).join('')}</linearGradient></defs>`; fill = `url(#${gid})`; }
+  else if (b) { fill = b.fill; extra = b.extra || ''; }
+  const [hx, hy] = HEAD_TOP[key] || [50, 24];
+  const pose = hat ? 'translate(14 22) scale(.72)' : 'translate(9 9) scale(.82)';
+  const hatSvg = hat && HATS[hat] ? `<g transform="translate(${hx} ${hy})">${HATS[hat]}</g>` : '';
+  return `<svg viewBox="0 0 100 100" aria-hidden="true">${defs}<circle cx="50" cy="50" r="50" fill="${fill}"/>${extra}<g transform="${pose}">${ANIMALS[key].svg}${hatSvg}</g></svg>`;
+}
+const playerPic = p => picSvg(p.avatar, p.wear && p.wear.hat, p.wear && p.wear.bg);
+
+const Coins = {
+  // Older players get the coins for the stars they earned before coins existed.
+  ensure(p) {
+    if (!p || p.coins != null) return;
+    const earned = Object.values(p.games || {}).reduce((s, g) => s + g.first * 3 + g.hint * 2 + g.helped, 0);
+    p.coins = earned; p.earned = earned; p.days = {}; p.owned = []; p.wear = {};
+    (p.sessions || []).forEach(s => { const k = dayKey(s.t0); (p.days[k] || (p.days[k] = { g: 0, c: 0 })).g++; });
+    Object.values(p.games || {}).forEach(g => (g.log || []).forEach(l => { const k = dayKey(l.t); if (!p.days[k]) p.days[k] = { g: 1, c: 0 }; }));
+  },
+  today(p) { return (p && p.days && p.days[dayKey(Date.now())]) || { g: 0, c: 0 }; },
+  streak(p) {
+    if (!p || !p.days) return 0;
+    let t = Date.now(), n = 0;
+    if (!(p.days[dayKey(t)] || {}).g) t -= DAY;
+    while ((p.days[dayKey(t)] || {}).g) { n++; t -= DAY; }
+    return n;
+  },
+  award(stars) {
+    const p = Prof.cur; if (!p) return null;
+    this.ensure(p);
+    const k = dayKey(Date.now()), d = p.days[k] || (p.days[k] = { g: 0, c: 0 });
+    d.g++; d.c += stars; p.coins += stars; p.earned += stars;
+    let bonus = 0;
+    if (d.g === DAILY_GOAL) { bonus = GOAL_BONUS; p.coins += bonus; p.earned += bonus; d.c += bonus; }
+    const old = Date.now() - 90 * DAY;
+    Object.keys(p.days).forEach(x => { if (new Date(x + 'T12:00') < old) delete p.days[x]; });
+    Prof.save();
+    return { got: stars, bonus, games: d.g, coins: p.coins, streak: this.streak(p) };
+  },
+  owns(p, it) { return it.price === 0 || (p.owned || []).includes(it.id) || (it.kind === 'animal' && animalKey(p.avatar) === it.id); },
+  buy(p, it) {
+    if (this.owns(p, it) || p.coins < it.price) return false;
+    p.coins -= it.price; p.owned = (p.owned || []).concat(it.id); Prof.save(); return true;
+  }
+};
+
+// ---------- Home: coins, today's goal and days in a row ----------
+const weekDots = p => Array.from({ length: 7 }, (_, i) => {
+  const t = Date.now() - (6 - i) * DAY, d = (p.days || {})[dayKey(t)] || {};
+  const lab = new Date(t).toLocaleDateString('en-GB', { weekday: 'narrow' });
+  return `<span class="wk ${d.g ? 'on' : ''} ${i === 6 ? 'today' : ''}"><i>${d.g ? svgIcon('<path d="M6 12.5l4 4 8-9"/>', 16, 3) : ''}</i><b>${lab}</b></span>`;
+}).join('');
+function renderWallet() {
+  const p = Prof.cur, w = $('#wallet');
+  w.hidden = !p; if (!p) return;
+  Coins.ensure(p);
+  const today = Coins.today(p), done = today.g >= DAILY_GOAL, streak = Coins.streak(p);
+  const slots = Array.from({ length: DAILY_GOAL }, (_, i) => `<i class="${i < today.g ? 'on' : ''}">${i < today.g ? svgIcon('<path d="M6 12.5l4 4 8-9"/>', 20, 3) : i + 1}</i>`).join('');
+  w.innerHTML = `
+    <div class="w-card w-coins">
+      <div class="w-lab">My coins</div>
+      <div class="w-big">${COIN_SVG(40)}<span>${p.coins}</span></div>
+      <button class="big go w-shop" id="openShop" type="button">${svgIcon('<path d="M4 9h16l-1.5 11h-13z"/><path d="M8.5 9V7a3.5 3.5 0 0 1 7 0v2"/>', 22, 2.4)}Shop</button>
+    </div>
+    <div class="w-card w-goal ${done ? 'done' : ''}">
+      <div class="w-lab">Today's goal</div>
+      <div class="w-slots">${slots}</div>
+      <div class="w-cap">${done ? `Goal done! You got ${GOAL_BONUS} bonus coins.` : today.g ? `Finish ${DAILY_GOAL - today.g} more ${DAILY_GOAL - today.g === 1 ? 'game' : 'games'} today to get ${GOAL_BONUS} bonus coins.` : `Finish ${DAILY_GOAL} games today to get ${GOAL_BONUS} bonus coins.`}</div>
+    </div>
+    <div class="w-card w-streak">
+      <div class="w-lab">Days in a row</div>
+      <div class="w-big">${FLAME_SVG}<span>${streak}</span></div>
+      <div class="w-week">${weekDots(p)}</div>
+    </div>`;
+  $('#openShop').addEventListener('click', openShop);
+}
+const FLAME_SVG = `<svg class="flame" width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c1 3.5 5.5 6 5.5 11a5.5 5.5 0 0 1-11 0c0-2.6 1.3-4.2 2.6-5.6.3 1.9 1.1 3 2.2 3.6C11.8 9 11 6 12 2.5z" fill="#FF8A3D"/><path d="M12 12c.6 1.7 2.6 2.8 2.6 5a2.6 2.6 0 0 1-5.2 0c0-1.4.8-2.3 1.5-3 .2.8.6 1.3 1.1 1.5-.3-1.2-.4-2.3 0-3.5z" fill="#FFD36B"/></svg>`;
+
+// ---------- Finish screen: coins earned ----------
+function showReward(r) {
+  const el = $('#fnCoins');
+  if (!r) { el.innerHTML = ''; return; }
+  const goalLine = r.bonus
+    ? `<div class="fr-goal done">${svgIcon('<path d="M6 12.5l4 4 8-9"/>', 20, 3)}<span>Today's goal done! <b>+${r.bonus} bonus coins</b></span></div>`
+    : r.games < DAILY_GOAL
+      ? `<div class="fr-goal">Today's goal: ${r.games} of ${DAILY_GOAL} games. One more for ${GOAL_BONUS} bonus coins!</div>`
+      : `<div class="fr-goal">Today's goal is done. Every extra game still earns coins.</div>`;
+  el.innerHTML = `<div class="fr-row">${COIN_SVG(44)}<span class="fr-got">+<b id="frN">0</b> coins</span></div><div class="fr-total">You now have ${r.coins} coins</div>${goalLine}`;
+  let n = 0; const end = r.got + r.bonus, step = Math.max(1, Math.ceil(end / 20));
+  const tick = () => { n = Math.min(end, n + step); const b = $('#frN'); if (b) b.textContent = n; if (n < end) setTimeout(tick, 45); };
+  setTimeout(tick, 500);
+}
+$('#fnShop').addEventListener('click', () => { Voice.stop(); openShop(); });
+
+// ---------- Shop ----------
+const shopScreen = $('#shop');
+const SHOP_TABS = [['hat', 'Hats'], ['animal', 'Animals'], ['bg', 'Colours']];
+const SHP = { tab: 'hat', sel: null, sure: false };
+function itemArt(it, p) {
+  if (it.kind === 'hat') return `<svg viewBox="-30 -46 60 52" aria-hidden="true">${HATS[it.id]}</svg>`;
+  if (it.kind === 'animal') return avatarSvg(it.id);
+  return picSvg(p.avatar, null, it.id === 'plain' ? null : it.id);
+}
+function wearing(p, it) {
+  const w = p.wear || {};
+  if (it.kind === 'hat') return w.hat === it.id;
+  if (it.kind === 'animal') return animalKey(p.avatar) === it.id;
+  return (w.bg || 'plain') === it.id;
+}
+function openShop() {
+  const p = Prof.cur; if (!p) return;
+  RUN++; Coins.ensure(p);
+  shopScreen.classList.toggle('theme-dark', p.track === 'explore');
+  shopScreen.classList.toggle('theme-light', p.track !== 'explore');
+  SHP.sel = null; SHP.sure = false;
+  renderShop(); show('shop'); shopScreen.scrollTop = 0;
+  Voice.say(`Welcome to the shop! You have ${p.coins} coins. Tap something to try it on.`, 0.95);
+}
+function renderShop() {
+  const p = Prof.cur, sel = SHP.sel && shopItem(SHP.sel);
+  $('#shWallet').innerHTML = `${COIN_SVG(26)}<span>${p.coins} coins</span>`;
+  // Try-on: show the chosen item on the player's picture.
+  const w = p.wear || {};
+  let a = p.avatar, h = w.hat, b = w.bg;
+  if (sel && sel.kind === 'hat') h = sel.id;
+  if (sel && sel.kind === 'animal') a = sel.id;
+  if (sel && sel.kind === 'bg') b = sel.id === 'plain' ? null : sel.id;
+  $('#shPic').innerHTML = picSvg(a, h, b);
+  $('#shName').textContent = p.name;
+  let act = '', note = sel ? sel.name : 'Tap something to try it on.';
+  if (sel) {
+    if (wearing(p, sel)) act = sel.kind === 'hat' ? '<button class="big ghost" type="button" data-do="off">Take it off</button>' : '';
+    else if (Coins.owns(p, sel)) act = '<button class="big go" type="button" data-do="wear">Wear it</button>';
+    else if (p.coins >= sel.price) act = `<button class="big go ${SHP.sure ? 'sure' : ''}" type="button" data-do="buy">${SHP.sure ? 'Tap again to buy' : `Buy for ${sel.price}`}${SHP.sure ? '' : COIN_SVG(26)}</button>`;
+    else note = `${sel.name}: you need ${sel.price - p.coins} more coins. Play a game to earn them!`;
+    if (wearing(p, sel)) note = `${sel.name}: you are wearing it.`;
+  }
+  $('#shNote').textContent = note;
+  $('#shAct').innerHTML = act;
+  $('#shTabs').innerHTML = SHOP_TABS.map(([k, n]) => `<button type="button" class="${SHP.tab === k ? 'sel' : ''}" data-tab="${k}">${n}</button>`).join('');
+  $('#shGrid').innerHTML = SHOP.filter(i => i.kind === SHP.tab).map(it => {
+    const own = Coins.owns(p, it), on = wearing(p, it), afford = p.coins >= it.price;
+    const tag = on ? '<span class="tag on">Wearing</span>' : own ? '<span class="tag own">Yours</span>' : `<span class="tag price ${afford ? '' : 'short'}">${COIN_SVG(20)}${it.price}</span>`;
+    return `<button type="button" class="sh-item ${SHP.sel === it.id ? 'sel' : ''} ${on ? 'on' : ''}" data-id="${it.id}"><span class="sh-art">${itemArt(it, p)}</span><span class="sh-nm">${it.name}</span>${tag}</button>`;
+  }).join('');
+}
+$('#shTabs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; SHP.tab = b.dataset.tab; SHP.sel = null; SHP.sure = false; Sfx.tick(); renderShop(); });
+$('#shGrid').addEventListener('click', e => {
+  const b = e.target.closest('.sh-item'); if (!b) return;
+  SHP.sel = SHP.sel === b.dataset.id ? null : b.dataset.id; SHP.sure = false; Sfx.tick(); renderShop();
+  const it = SHP.sel && shopItem(SHP.sel), p = Prof.cur;
+  if (it && !Coins.owns(p, it)) Voice.say(p.coins >= it.price ? `${it.name}. It costs ${it.price} coins.` : `${it.name}. You need ${it.price - p.coins} more coins.`, 0.95);
+});
+$('#shAct').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const p = Prof.cur, it = shopItem(SHP.sel); if (!it) return;
+  p.wear = p.wear || {};
+  const put = () => { if (it.kind === 'hat') p.wear.hat = it.id; else if (it.kind === 'bg') p.wear.bg = it.id === 'plain' ? null : it.id; else p.avatar = it.id; };
+  if (b.dataset.do === 'buy') {
+    if (!SHP.sure) { SHP.sure = true; renderShop(); return; }
+    if (!Coins.buy(p, it)) return;
+    put(); Prof.save(); SHP.sure = false; renderShop();
+    Sfx.chime(); confetti(shopScreen);
+    Voice.say(`You bought the ${it.name.toLowerCase()}! It looks great.`, 0.95);
+    return;
+  }
+  if (b.dataset.do === 'wear') put();
+  if (b.dataset.do === 'off') p.wear.hat = null;
+  Prof.save(); Sfx.tick(); renderShop();
+});
 
 function startApp() {
   if (!Prof.data.players.length) openAdd(); else openWho();
