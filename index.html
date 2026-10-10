@@ -916,6 +916,79 @@ h1, .home-head h1 { font-weight: 800; letter-spacing: -0.02em; }
 .theme-light .tag.own { color: var(--l-text-2); background: #EEF3F8; }
 .theme-dark .tag.on { background: var(--d-go); color: var(--d-go-ink); }
 .theme-light .tag.on { background: var(--l-go); color: #FFFFFF; }
+/* Shop: own designs, treats */
+.sh-empty { grid-column: 1 / -1; margin: 0; font-size: 18px; line-height: 1.4; }
+.theme-dark .sh-empty { color: var(--d-text-2); }
+.theme-light .sh-empty { color: var(--l-text-2); }
+.sh-item.newhat, .sh-item.newpet { border-style: dashed !important; }
+.theme-light .sh-item.newhat, .theme-light .sh-item.newpet { border-color: #B9C9DA; }
+.sh-item.dhat .sh-art svg, .sh-item.dpet .sh-art svg { shape-rendering: crispEdges; }
+.sh-act { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.sh-act .big { min-width: 0; }
+#shExtra:empty { display: none; }
+#shExtra { margin-top: 22px; display: flex; flex-direction: column; gap: 10px; }
+.sh-reqs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.sh-reqs li { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-radius: 14px; font-size: 17px; }
+.theme-dark .sh-reqs li { border: 1.5px solid rgba(255,255,255,0.3); }
+.theme-light .sh-reqs li { background: #FFFFFF; box-shadow: var(--l-soft); }
+.r-ic { width: 32px; height: 32px; flex: 0 0 auto; }
+.r-ic svg { width: 100%; height: 100%; }
+.r-nm { flex: 1; font-weight: 600; min-width: 0; }
+.r-st { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; }
+.theme-dark .sh-reqs .wait .r-st { color: var(--d-yellow); }
+.theme-light .sh-reqs .wait .r-st { color: #9A5B00; }
+.theme-dark .sh-reqs .given .r-st { color: var(--d-go); }
+.theme-light .sh-reqs .given .r-st { color: var(--l-go); }
+
+/* Design studio */
+.st-wrap { display: grid; grid-template-columns: 1fr; gap: 20px; width: min(1100px, 100%); margin: 0 auto; }
+@media (min-width: 900px) { .st-wrap { grid-template-columns: 280px minmax(0, 1fr); gap: 36px; padding: 8px 24px 24px; } }
+.st-me { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+.st-me h1 { margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -0.02em; }
+.st-pic { width: 200px; height: 200px; }
+.st-pic svg { width: 100%; height: 100%; display: block; }
+.st-hint { margin: 0; font-size: 17px; line-height: 1.4; }
+.theme-dark .st-hint { color: var(--d-text-2); }
+.theme-light .st-hint { color: var(--l-text-2); }
+.st-work { display: flex; flex-direction: column; gap: 14px; align-items: center; }
+.st-pal { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 660px; }
+.st-col { width: 46px; height: 46px; border-radius: 50%; border: 3px solid rgba(0,0,0,0.12); padding: 0; }
+.st-col.sel { outline: 4px solid #FFC24B; outline-offset: 2px; }
+.st-tool { min-height: 46px; padding: 0 14px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 600; }
+.theme-dark .st-tool { background: transparent; border: 1.5px solid rgba(255,255,255,0.4); color: var(--d-text); }
+.theme-light .st-tool { background: #FFFFFF; border: 0; box-shadow: var(--l-soft); color: var(--l-ink); }
+.st-tool.sel { outline: 4px solid #FFC24B; outline-offset: 2px; }
+.st-grid { display: grid; gap: 0; width: min(560px, 100%, calc((100dvh - 330px) * var(--ratio, 1))); aspect-ratio: var(--ratio, 1); touch-action: none; border-radius: 10px; overflow: hidden; }
+.theme-dark .st-grid { background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.6); }
+.theme-light .st-grid { background: #FFFFFF; box-shadow: var(--l-soft); }
+.st-grid i { aspect-ratio: 1; display: block; }
+.theme-dark .st-grid i { box-shadow: inset 0 0 0 0.5px rgba(255,255,255,0.14); }
+.theme-light .st-grid i { box-shadow: inset 0 0 0 0.5px #D6E2EA; }
+.st-grid i.on { box-shadow: none; }
+.st-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.st-btns .big { min-width: 0; }
+.st-btns .big:disabled { opacity: 0.45; }
+
+/* Parent page: treats */
+.tr-intro { margin: 0 0 6px; }
+.tr-h { margin: 14px 0 8px; }
+.tr-wait li { border-color: #FFB627 !important; }
+.tr-wait .pt-actions { margin-top: 8px; }
+.tr-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.tr-list li { display: flex; align-items: center; gap: 14px; padding: 8px 8px 8px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.18); }
+.tr-nm { flex: 1; font-size: 18px; font-weight: 600; min-width: 0; }
+.tr-pr { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--d-yellow); }
+.tr-add { display: grid; grid-template-columns: minmax(0, 1fr) 130px auto; gap: 12px; align-items: end; margin-top: 16px; }
+@media (max-width: 640px) { .tr-add { grid-template-columns: 1fr; } }
+.tr-add label { display: flex; flex-direction: column; gap: 6px; font-size: 15px; font-weight: 600; color: var(--d-text-2); }
+.tr-add input { font: inherit; font-size: 18px; padding: 10px 14px; min-height: 52px; border-radius: 12px; border: 1.5px solid rgba(255,255,255,0.4); background: rgba(255,255,255,0.05); color: var(--d-text); user-select: text; -webkit-user-select: text; min-width: 0; }
+.tr-add input:focus { outline: none; border-color: var(--d-go); }
+.tr-ideas { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+.tr-ideas span { font-size: 15px; color: var(--d-text-2); }
+.tr-ideas .pt-btn { min-height: 44px; font-size: 15px; font-weight: 500; }
+.pt-btn.go { background: var(--d-go) !important; color: var(--d-go-ink) !important; border-color: var(--d-go) !important; }
+.pt-err { color: #FF9CC0; font-size: 16px; margin: 8px 0 0; }
+.tr-badge { margin-left: 8px; background: #FFC24B; color: #3A2500; border-radius: 999px; padding: 2px 10px; font-size: 14px; font-weight: 700; }
 </style>
 <style>
 /* Keep content clear of the iPad status bar and home indicator when opened from the home screen. */
@@ -1496,6 +1569,33 @@ h1, .home-head h1 { font-weight: 800; letter-spacing: -0.02em; }
     <div class="sh-side">
       <div class="sh-tabs" id="shTabs"></div>
       <div class="sh-grid" id="shGrid"></div>
+      <div id="shExtra"></div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN STUDIO -->
+<section id="studio" class="screen" hidden>
+  <div class="topbar">
+    <button class="pill" id="stBack" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>Back to the shop</button>
+    <span class="spacer"></span>
+    <button class="pill sound-toggle" type="button"></button>
+  </div>
+  <div class="st-wrap">
+    <div class="st-me">
+      <div class="sh-eyebrow">Design studio</div>
+      <h1 id="stTitle"></h1>
+      <div class="st-pic" id="stPic"></div>
+      <p class="st-hint" id="stHint"></p>
+    </div>
+    <div class="st-work">
+      <div class="st-pal" id="stPal"></div>
+      <div class="st-grid" id="stGrid"></div>
+      <div class="st-btns">
+        <button class="big ghost" id="stUndo" type="button">Undo</button>
+        <button class="big ghost" id="stClear" type="button">Clear</button>
+        <button class="big go" id="stSave" type="button">Save</button>
+      </div>
     </div>
   </div>
 </section>
@@ -4105,7 +4205,7 @@ function renderWho() {
     add.addEventListener('click', () => withPin(openAdd));
     grid.append(add);
   }
-  $('#whoManage').innerHTML = svgIcon('<rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>', 18) + '<span>Parent page</span>';
+  $('#whoManage').innerHTML = svgIcon('<rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>', 18) + '<span>Parent page</span>' + treatBadge();
 }
 $('#whoManage').addEventListener('click', openParentGate);
 function choosePlayer(id) {
@@ -4413,6 +4513,7 @@ function renderParent() {
     <div class="pt-card"><h2>Games</h2><div class="pt-table-wrap"><table class="pt-table">
       <thead><tr><th>Game</th><th>Times played</th><th>Best score</th><th>Right first time</th><th>Last played</th></tr></thead>
       <tbody>${rows}</tbody></table></div></div>
+    ${treatsCard()}
     <div class="pt-card"><h2>Settings</h2><div class="pt-actions">
       <button class="pt-btn" type="button" data-act="add">＋ Add a player</button>
       <button class="pt-btn" type="button" data-act="pin">Change the PIN</button>
@@ -4424,6 +4525,7 @@ $('#ptBody').addEventListener('click', e => {
   const b = e.target.closest('[data-act]'); if (!b) return;
   const act = b.dataset.act, p = Prof.data.players.find(x => x.id === parentSel);
   if (act === 'kid') { parentSel = b.dataset.id; renderParent(); return; }
+  if (treatAction(act, b)) return;
   if (act === 'add') { openAdd(); return; }
   if (act === 'pin') { openPin('create', openParent, openParent); return; }
   if ((act === 'reset' || act === 'remove') && p) {
@@ -4729,19 +4831,39 @@ const SHOP = [
 ];
 const shopItem = id => SHOP.find(i => i.id === id);
 
-// A player's picture: background colour, animal and hat.
+// A player's picture: background colour, animal, hat and pet.
+// `hat` is a hat name from HATS or ready-made drawing markup; `pet` is drawing markup.
 let picN = 0;
-function picSvg(animal, hat, bg) {
+function picSvg(animal, hat, bg, pet) {
   const key = animalKey(animal), b = BGS[bg];
   let defs = '', fill = ANIMALS[key].tint, extra = '';
   if (b && b.grad) { const gid = 'pg' + (++picN); defs = `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1">${b.grad.map(([o, c]) => `<stop offset="${o}" stop-color="${c}"/>`).join('')}</linearGradient></defs>`; fill = `url(#${gid})`; }
   else if (b) { fill = b.fill; extra = b.extra || ''; }
   const [hx, hy] = HEAD_TOP[key] || [50, 24];
   const pose = hat ? 'translate(14 22) scale(.72)' : 'translate(9 9) scale(.82)';
-  const hatSvg = hat && HATS[hat] ? `<g transform="translate(${hx} ${hy})">${HATS[hat]}</g>` : '';
-  return `<svg viewBox="0 0 100 100" aria-hidden="true">${defs}<circle cx="50" cy="50" r="50" fill="${fill}"/>${extra}<g transform="${pose}">${ANIMALS[key].svg}${hatSvg}</g></svg>`;
+  const hatSvg = hat ? `<g transform="translate(${hx} ${hy})">${HATS[hat] || hat}</g>` : '';
+  const petSvg = pet ? `<g transform="translate(64 62)">${pet}</g>` : '';
+  return `<svg viewBox="0 0 100 100" aria-hidden="true">${defs}<circle cx="50" cy="50" r="50" fill="${fill}"/>${extra}<g transform="${pose}">${ANIMALS[key].svg}${hatSvg}</g>${petSvg}</svg>`;
 }
-const playerPic = p => picSvg(p.avatar, p.wear && p.wear.hat, p.wear && p.wear.bg);
+
+// Children's own designs: a grid of coloured squares.
+const PIX_COLOURS = ['#1E2A3A', '#FFFFFF', '#E5383B', '#FF8A3D', '#FFC93C', '#3DBE8B', '#1F7F57', '#7FC4FF', '#3F78DC', '#7B61FF', '#FF8FC7', '#9C6C4B'];
+const PIX = { hat: { cols: 16, rows: 12, cell: 2.75, x: -22, y: -33 }, pet: { cols: 12, rows: 12, cell: 2.8, x: 0, y: 0 } };
+const blankPx = kind => '.'.repeat(PIX[kind].cols * PIX[kind].rows);
+function pixMarkup(kind, px) {
+  const g = PIX[kind]; let out = '';
+  for (let i = 0; i < px.length; i++) {
+    if (px[i] === '.') continue;
+    const r = Math.floor(i / g.cols), c = i % g.cols;
+    out += `<rect x="${(g.x + c * g.cell).toFixed(2)}" y="${(g.y + r * g.cell).toFixed(2)}" width="${g.cell + 0.12}" height="${g.cell + 0.12}" fill="${PIX_COLOURS[px.charCodeAt(i) - 97]}"/>`;
+  }
+  return out;
+}
+const designOf = (p, id) => (p.designs || []).find(d => d.id === id);
+const designMk = d => d ? pixMarkup(d.kind, d.px) : '';
+const hatMk = (p, id) => !id ? null : HATS[id] ? id : designMk(designOf(p, id)) || null;
+const petMk = (p, id) => !id ? null : designMk(designOf(p, id)) || null;
+const playerPic = p => { const w = p.wear || {}; return picSvg(p.avatar, hatMk(p, w.hat), w.bg, petMk(p, w.pet)); };
 
 const Coins = {
   // Older players get the coins for the stars they earned before coins existed.
@@ -4829,80 +4951,275 @@ $('#fnShop').addEventListener('click', () => { Voice.stop(); openShop(); });
 
 // ---------- Shop ----------
 const shopScreen = $('#shop');
-const SHOP_TABS = [['hat', 'Hats'], ['animal', 'Animals'], ['bg', 'Colours']];
+const SHOP_TABS = [['hat', 'Hats'], ['animal', 'Animals'], ['bg', 'Colours'], ['make', 'Make your own'], ['treat', 'Treats']];
+const DESIGN_PRICE = 60;
 const SHP = { tab: 'hat', sel: null, sure: false };
+const GIFT_SVG = `<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="20" width="34" height="22" rx="3" fill="#FF6FA0"/><rect x="5" y="13" width="38" height="9" rx="3" fill="#FF8FB4"/><rect x="21" y="13" width="6" height="29" fill="#FFC24B"/><path d="M24 13c-3-7-11-8-11-3 0 3 5 3 11 3zM24 13c3-7 11-8 11-3 0 3-5 3-11 3z" fill="none" stroke="#FFC24B" stroke-width="3" stroke-linejoin="round"/></svg>`;
+const NEW_SVG = kind => `<svg viewBox="0 0 48 48" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45">${Array.from({ length: 5 }, (_, i) => `<path d="M${6 + i * 9} 6V42M6 ${6 + i * 9}H42"/>`).join('')}</g><rect x="15" y="15" width="9" height="9" fill="#FF8FC7"/><rect x="24" y="15" width="9" height="9" fill="#FFC93C"/><rect x="15" y="24" width="9" height="9" fill="#7FC4FF"/>${kind === 'hat' ? '' : '<rect x="24" y="24" width="9" height="9" fill="#3DBE8B"/>'}</svg>`;
+
+// Everything on a shop tab, including the child's own designs and the family's treats.
+function tabItems(p, tab) {
+  if (tab === 'make') {
+    const mine = (p.designs || []).map((d, i, all) => ({ id: d.id, kind: d.kind === 'hat' ? 'dhat' : 'dpet', name: `My ${d.kind} ${all.filter((x, j) => x.kind === d.kind && j <= i).length}`, price: 0, d }));
+    return [{ id: 'newhat', kind: 'newhat', name: 'Design a hat', price: DESIGN_PRICE }, { id: 'newpet', kind: 'newpet', name: 'Design a pet', price: DESIGN_PRICE }].concat(mine);
+  }
+  if (tab === 'treat') return (Prof.data.treats || []).map(t => ({ id: t.id, kind: 'treat', name: t.name, price: t.price }));
+  return SHOP.filter(i => i.kind === tab);
+}
+const findItem = (p, id) => id && tabItems(p, SHP.tab).find(i => i.id === id);
 function itemArt(it, p) {
   if (it.kind === 'hat') return `<svg viewBox="-30 -46 60 52" aria-hidden="true">${HATS[it.id]}</svg>`;
   if (it.kind === 'animal') return avatarSvg(it.id);
+  if (it.kind === 'dhat') return `<svg viewBox="-24 -35 48 37" aria-hidden="true">${designMk(it.d)}</svg>`;
+  if (it.kind === 'dpet') return `<svg viewBox="-1 -1 36 36" aria-hidden="true">${designMk(it.d)}</svg>`;
+  if (it.kind === 'newhat') return NEW_SVG('hat');
+  if (it.kind === 'newpet') return NEW_SVG('pet');
+  if (it.kind === 'treat') return GIFT_SVG;
   return picSvg(p.avatar, null, it.id === 'plain' ? null : it.id);
 }
 function wearing(p, it) {
   const w = p.wear || {};
-  if (it.kind === 'hat') return w.hat === it.id;
+  if (it.kind === 'hat' || it.kind === 'dhat') return w.hat === it.id;
+  if (it.kind === 'dpet') return w.pet === it.id;
   if (it.kind === 'animal') return animalKey(p.avatar) === it.id;
-  return (w.bg || 'plain') === it.id;
+  if (it.kind === 'bg') return (w.bg || 'plain') === it.id;
+  return false;
 }
-function openShop() {
+const ownsItem = (p, it) => it.kind === 'dhat' || it.kind === 'dpet' || (!['newhat', 'newpet', 'treat'].includes(it.kind) && Coins.owns(p, it));
+function openShop(tab) {
   const p = Prof.cur; if (!p) return;
   RUN++; Coins.ensure(p);
   shopScreen.classList.toggle('theme-dark', p.track === 'explore');
   shopScreen.classList.toggle('theme-light', p.track !== 'explore');
+  if (typeof tab === 'string') SHP.tab = tab;
   SHP.sel = null; SHP.sure = false;
   renderShop(); show('shop'); shopScreen.scrollTop = 0;
   Voice.say(`Welcome to the shop! You have ${p.coins} coins. Tap something to try it on.`, 0.95);
 }
+const BTN = (cls, d, label) => `<button class="big ${cls}" type="button" data-do="${d}">${label}</button>`;
 function renderShop() {
-  const p = Prof.cur, sel = SHP.sel && shopItem(SHP.sel);
+  const p = Prof.cur, sel = findItem(p, SHP.sel);
   $('#shWallet').innerHTML = `${COIN_SVG(26)}<span>${p.coins} coins</span>`;
   // Try-on: show the chosen item on the player's picture.
   const w = p.wear || {};
-  let a = p.avatar, h = w.hat, b = w.bg;
+  let a = p.avatar, h = hatMk(p, w.hat), b = w.bg, pet = petMk(p, w.pet);
   if (sel && sel.kind === 'hat') h = sel.id;
+  if (sel && sel.kind === 'dhat') h = designMk(sel.d);
+  if (sel && sel.kind === 'dpet') pet = designMk(sel.d);
   if (sel && sel.kind === 'animal') a = sel.id;
   if (sel && sel.kind === 'bg') b = sel.id === 'plain' ? null : sel.id;
-  $('#shPic').innerHTML = picSvg(a, h, b);
+  $('#shPic').innerHTML = picSvg(a, h, b, pet);
   $('#shName').textContent = p.name;
-  let act = '', note = sel ? sel.name : 'Tap something to try it on.';
+  let act = '', note = sel ? sel.name : SHP.tab === 'treat' ? 'Save your coins for a real treat!' : SHP.tab === 'make' ? 'Make a hat or a pet with your own colours.' : 'Tap something to try it on.';
   if (sel) {
-    if (wearing(p, sel)) act = sel.kind === 'hat' ? '<button class="big ghost" type="button" data-do="off">Take it off</button>' : '';
-    else if (Coins.owns(p, sel)) act = '<button class="big go" type="button" data-do="wear">Wear it</button>';
+    const short = `${sel.name}: you need ${sel.price - p.coins} more coins. Play a game to earn them!`;
+    if (sel.kind === 'newhat' || sel.kind === 'newpet') {
+      if (p.coins >= sel.price) { act = BTN('go', 'design', 'Start designing'); note = `${sel.name}. It costs ${sel.price} coins when you save it.`; }
+      else note = short;
+    } else if (sel.kind === 'treat') {
+      if (p.coins >= sel.price) { act = `<button class="big go ${SHP.sure ? 'sure' : ''}" type="button" data-do="ask">${SHP.sure ? 'Tap again to ask' : `Ask for it for ${sel.price}`}${SHP.sure ? '' : COIN_SVG(26)}</button>`; note = `${sel.name}. A grown-up will give you this treat.`; }
+      else note = short;
+    } else if (wearing(p, sel)) {
+      act = (sel.kind === 'hat' || sel.kind === 'dhat' || sel.kind === 'dpet' ? BTN('ghost', 'off', 'Take it off') : '') + (sel.d ? BTN('ghost', 'edit', 'Change it') : '');
+      note = `${sel.name}: you are wearing it.`;
+    } else if (ownsItem(p, sel)) act = BTN('go', 'wear', 'Wear it') + (sel.d ? BTN('ghost', 'edit', 'Change it') : '');
     else if (p.coins >= sel.price) act = `<button class="big go ${SHP.sure ? 'sure' : ''}" type="button" data-do="buy">${SHP.sure ? 'Tap again to buy' : `Buy for ${sel.price}`}${SHP.sure ? '' : COIN_SVG(26)}</button>`;
-    else note = `${sel.name}: you need ${sel.price - p.coins} more coins. Play a game to earn them!`;
-    if (wearing(p, sel)) note = `${sel.name}: you are wearing it.`;
+    else note = short;
   }
   $('#shNote').textContent = note;
   $('#shAct').innerHTML = act;
   $('#shTabs').innerHTML = SHOP_TABS.map(([k, n]) => `<button type="button" class="${SHP.tab === k ? 'sel' : ''}" data-tab="${k}">${n}</button>`).join('');
-  $('#shGrid').innerHTML = SHOP.filter(i => i.kind === SHP.tab).map(it => {
-    const own = Coins.owns(p, it), on = wearing(p, it), afford = p.coins >= it.price;
+  const items = tabItems(p, SHP.tab);
+  $('#shGrid').innerHTML = items.map(it => {
+    const own = ownsItem(p, it), on = wearing(p, it), afford = p.coins >= it.price;
     const tag = on ? '<span class="tag on">Wearing</span>' : own ? '<span class="tag own">Yours</span>' : `<span class="tag price ${afford ? '' : 'short'}">${COIN_SVG(20)}${it.price}</span>`;
-    return `<button type="button" class="sh-item ${SHP.sel === it.id ? 'sel' : ''} ${on ? 'on' : ''}" data-id="${it.id}"><span class="sh-art">${itemArt(it, p)}</span><span class="sh-nm">${it.name}</span>${tag}</button>`;
-  }).join('');
+    return `<button type="button" class="sh-item ${it.kind} ${SHP.sel === it.id ? 'sel' : ''} ${on ? 'on' : ''}" data-id="${it.id}"><span class="sh-art">${itemArt(it, p)}</span><span class="sh-nm">${esc(it.name)}</span>${tag}</button>`;
+  }).join('') || (SHP.tab === 'treat' ? '<p class="sh-empty">There are no treats yet. Ask a grown-up to add some treats on the parent page.</p>' : '');
+  // My treats: what this child has asked for.
+  const reqs = SHP.tab === 'treat' ? (p.treatReq || []).slice(-8).reverse() : [];
+  $('#shExtra').innerHTML = reqs.length ? `<div class="sh-eyebrow">My treats</div><ul class="sh-reqs">${reqs.map(r => `<li class="${r.st}"><span class="r-ic">${GIFT_SVG}</span><span class="r-nm">${esc(r.name)}</span><span class="r-st">${r.st === 'given' ? svgIcon('<path d="M6 12.5l4 4 8-9"/>', 18, 3) + 'Got it!' : 'Waiting for a grown-up'}</span></li>`).join('')}</ul>` : '';
 }
 $('#shTabs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; SHP.tab = b.dataset.tab; SHP.sel = null; SHP.sure = false; Sfx.tick(); renderShop(); });
 $('#shGrid').addEventListener('click', e => {
   const b = e.target.closest('.sh-item'); if (!b) return;
   SHP.sel = SHP.sel === b.dataset.id ? null : b.dataset.id; SHP.sure = false; Sfx.tick(); renderShop();
-  const it = SHP.sel && shopItem(SHP.sel), p = Prof.cur;
-  if (it && !Coins.owns(p, it)) Voice.say(p.coins >= it.price ? `${it.name}. It costs ${it.price} coins.` : `${it.name}. You need ${it.price - p.coins} more coins.`, 0.95);
+  const p = Prof.cur, it = findItem(p, SHP.sel);
+  if (it && !ownsItem(p, it)) Voice.say(p.coins >= it.price ? `${it.name}. It costs ${it.price} coins.` : `${it.name}. You need ${it.price - p.coins} more coins.`, 0.95);
 });
 $('#shAct').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
-  const p = Prof.cur, it = shopItem(SHP.sel); if (!it) return;
+  const p = Prof.cur, it = findItem(p, SHP.sel); if (!it) return;
   p.wear = p.wear || {};
-  const put = () => { if (it.kind === 'hat') p.wear.hat = it.id; else if (it.kind === 'bg') p.wear.bg = it.id === 'plain' ? null : it.id; else p.avatar = it.id; };
-  if (b.dataset.do === 'buy') {
+  const put = () => {
+    if (it.kind === 'hat' || it.kind === 'dhat') p.wear.hat = it.id;
+    else if (it.kind === 'dpet') p.wear.pet = it.id;
+    else if (it.kind === 'bg') p.wear.bg = it.id === 'plain' ? null : it.id;
+    else p.avatar = it.id;
+  };
+  const d = b.dataset.do;
+  if (d === 'design') { openStudio(it.kind === 'newhat' ? 'hat' : 'pet', null); return; }
+  if (d === 'edit') { openStudio(it.d.kind, it.d.id); return; }
+  if (d === 'buy' || d === 'ask') {
     if (!SHP.sure) { SHP.sure = true; renderShop(); return; }
-    if (!Coins.buy(p, it)) return;
-    put(); Prof.save(); SHP.sure = false; renderShop();
-    Sfx.chime(); confetti(shopScreen);
-    Voice.say(`You bought the ${it.name.toLowerCase()}! It looks great.`, 0.95);
+    if (p.coins < it.price) return;
+    SHP.sure = false;
+    if (d === 'buy') {
+      if (!Coins.buy(p, it)) return;
+      put(); Prof.save(); renderShop();
+      Sfx.chime(); confetti(shopScreen);
+      Voice.say(`You bought the ${it.name.toLowerCase()}! It looks great.`, 0.95);
+    } else {
+      p.coins -= it.price;
+      (p.treatReq || (p.treatReq = [])).push({ id: 'r' + Date.now().toString(36), tid: it.id, name: it.name, price: it.price, t: Date.now(), st: 'wait' });
+      Prof.save(); SHP.sel = null; renderShop();
+      Sfx.chime(); confetti(shopScreen);
+      Voice.say(`Well done for saving your coins! A grown-up will see that you asked for: ${it.name}.`, 0.95);
+    }
     return;
   }
-  if (b.dataset.do === 'wear') put();
-  if (b.dataset.do === 'off') p.wear.hat = null;
+  if (d === 'wear') put();
+  if (d === 'off') { if (it.kind === 'dpet') p.wear.pet = null; else p.wear.hat = null; }
   Prof.save(); Sfx.tick(); renderShop();
 });
+
+// ---------- Design studio: colour squares to make a hat or a pet ----------
+const stScreen = $('#studio');
+const ST = { kind: 'hat', id: null, px: '', colour: 2, tool: 'paint', undo: [], down: false };
+$('#stPal').innerHTML = PIX_COLOURS.map((c, i) => `<button type="button" class="st-col" data-c="${i}" style="background:${c}" aria-label="Colour ${i + 1}"></button>`).join('') +
+  `<button type="button" class="st-tool" data-t="fill" aria-label="Fill">${svgIcon('<path d="M5 13l7-7 7 7-7 7z"/><path d="M19 15c1 1.6 1.5 2.6 1.5 3.3a1.5 1.5 0 0 1-3 0c0-.7.5-1.7 1.5-3.3z"/>', 26)}<span>Fill</span></button>` +
+  `<button type="button" class="st-tool" data-t="erase" aria-label="Rubber">${svgIcon('<path d="M4 16l9-9 6 6-7 7H7z"/><path d="M10 20h10"/>', 26)}<span>Rubber</span></button>`;
+function openStudio(kind, id) {
+  const p = Prof.cur, d = id && designOf(p, id);
+  RUN++;
+  stScreen.classList.toggle('theme-dark', p.track === 'explore');
+  stScreen.classList.toggle('theme-light', p.track !== 'explore');
+  Object.assign(ST, { kind, id: d ? d.id : null, px: d ? d.px : blankPx(kind), undo: [], tool: 'paint' });
+  const g = PIX[kind];
+  $('#stGrid').style.gridTemplateColumns = `repeat(${g.cols}, minmax(0, 1fr))`;
+  $('#stGrid').style.setProperty('--ratio', `${g.cols} / ${g.rows}`);
+  $('#stGrid').innerHTML = '<i></i>'.repeat(g.cols * g.rows);
+  $('#stTitle').textContent = kind === 'hat' ? 'Design a hat' : 'Design a pet';
+  $('#stHint').textContent = kind === 'hat' ? 'Colour the squares. The bottom row sits on top of your head.' : 'Colour the squares to make a little pet. It sits next to you in your picture.';
+  renderStudio(); show('studio'); stScreen.scrollTop = 0;
+  Voice.say(kind === 'hat' ? 'Make your own hat! Choose a colour, then tap or drag on the squares.' : 'Make your own pet! Choose a colour, then tap or drag on the squares.', 0.95);
+}
+function renderStudio() {
+  const p = Prof.cur, w = p.wear || {}, mk = pixMarkup(ST.kind, ST.px);
+  $('#stPic').innerHTML = ST.kind === 'hat' ? picSvg(p.avatar, mk || null, w.bg, petMk(p, w.pet)) : picSvg(p.avatar, hatMk(p, w.hat), w.bg, mk || null);
+  $$('#stGrid i').forEach((c, i) => { const ch = ST.px[i]; c.style.background = ch === '.' ? '' : PIX_COLOURS[ch.charCodeAt(0) - 97]; c.classList.toggle('on', ch !== '.'); });
+  $$('#stPal .st-col').forEach(b => b.classList.toggle('sel', ST.tool !== 'erase' && +b.dataset.c === ST.colour));
+  $$('#stPal .st-tool').forEach(b => b.classList.toggle('sel', b.dataset.t === ST.tool));
+  const empty = !/[^.]/.test(ST.px), isNew = !ST.id;
+  const save = $('#stSave');
+  save.disabled = empty || (isNew && p.coins < DESIGN_PRICE);
+  save.innerHTML = isNew ? `Save for ${DESIGN_PRICE}${COIN_SVG(26)}` : 'Save';
+  $('#stUndo').disabled = !ST.undo.length;
+}
+const stCellAt = (x, y) => { const el = document.elementFromPoint(x, y); return el && el.parentElement === $('#stGrid') ? $$('#stGrid i').indexOf(el) : -1; };
+function stPaint(i) {
+  if (i < 0) return;
+  const ch = ST.tool === 'erase' ? '.' : String.fromCharCode(97 + ST.colour);
+  if (ST.tool === 'fill') {
+    const g = PIX[ST.kind], from = ST.px[i]; if (from === ch) return;
+    const a = ST.px.split(''), todo = [i];
+    while (todo.length) {
+      const k = todo.pop(); if (a[k] !== from) continue;
+      a[k] = ch; const r = Math.floor(k / g.cols), c = k % g.cols;
+      if (c > 0) todo.push(k - 1); if (c < g.cols - 1) todo.push(k + 1); if (r > 0) todo.push(k - g.cols); if (r < g.rows - 1) todo.push(k + g.cols);
+    }
+    ST.px = a.join('');
+  } else {
+    if (ST.px[i] === ch) return;
+    ST.px = ST.px.slice(0, i) + ch + ST.px.slice(i + 1);
+  }
+  renderStudio();
+}
+$('#stGrid').addEventListener('pointerdown', e => {
+  e.preventDefault();
+  ST.undo.push(ST.px); if (ST.undo.length > 40) ST.undo.shift();
+  ST.down = ST.tool !== 'fill';
+  try { $('#stGrid').setPointerCapture(e.pointerId); } catch (err) {}
+  stPaint(stCellAt(e.clientX, e.clientY)); Sfx.tick();
+});
+$('#stGrid').addEventListener('pointermove', e => { if (ST.down) stPaint(stCellAt(e.clientX, e.clientY)); });
+['pointerup', 'pointercancel'].forEach(t => $('#stGrid').addEventListener(t, () => { ST.down = false; if (ST.undo.length && ST.undo[ST.undo.length - 1] === ST.px) ST.undo.pop(); renderStudio(); }));
+$('#stPal').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.c != null) { ST.colour = +b.dataset.c; if (ST.tool === 'erase') ST.tool = 'paint'; }
+  else ST.tool = ST.tool === b.dataset.t ? 'paint' : b.dataset.t;
+  Sfx.tick(); renderStudio();
+});
+$('#stUndo').addEventListener('click', () => { if (!ST.undo.length) return; ST.px = ST.undo.pop(); Sfx.tick(); renderStudio(); });
+$('#stClear').addEventListener('click', () => { if (!/[^.]/.test(ST.px)) return; ST.undo.push(ST.px); ST.px = blankPx(ST.kind); Sfx.tick(); renderStudio(); });
+$('#stBack').addEventListener('click', () => { Voice.stop(); openShop('make'); });
+$('#stSave').addEventListener('click', () => {
+  const p = Prof.cur;
+  if (!/[^.]/.test(ST.px)) return;
+  p.wear = p.wear || {}; p.designs = p.designs || [];
+  let d = ST.id && designOf(p, ST.id);
+  if (!d) {
+    if (p.coins < DESIGN_PRICE) return;
+    p.coins -= DESIGN_PRICE;
+    d = { id: 'd' + Date.now().toString(36), kind: ST.kind, px: ST.px };
+    p.designs.push(d);
+  } else d.px = ST.px;
+  if (d.kind === 'hat') p.wear.hat = d.id; else p.wear.pet = d.id;
+  Prof.save();
+  openShop('make'); SHP.sel = d.id; renderShop();
+  Sfx.chime(); confetti(shopScreen);
+  Voice.say(d.kind === 'hat' ? 'What a great hat! You are wearing it now.' : 'What a lovely pet! It is in your picture now.', 0.95);
+});
+
+// ---------- Parent page: treats ----------
+const TREAT_IDEAS = [['Ice cream', 100], ['Choose a film for movie night', 150], ['Trip to the park', 200], ['Trip to the shopping mall', 500]];
+function treatsCard() {
+  const ts = Prof.data.treats || [];
+  const waiting = [];
+  Prof.data.players.forEach(pl => (pl.treatReq || []).forEach(r => { if (r.st === 'wait') waiting.push({ pl, r }); }));
+  const wait = waiting.length
+    ? `<ul class="pt-list tr-wait">${waiting.map(({ pl, r }) => `<li><b>${esc(pl.name)} asked for: ${esc(r.name)}</b><span>${r.price} coins already taken · ${relDay(r.t).toLowerCase()}</span><div class="pt-actions"><button class="pt-btn go" type="button" data-act="tgive" data-p="${pl.id}" data-r="${r.id}">Mark as given</button><button class="pt-btn" type="button" data-act="tback" data-p="${pl.id}" data-r="${r.id}">Cancel and give the coins back</button></div></li>`).join('')}</ul>`
+    : '<p class="pt-empty">No treats are waiting. When a child asks for a treat, it appears here.</p>';
+  const list = ts.length
+    ? `<ul class="tr-list">${ts.map(t => `<li><span class="tr-nm">${esc(t.name)}</span><span class="tr-pr">${COIN_SVG(20)}${t.price}</span><button class="pt-btn" type="button" data-act="trm" data-t="${t.id}">Remove</button></li>`).join('')}</ul>`
+    : '<p class="pt-empty">There are no treats yet. Add one below.</p>';
+  return `<div class="pt-card"><h2>Treats</h2>
+    <p class="pt-note tr-intro">Add real treats that the children can save their coins for. One game earns about 10 to 30 coins, and the daily goal adds 10 more.</p>
+    <div class="pt-eyebrow tr-h">Waiting for you</div>${wait}
+    <div class="pt-eyebrow tr-h">Treats in the shop (for all players)</div>${list}
+    <div class="tr-add">
+      <label>Treat<input id="trName" type="text" maxlength="40" placeholder="For example: trip to the shopping mall"></label>
+      <label>Coins<input id="trPrice" type="number" inputmode="numeric" min="10" max="5000" step="10" placeholder="500"></label>
+      <button class="pt-btn go" type="button" data-act="tadd">＋ Add treat</button>
+    </div>
+    <p class="pt-err" id="trErr" hidden></p>
+    <div class="tr-ideas"><span>Ideas:</span>${TREAT_IDEAS.map(([n, c]) => `<button class="pt-btn" type="button" data-act="tidea" data-n="${esc(n)}" data-c="${c}">${esc(n)} · ${c}</button>`).join('')}</div>
+  </div>`;
+}
+function treatAction(act, b) {
+  const data = Prof.data;
+  if (act === 'tidea') { $('#trName').value = b.dataset.n; $('#trPrice').value = b.dataset.c; return true; }
+  if (act === 'tadd') {
+    const name = $('#trName').value.trim().replace(/\s+/g, ' '), price = Math.round(+$('#trPrice').value);
+    const err = $('#trErr');
+    if (!name || !(price >= 10 && price <= 5000)) { err.hidden = false; err.textContent = !name ? 'Please type the name of the treat.' : 'Please choose a price from 10 to 5,000 coins.'; return true; }
+    (data.treats || (data.treats = [])).push({ id: 't' + Date.now().toString(36), name, price });
+    Prof.save(); renderParent(); return true;
+  }
+  if (act === 'trm') { data.treats = (data.treats || []).filter(t => t.id !== b.dataset.t); Prof.save(); renderParent(); return true; }
+  if (act === 'tgive' || act === 'tback') {
+    const pl = data.players.find(x => x.id === b.dataset.p), r = pl && (pl.treatReq || []).find(x => x.id === b.dataset.r);
+    if (!r) return true;
+    if (act === 'tgive') { r.st = 'given'; r.tg = Date.now(); }
+    else { pl.coins += r.price; pl.treatReq = pl.treatReq.filter(x => x !== r); }
+    Prof.save(); renderParent(); return true;
+  }
+  return false;
+}
+
+function treatBadge() {
+  const n = Prof.data.players.reduce((s, pl) => s + (pl.treatReq || []).filter(r => r.st === 'wait').length, 0);
+  return n ? `<b class="tr-badge">${n} ${n === 1 ? 'treat' : 'treats'} waiting</b>` : '';
+}
 
 function startApp() {
   if (!Prof.data.players.length) openAdd(); else openWho();
