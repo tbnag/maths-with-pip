@@ -370,6 +370,8 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
 .card .art .emoji-art { font-size: 34px; line-height: 1.25; text-align: center; }
 .card .art .art-text { font-family: var(--display); font-weight: 700; font-size: 32px; color: var(--violet-dark); }
 .sh-friends { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+.screen.theme-light .sh-friends.three .sh-plate { width: 168px; min-height: 112px; padding: 12px 14px; }
+.screen.theme-light .sh-friends.three .sh-plate .ap { width: 34px; height: 34px; }
 .sh-friend { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .sh-face { font-size: 52px; line-height: 1; }
 .sh-plate { width: 156px; min-height: 112px; border-radius: 50%; background: radial-gradient(ellipse at center, #FFFFFF 58%, #E3EAF0 100%); display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 2px; padding: 16px 22px; box-shadow: 0 4px 0 rgba(27,42,51,.08); cursor: pointer; transition: box-shadow .2s; }
@@ -800,13 +802,13 @@ h1, .home-head h1 { font-weight: 800; letter-spacing: -0.02em; }
 .intro-card { width: min(620px, 100%); display: flex; flex-direction: column; gap: 10px; padding: 26px 30px; border-radius: 16px; }
 .theme-dark .intro-card { border: 1.5px solid rgba(255,255,255,0.78); }
 .theme-light .intro-card { background: #FFFFFF; border-radius: 28px; box-shadow: 0 1px 2px rgba(30,42,58,0.04), 0 12px 30px rgba(30,42,58,0.08); }
-.intro-art { display: grid; place-items: center; height: 150px; margin-bottom: 4px; }
-.intro-art svg { width: 260px; height: 146px; }
+.intro-art { display: grid; place-items: center; height: 112px; margin-bottom: 0; }
+.intro-art svg { width: 196px; height: 110px; }
 .intro-art .emoji-art { font-size: 40px; }
 .intro-skill, .intro-label { font-size: 14px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
 .theme-dark .intro-skill { color: var(--d-go); }
 .theme-light .intro-skill { color: #1E6FD9; }
-.intro-title { font-family: var(--display); font-size: 40px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 10px; }
+.intro-title { font-family: var(--display); font-size: 40px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 4px; }
 .intro-label { margin-top: 4px; }
 .theme-dark .intro-label, .theme-dark .intro-meta { color: var(--d-text-2); }
 .theme-light .intro-label, .theme-light .intro-meta { color: var(--l-text-2); }
@@ -816,6 +818,18 @@ h1, .home-head h1 { font-weight: 800; letter-spacing: -0.02em; }
 .theme-dark .intro-learn li svg { color: var(--d-go); }
 .theme-light .intro-learn li svg { color: var(--l-go); }
 .intro-meta { font-size: 16px; margin-top: 8px; }
+.intro-levels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.lv-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 8px; border-radius: 14px; font: inherit; cursor: pointer; min-height: 84px; }
+.lv-n { font-family: var(--display); font-size: 20px; font-weight: 800; }
+.lv-name { font-size: 15px; }
+.lv-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 15px; font-weight: 700; margin-top: 4px; }
+.lv-btn.locked { opacity: .6; }
+.theme-dark .lv-btn { background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.28); color: var(--d-text); }
+.theme-dark .lv-btn.sel { border-color: var(--d-go); background: rgba(61,220,151,0.14); }
+.theme-dark .lv-btn.sel .lv-n { color: var(--d-go); }
+.theme-light .lv-btn { background: #F3F8FD; border: 2px solid #D5E3F1; color: var(--l-ink); }
+.theme-light .lv-btn.sel { border-color: var(--l-go); background: #E7F7EF; }
+.theme-light .lv-btn.sel .lv-n { color: var(--l-go); }
 #inStart { min-width: 220px; }
 /* Coins strip on the home screen */
 .wallet { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; width: min(1100px, 100%); margin: 8px auto 0; }
@@ -1710,6 +1724,9 @@ h1, .home-head h1 { font-weight: 800; letter-spacing: -0.02em; }
       <div class="intro-label">You will learn</div>
       <ul class="intro-learn" id="inLearn"></ul>
       <div class="intro-meta" id="inMeta"></div>
+      <div class="intro-label">Choose a level</div>
+      <div class="intro-levels" id="inLevels"></div>
+      <div class="intro-meta" id="inLvNote"></div>
     </div>
   </div>
   <div class="controls">
@@ -1742,7 +1759,7 @@ const rand = (lo, hi) => lo + Math.floor(Math.random() * (hi - lo + 1));
 const pick = arr => arr[rand(0, arr.length - 1)];
 const pl = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
 const cap = s => String(s).charAt(0).toUpperCase() + String(s).slice(1);
-const WORDS = ['zero','one','two','three','four','five','six','seven','eight','nine','ten'];
+const WORDS = ['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
 const memStore = {};
 const store = {
   get(k, d) { try { const v = localStorage.getItem(k); if (v) return JSON.parse(v); } catch (e) {} return k in memStore ? memStore[k] : d; },
@@ -2030,6 +2047,7 @@ const apGuide = makeGuide(apScreen, 0.85);
 const AP = { q: 0, total: 5, target: 0, prev: 0, mistakes: 0, easier: false, basket: [], apples: [] };
 const TREE_SLOTS = [[12, 24], [22, 16], [33, 22], [10, 38], [20, 33], [30, 36], [38, 30], [15, 48], [26, 46], [36, 45]];
 const RANGES = [[1, 3], [2, 5], [3, 6], [4, 8], [5, 10]];
+const RANGES2 = [[4, 7], [5, 8], [6, 9], [6, 10], [7, 10]];
 const basketSlot = i => [61 + (i % 5) * 7.5, i < 5 ? 68 : 82];
 const APPLE_SVG = '<svg viewBox="0 0 40 40"><path d="M20 11c-4-3-13-3-15 6-2 9 4 19 9 20 3 1 4-1 6-1s3 2 6 1c5-1 11-11 9-20-2-9-11-9-15-6z" fill="#E5383B"/><path d="M12 16c-2 2-3 6-2 9" stroke="#fff" stroke-opacity=".55" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M20 11c0-4 1-6 3-8" stroke="#6B3E26" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M22 7c3-4 8-4 10-2-2 3-6 4-10 2z" fill="#4CAF50"/></svg>';
 
@@ -2109,11 +2127,16 @@ async function demoPut(r) {
   hand.classList.remove('press');
   await handTo(basketSlot(AP.basket.length - 1));
 }
+// Level 3 starts with some apples already in the basket.
+function apRefill() { returnAll(); for (let i = 0; i < (AP.start || 0); i++) moveIn(i, true); }
 function renderTarget(n) {
+  $('#apFrame').style.visibility = Lv.cur > 1 ? 'hidden' : '';
   $('#apNum').textContent = n;
   $$('#apFrame i').forEach((d, i) => d.classList.toggle('on', i < n));
 }
-const askText = n => `Can you put ${WORDS[n]} ${n === 1 ? 'apple' : 'apples'} in my basket?`;
+const askText = n => AP.start
+  ? `There are ${WORDS[AP.start]} apples in my basket. Make it ${WORDS[n]}. How many more do you need?`
+  : `Can you put ${WORDS[n]} ${n === 1 ? 'apple' : 'apples'} in my basket?`;
 
 async function startApple() {
   const r = ++RUN;
@@ -2138,9 +2161,12 @@ async function startApple() {
 async function apNext(r) {
   AP.mistakes = 0; returnAll(); hand.hidden = true;
   let lo, hi;
-  if (AP.easier) { lo = 1; hi = Math.max(1, AP.prev - 1); AP.easier = false; } else [lo, hi] = RANGES[AP.q];
+  const easier = AP.easier;
+  if (AP.easier) { lo = 1; hi = Math.max(1, AP.prev - 1); AP.easier = false; } else [lo, hi] = (Lv.cur === 1 ? RANGES : RANGES2)[AP.q];
   let n; do { n = rand(lo, hi); } while (n === AP.prev && hi > lo);
   AP.target = n; AP.prev = n;
+  AP.start = Lv.cur === 3 && !easier && n >= 4 ? rand(2, n - 2) : 0;
+  apRefill();
   renderTarget(n); $('#apTarget').hidden = false;
   busy(apScreen, false);
   await apGuide.say(askText(n));
@@ -2187,7 +2213,7 @@ async function apWatch(r) {
   }
   hand.hidden = true;
   await apGuide.say(`${cap(WORDS[n])}! Now you try.`); if (!alive(r)) return;
-  returnAll();
+  apRefill();
 }
 
 async function apShow(r) {
@@ -2241,16 +2267,24 @@ function finishLittle(what, again) {
   const book = Prof.sticker(s);
   const max = Prof.sCount * 3, stars = Prof.sStars;
   Prof.finish(stars, max);
-  showReward(Coins.award(stars));
+  const lv = Lv.finish(stars, max);
+  showReward(Coins.award(stars, lv));
   $('#finish').classList.remove('explore');
   $('#fnArt').innerHTML = `<div class="sticker">${stickerHTML(s)}</div>`;
   $('#fnTitle').textContent = 'You did it!';
-  $('#fnSub').textContent = `You finished 5 ${what} and got ★ ${stars} of ${max}. Here is a new sticker!`;
+  $('#fnSub').textContent = `Level ${lv.level}. You finished 5 ${what} and got ★ ${stars} of ${max}. Here is a new sticker!`;
   $('#fnBook').innerHTML = `<div class="book-label">Your sticker book</div><div class="book">${book.map(x => `<span>${stickerHTML(x)}</span>`).join('')}</div>`;
-  $('#fnAgain').onclick = again;
+  setAgain(again, lv);
   show('finish');
   Sfx.chime(); confetti($('#finish'));
-  Voice.say('You did it! Here is a new sticker for your sticker book.', 0.85);
+  Voice.say('You did it! Here is a new sticker for your sticker book.' + lvSpeech(lv), 0.85);
+}
+// After a new level opens, the first button plays that level.
+const AGAIN_SVG = $('#fnAgain svg').outerHTML;
+function setAgain(again, lv) {
+  const b = $('#fnAgain'), up = lv.unlocked;
+  b.innerHTML = AGAIN_SVG + (up ? `Play Level ${up}` : 'Play again');
+  b.onclick = () => { if (up) Lv.cur = up; again(); };
 }
 function finishApple() { finishLittle('apple puzzles', startApple); }
 
@@ -2350,7 +2384,9 @@ function pickPair(build) {
   let a, b, key;
   do {
     if (TB.easier) { a = 2; b = rand(2, 4); }
-    else { a = rand(2, 5); b = rand(2, build ? 6 : 8); }
+    else if (Lv.cur === 1) { a = rand(2, 5); b = rand(2, build ? 6 : 8); }
+    else if (Lv.cur === 2) { a = build ? rand(3, 6) : rand(3, 9); b = build ? rand(4, 8) : rand(4, 9); }
+    else { a = build ? rand(4, 6) : rand(6, 12); b = build ? rand(6, 8) : rand(6, 12); }
     key = a + 'x' + b;
   } while (key === TB.prev || (build && a === b));
   TB.easier = false; TB.a = a; TB.b = b; TB.prev = key;
@@ -2479,16 +2515,17 @@ $('#goTile').addEventListener('click', startTile);
 function finishExplorer(key, title, stars, max, again) {
   RUN++;
   const { best, isBest } = Prof.finish(stars, max);
-  showReward(Coins.award(stars));
+  const lv = Lv.finish(stars, max);
+  showReward(Coins.award(stars, lv));
   $('#finish').classList.add('explore');
   $('#fnArt').innerHTML = `<div class="medal">★${stars}</div>`;
   $('#fnTitle').textContent = title;
-  $('#fnSub').textContent = `You earned ${stars} of ${max} stars.`;
+  $('#fnSub').textContent = `Level ${lv.level}. You earned ${stars} of ${max} stars.`;
   $('#fnBook').innerHTML = `<div class="book-label">${isBest ? 'New personal best!' : 'Personal best: ' + best + ' stars'}</div>`;
-  $('#fnAgain').onclick = again;
+  setAgain(again, lv);
   show('finish');
   Sfx.chime(); confetti($('#finish'));
-  Voice.say(`Well done! You earned ${stars} stars.${isBest ? ' That is a new personal best!' : ''}`, 1.0);
+  Voice.say(`Well done! You earned ${stars} stars.${isBest ? ' That is a new personal best!' : ''}${lvSpeech(lv)}`, 1.0);
 }
 function finishTile() { finishExplorer('tb_best', 'Tile Builder complete!', TB.stars, TB.total * 3, startTile); }
 
@@ -2593,7 +2630,9 @@ async function tkNext(r) {
   let n, k, key;
   do {
     if (TK.easier) { n = rand(3, 5); k = 1; }
-    else { const [lo, hi] = TK_RANGES[TK.q]; n = rand(lo, hi); k = rand(1, Math.min(n - 1, TK.q < 2 ? 2 : 4)); }
+    else if (Lv.cur === 1) { const [lo, hi] = TK_RANGES[TK.q]; n = rand(lo, hi); k = rand(1, Math.min(n - 1, TK.q < 2 ? 2 : 4)); }
+    else if (Lv.cur === 2) { n = rand(8, 12); k = rand(2, 5); }
+    else { n = rand(11, 15); k = rand(3, 8); }
     key = n + '-' + k;
   } while (key === TK.prev);
   TK.easier = false; TK.n = n; TK.k = k; TK.prev = key;
@@ -2757,7 +2796,7 @@ function bgExplain() {
   if (kind === 'tens') { const S = A.t + B.t; return `${cap(WORDS[A.t])} tens and ${WORDS[B.t]} ${B.t === 1 ? 'ten' : 'tens'} make ${WORDS[S]} tens. ${cap(WORDS[S])} tens is ${c}.`; }
   if (kind === 'hund') { const S = A.h + B.h; return `${cap(WORDS[A.h])} ${hundredsWord(A.h)} and ${WORDS[B.h]} ${hundredsWord(B.h)} make ${WORDS[S]} hundreds. That is ${c}.`; }
   const h = A.h + B.h, t = A.t + B.t;
-  return `${cap(WORDS[h])} ${hundredsWord(h)} and ${WORDS[t]} ${t === 1 ? 'ten' : 'tens'} make ${c}.`;
+  return `${cap(WORDS[h])} ${hundredsWord(h)} and ${WORDS[t]} ${t === 1 ? 'ten' : 'tens'} make ${c}.${t >= 10 ? ' Ten tens make one more hundred.' : ''}`;
 }
 
 async function startBig() {
@@ -2792,6 +2831,8 @@ async function bgNext(r) {
   let A, B, kind, key;
   do {
     if (BG.easier) { kind = 'tens'; A = { h: 0, t: rand(1, 3) }; B = { h: 0, t: rand(1, 3) }; }
+    else if (Lv.cur === 2) { kind = 'mixed'; A = { h: rand(1, 3), t: rand(1, 4) }; B = { h: rand(0, 2), t: rand(1, 4) }; }
+    else if (Lv.cur === 3) { kind = 'mixed'; A = { h: rand(0, 2), t: rand(4, 8) }; B = { h: rand(1, 2), t: rand(3, 7) }; }
     else if (BG.q < 2) { kind = 'tens'; A = { h: 0, t: rand(1, 4) }; B = { h: 0, t: rand(1, 4) }; }
     else if (BG.q === 2) { kind = 'hund'; A = { h: rand(1, 4), t: 0 }; B = { h: rand(1, 4), t: 0 }; }
     else { kind = 'mixed'; const X = { h: rand(1, 4), t: 0 }, Y = { h: 0, t: rand(1, 9) }; [A, B] = Math.random() < .5 ? [X, Y] : [Y, X]; }
@@ -2815,7 +2856,7 @@ async function bgAsk(r) {
   else if (kind === 'hund') { const S = A.h + B.h; key = S; second = S * 10; }
   else { const S = A.h + B.h + A.t + B.t; key = S; second = pick([S * 10, S * 100]); }
   BG.sel = null;
-  renderChoices(bgChoices, shuffle([c, key, second]), false, v => { BG.sel = v; });
+  renderChoices(bgChoices, shuffle([...new Set([c, key, second])]), false, v => { BG.sel = v; });
   busy(bgScreen, false);
   await bgGuide.say('How much is that altogether? Tap the number, then press Done.');
 }
@@ -2908,9 +2949,14 @@ const gdScreen = $('#grid'), gdGrid = $('#gdGrid');
 const gdGuide = makeGuide(gdScreen, 1.0);
 const gdPad = makePad($('#gdPad'), $('#gdEntry'));
 const GD = { q: 0, total: 6, quiz: false, type: '', a: 0, d: 0, p: 0, t: 0, s: 0, step: 0, sm: 0, count: 0, mistakes: 0, stars: 0, easier: false, prev: '' };
-const FN = { 2: ['half', 'halves'], 3: ['third', 'thirds'], 4: ['quarter', 'quarters'], 5: ['fifth', 'fifths'], 10: ['tenth', 'tenths'] };
+const FN = { 2: ['half', 'halves'], 3: ['third', 'thirds'], 4: ['quarter', 'quarters'], 5: ['fifth', 'fifths'], 10: ['tenth', 'tenths'], 20: ['twentieth', 'twentieths'], 25: ['twenty-fifth', 'twenty-fifths'], 50: ['fiftieth', 'fiftieths'] };
 const F_POOL = [[1, 4], [3, 4], [1, 5], [2, 5], [3, 5], [3, 10], [7, 10]];
 const Q_POOL = [[1, 2], [1, 4], [3, 4], [1, 5], [2, 5], [3, 5], [4, 5], [1, 10], [3, 10], [7, 10], [9, 10]];
+const F_POOL2 = [[3, 4], [2, 5], [3, 5], [4, 5], [3, 10], [7, 10], [9, 10]];
+const F_POOL3 = [[1, 20], [3, 20], [7, 20], [9, 20], [1, 25], [3, 25], [4, 5], [9, 10]];
+const Q_POOL2 = [[3, 4], [2, 5], [3, 5], [4, 5], [3, 10], [7, 10], [9, 10], [1, 20], [3, 20], [1, 25]];
+const Q_POOL3 = [[3, 20], [7, 20], [9, 20], [11, 20], [17, 20], [2, 25], [6, 25], [13, 25], [1, 50], [7, 50]];
+const gdPool = () => GD.quiz ? [Q_POOL, Q_POOL2, Q_POOL3][Lv.cur - 1] : [F_POOL, F_POOL2, F_POOL3][Lv.cur - 1];
 // Hundred Grid (learning) always uses the two steps; Percent Quiz asks in the usual one-line style.
 const LEARN_QS = ['shadeF', 'shadeP', 'shadeF', 'readP', 'toP', 'toP'];
 const QUIZ_QS = ['toP', 'toP', 'readP', 'toP', 'toP', 'readP', 'toP', 'toP'];
@@ -3002,11 +3048,11 @@ async function startGrid() {
 async function gdNext(r) {
   const type = (GD.quiz ? QUIZ_QS : LEARN_QS)[GD.q];
   let a = 0, d = 0, p = 0;
-  if (type === 'shadeP') { do { p = pick([20, 30, 40, 60, 70, 80, 90]); } while ('p' + p === GD.prev); GD.prev = 'p' + p; }
+  if (type === 'shadeP') { do { p = pick(Lv.cur === 1 ? [20, 30, 40, 60, 70, 80, 90] : [15, 35, 45, 55, 65, 85, 95]); } while ('p' + p === GD.prev); GD.prev = 'p' + p; }
   else {
-    if (GD.q === 0 && !GD.quiz) [a, d] = [1, 2];
+    if (GD.q === 0 && !GD.quiz && Lv.cur === 1) [a, d] = [1, 2];
     else if (GD.easier) [a, d] = pick([[1, 2], [1, 4]]);
-    else do { [a, d] = pick(GD.quiz ? Q_POOL : F_POOL); } while (`${a}/${d}` === GD.prev);
+    else do { [a, d] = pick(gdPool()); } while (`${a}/${d}` === GD.prev);
     GD.prev = `${a}/${d}`;
   }
   // Fraction-to-percent questions are split into two steps: size of one part, then the percent.
@@ -3205,6 +3251,8 @@ const WL = { q: 0, total: 8, a: 0, d: 0, c: '', sel: null, mistakes: 0, stars: 0
 const WALL_ROWS = [1, 2, 3, 4, 5, 10];
 // Part A (first 5): one piece of each row, building the anchor facts. Part B: several pieces, using the facts.
 const WALL_QS = [[1, 2], [1, 4], [1, 10], [1, 5], [1, 3], [3, 4], [2, 5], [2, 3]];
+const WALL_MULTI = [[3, 4], [2, 5], [3, 5], [4, 5], [2, 3], [3, 10], [7, 10], [9, 10]];
+const wallQs = () => Lv.cur === 1 ? WALL_QS : Lv.cur === 2 ? shuffle([[1, 10], [1, 5], [1, 3]]).concat(shuffle(WALL_MULTI).slice(0, 5)) : shuffle(WALL_MULTI);
 const wlPct = (a, d) => d === 3 ? (a === 1 ? '33⅓' : '66⅔') : String(100 * a / d);
 const wlUnitLabel = d => d === 1 ? '100%' : d === 10 ? '10' : wlPct(1, d) + '%';
 const wlSpeak = v => String(v).replace('⅓', ' and a third').replace('⅔', ' and two thirds');
@@ -3280,7 +3328,7 @@ async function startWall() {
   Sfx.ensure(); Voice.unlock();
   show('wall');
   const introDone = introSkip(wlScreen, nr => wlNext(nr));
-  Object.assign(WL, { q: 0, stars: 0, sel: null });
+  Object.assign(WL, { q: 0, stars: 0, sel: null, qs: wallQs() });
   wlReset(); wlChoices.hidden = true;
   $('#wlStars').textContent = '★ 0';
   renderProgress($('#wlProg'), WL.total, 0);
@@ -3296,7 +3344,7 @@ async function startWall() {
 }
 
 async function wlNext(r) {
-  const [a, d] = WALL_QS[WL.q];
+  const [a, d] = WL.qs[WL.q];
   Object.assign(WL, { a, d, c: wlPct(a, d), sel: null, mistakes: 0 });
   $$('.wl-row', wlWall).forEach(row => { row.classList.remove('active'); $$('i', row).forEach(p => p.classList.remove('on')); });
   const row = wlRow(d);
@@ -3307,7 +3355,7 @@ async function wlNext(r) {
   await wait(30); if (!alive(r)) return;
   wlGuide(a, d, '?');
   busy(wlScreen, false);
-  if (WL.q === 5) { await wlGuideSay.say('Now use the wall to answer bigger fractions.'); if (!alive(r)) return; }
+  if (WL.q === 5 && Lv.cur === 1) { await wlGuideSay.say('Now use the wall to answer bigger fractions.'); if (!alive(r)) return; }
   if (a === 1) await wlGuideSay.say(`One ${FN[d][0]}. Follow the dotted line down to the ruler. What percent is it? Tap an answer, then press Check.`);
   else await wlGuideSay.say(`${cap(fw(a, d))}. Each ${FN[d][0]} is ${wlSpeak(wlPct(1, d))} percent. What percent is ${fw(a, d)}?`);
 }
@@ -3370,6 +3418,7 @@ const numWord = v => WORDS[v] || String(v);
 function shRender() {
   $('#shFriends').innerHTML = SH.plates.map((c, i) =>
     `<div class="sh-friend"><span class="sh-face">${FRIENDS[i][0]}</span><div class="sh-plate" role="button" tabindex="0" data-i="${i}" aria-label="Give the ${FRIENDS[i][1]} an apple">${SMALL_APPLE.repeat(c)}</div><span class="sh-count">${c || ''}</span></div>`).join('');
+  $('#shFriends').classList.toggle('three', SH.plates.length > 2);
   $('#shPile').innerHTML = `<span class="sh-pile-label">${SH.pile ? 'Apples to share' : 'All shared!'}</span>` + SMALL_APPLE.repeat(SH.pile);
 }
 function shSum(ans) {
@@ -3419,7 +3468,9 @@ async function shNext(r) {
   let k, m, key;
   do {
     if (SH.easier) { k = 2; m = rand(1, 3); }
-    else { const [ks, [lo, hi]] = SH_Q[SH.q]; k = pick(ks); m = rand(lo, hi); }
+    else if (Lv.cur === 1) { const [ks, [lo, hi]] = SH_Q[SH.q]; k = pick(ks); m = rand(lo, hi); }
+    else if (Lv.cur === 2) { k = pick([2, 3]); m = rand(3, 5); }
+    else { k = 3; m = rand(4, 6); }
     key = k + 'x' + m;
   } while (key === SH.prev);
   Object.assign(SH, { k, m, n: k * m, pile: k * m, plates: Array(k).fill(0), phase: 'share', sel: null, mistakes: 0, pm: 0, easier: false, prev: key });
@@ -3586,7 +3637,9 @@ async function gpNext(r) {
   let k, m, key;
   do {
     if (GP.easier) { m = 2; k = rand(2, 3); }
-    else { const [mm, [lo, hi]] = GP_Q[GP.q]; m = mm; k = rand(lo, hi); }
+    else if (Lv.cur === 1) { const [mm, [lo, hi]] = GP_Q[GP.q]; m = mm; k = rand(lo, hi); }
+    else if (Lv.cur === 2) { m = pick([2, 5, 10]); k = rand(4, 6); }
+    else { m = pick([2, 5, 10]); k = rand(6, 8); }
     key = k + 'x' + m;
   } while (key === GP.prev);
   Object.assign(GP, { k, m, counted: 0, phase: 'count', sel: null, mistakes: 0, pm: 0, easier: false, prev: key });
@@ -3730,6 +3783,8 @@ async function dvNext(r) {
   let k, m, key;
   do {
     if (DV.easier) { k = 2; m = rand(2, 5); }
+    else if (Lv.cur === 2) { k = deal ? rand(3, 5) : rand(3, 9); m = deal ? rand(4, 7) : rand(4, 12); }
+    else if (Lv.cur === 3) { k = deal ? rand(4, 6) : rand(6, 12); m = deal ? rand(5, 8) : rand(6, 12); }
     else if (deal) { k = rand(2, 5); m = rand(2, 6); }
     else { k = rand(3, 9); m = rand(2, 9); }
     key = k + 'x' + m;
@@ -3865,11 +3920,11 @@ $('#tqPick').addEventListener('click', e => {
 });
 
 async function tqNext(r) {
-  const div = TQ.q % 3 === 2;
+  const div = Lv.cur === 3 ? TQ.q % 2 === 1 : TQ.q % 3 === 2;
   let t, b, key;
   do {
-    t = pick(TQ.set);
-    b = TQ.easier ? rand(2, 5) : rand(div ? 2 : 1, 10);
+    t = pick(Lv.cur === 3 && TQ.set.some(x => x > 2 && x !== 10) ? TQ.set.filter(x => x > 2 && x !== 10) : TQ.set);
+    b = TQ.easier ? rand(2, 5) : Lv.cur === 1 ? rand(div ? 2 : 1, 10) : Lv.cur === 2 ? rand(2, 12) : pick([3, 4, 5, 6, 7, 8, 9, 11, 12]);
     key = (div ? 'd' : 'm') + t + 'x' + b;
   } while (key === TQ.prev);
   Object.assign(TQ, { div, t, mistakes: 0, easier: false, prev: key });
@@ -3967,9 +4022,11 @@ function poSplit(p) {
   for (const d of [2, 4, 5, 10]) { const a = p * d / 100; if (Number.isInteger(a)) return { d, a, half: false }; }
 }
 function poAmount(d, half) {
-  if (half) return 20 * rand(2, 10);
-  return d === 2 ? 2 * rand(4, 40) : d === 4 ? 4 * rand(3, 25) : d === 5 ? 5 * rand(3, 20) : 10 * rand(2, 20);
+  const x = [1, 1, 2, 4][Lv.cur];
+  if (half) return 20 * rand(2, 10 * x);
+  return d === 2 ? 2 * rand(4, 40 * x) : d === 4 ? 4 * rand(3, 25 * x) : d === 5 ? 5 * rand(3, 20 * x) : 10 * rand(2, 20 * x);
 }
+const PO_HARD = [20, 30, 40, 60, 70, 80, 90, 75, 5];
 const poKey = () => `${PO.p}% of ${PO.A}`;
 
 function poBars() {
@@ -4038,6 +4095,7 @@ async function poNext(r) {
   let p, A, key;
   do {
     if (PO.easier) p = pick([50, 10, 25]);
+    else if (Lv.cur > 1 && (PO.quiz || PO.q > 0)) p = pick(PO_HARD);
     else if (PO.quiz) p = pick(PO_QUIZ);
     else p = pick(PO_LEARN[PO.q]);
     const s = poSplit(p);
@@ -4206,7 +4264,7 @@ const Prof = {
     return p.games[game] || (p.games[game] = { plays: 0, best: 0, max: 0, last: 0, lastPlayed: 0, first: 0, hint: 0, helped: 0, log: [] });
   },
   // Called when a game starts, for every answered question, and when a game ends.
-  begin(game) { this.game = game; this.sStars = 0; this.sCount = 0; this.t0 = Date.now(); this.ended = false; },
+  begin(game) { this.game = game; this.sStars = 0; this.sCount = 0; this.t0 = Date.now(); this.ended = false; Lv.use(game); },
   end() {
     if (!this.cur || this.ended || !this.game || !this.sCount) return;
     this.ended = true;
@@ -4257,7 +4315,7 @@ function renderHome() {
     let st = $('.stat', card);
     if (!st) { st = document.createElement('span'); st.className = 'stat'; card.insertBefore(st, $('.play', card)); }
     const g = p && p.games[game];
-    st.innerHTML = !g || !g.plays ? '<b class="new">New</b>' : `★ best ${g.best} of ${g.max} · played ${g.plays} ${g.plays === 1 ? 'time' : 'times'}`;
+    st.innerHTML = !g || !g.plays ? '<b class="new">New</b>' : `Level ${Lv.of(p, game).open} · ★ best ${g.best} of ${g.max} · played ${g.plays} ${g.plays === 1 ? 'time' : 'times'}`;
   });
 }
 $('#showAll').addEventListener('click', () => { showAllGames = !showAllGames; renderHome(); });
@@ -4587,7 +4645,8 @@ function renderParent() {
   const order = TRACK_GAMES[p.track].concat(Object.keys(GAME_NAMES).filter(g => !TRACK_GAMES[p.track].includes(g) && p.games[g] && p.games[g].plays));
   const rows = order.map(id => {
     const g = p.games[id], answered = g ? g.first + g.hint + g.helped : 0;
-    return `<tr><td><b>${GAME_NAMES[id]}</b></td><td>${g ? g.plays : 0}</td><td>${g && g.plays ? `★ ${g.best} of ${g.max}` : '–'}</td><td>${answered ? pct(g.first, answered) + '%' : '–'}</td><td>${relDay(g && g.lastPlayed)}</td></tr>`;
+    const lvl = g ? Lv.of(p, id) : null;
+    return `<tr><td><b>${GAME_NAMES[id]}</b></td><td>${lvl ? 'Level ' + lvl.open + (lvl.done.includes(3) ? ', mastered' : '') : '–'}</td><td>${g ? g.plays : 0}</td><td>${g && g.plays ? `★ ${g.best} of ${g.max}` : '–'}</td><td>${answered ? pct(g.first, answered) + '%' : '–'}</td><td>${relDay(g && g.lastPlayed)}</td></tr>`;
   }).join('');
 
   body.innerHTML = `
@@ -4605,7 +4664,7 @@ function renderParent() {
       <div class="pt-card"><h2>Going well</h2>${good}</div>
     </div>
     <div class="pt-card"><h2>Games</h2><div class="pt-table-wrap"><table class="pt-table">
-      <thead><tr><th>Game</th><th>Times played</th><th>Best score</th><th>Right first time</th><th>Last played</th></tr></thead>
+      <thead><tr><th>Game</th><th>Level</th><th>Times played</th><th>Best score</th><th>Right first time</th><th>Last played</th></tr></thead>
       <tbody>${rows}</tbody></table></div></div>
     ${treatsCard()}
     <div class="pt-card"><h2>Settings</h2><div class="pt-actions">
@@ -4795,6 +4854,52 @@ $$('.howto-btn').forEach(b => b.addEventListener('click', openHowto));
 // =====================================================
 // GAME START SCREEN: what the child will learn, then Start
 // =====================================================
+// =====================================================
+// LEVELS: every game has 3 levels. Harder levels pay more coins for each star.
+// Two strong games in a row (80% of the stars) open the next level.
+// Replaying a level the child has already mastered pays half coins and
+// does not count towards the daily goal or the days in a row.
+// =====================================================
+const LEVELS = [null, { name: 'Starter', pay: 1 }, { name: 'Stronger', pay: 2 }, { name: 'Champion', pay: 3 }];
+const STRONG = 0.8, STRONG_RUN = 2;
+const Lv = {
+  cur: 1, game: null, pid: null,
+  // A player's levels for one game. Players who already play a game well start with Level 2 open.
+  of(p, game) {
+    const g = p && p.games[game];
+    if (!g) return { open: 1, run: {}, done: [] };
+    if (!g.lv) {
+      const good = g.plays >= 2 && g.max > 0 && g.best >= g.max * STRONG;
+      g.lv = { open: good ? 2 : 1, run: {}, done: good ? [1] : [] };
+    }
+    return g.lv;
+  },
+  // The start screen chooses the highest open level.
+  pick(game) { const p = Prof.cur; this.game = game; this.pid = p && p.id; this.cur = this.of(p, game).open; },
+  use(game) {
+    const p = Prof.cur, v = this.of(p, game);
+    if (this.game !== game || this.pid !== (p && p.id)) { this.game = game; this.pid = p && p.id; this.cur = v.open; }
+    if (this.cur > v.open) this.cur = v.open;
+  },
+  finish(stars, max) {
+    const L = this.cur, res = { level: L, pay: LEVELS[L].pay, half: false, unlocked: 0, mastered: false };
+    const p = Prof.cur, game = Prof.game;
+    if (!p || !game || !p.games[game]) return res;
+    const v = this.of(p, game), was = v.done.includes(L);
+    res.half = was && L < 3;
+    v.run[L] = max > 0 && stars >= max * STRONG ? (v.run[L] || 0) + 1 : 0;
+    if (!was && v.run[L] >= STRONG_RUN) {
+      v.done.push(L); res.mastered = true;
+      if (L < 3 && v.open <= L) { v.open = L + 1; res.unlocked = L + 1; }
+    }
+    Prof.save();
+    return res;
+  }
+};
+const lvSpeech = lv => lv.unlocked ? ` You opened Level ${lv.unlocked}! It gives ${lv.unlocked === 2 ? 'double' : 'triple'} coins.`
+  : lv.half ? ` You have mastered this level, so it gives half coins. Try Level ${lv.level + 1}!`
+  : lv.mastered ? ' You have mastered the top level. Brilliant!' : '';
+
 const GAME_INFO = {
   apple: { start: startApple, track: 'little', title: 'Apple Basket', skill: 'Counting', q: 5, mins: 4,
     learn: ['Count apples up to 10', 'Match a number to the right amount of apples'],
@@ -4851,6 +4956,7 @@ function openIntro(cardId) {
   $('#inTitle').textContent = info.title;
   $('#inLearn').innerHTML = info.learn.map(t => `<li>${LEARN_TICK}<span>${t}</span></li>`).join('');
   $('#inMeta').textContent = `${info.q} questions · about ${info.mins} minutes`;
+  Lv.pick(id); renderLevels();
   show('intro'); inScreen.scrollTop = 0;
   inGuide.say(info.speech);
 }
@@ -4862,6 +4968,27 @@ $('.home-tracks').addEventListener('click', e => {
   openIntro(card.id);
 }, true);
 $('#inStart').addEventListener('click', () => { const info = GAME_INFO[introGame]; if (info) info.start(); });
+const LOCK_SVG = svgIcon('<rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>', 18);
+function renderLevels() {
+  const v = Lv.of(Prof.cur, introGame);
+  $('#inLevels').innerHTML = [1, 2, 3].map(L => {
+    const locked = L > v.open, half = v.done.includes(L) && L < 3, sel = L === Lv.cur;
+    const tag = locked ? LOCK_SVG + 'Locked' : half ? 'Half coins' : COIN_SVG(20) + '× ' + LEVELS[L].pay;
+    return `<button type="button" class="lv-btn${sel ? ' sel' : ''}${locked ? ' locked' : ''}" data-l="${L}" aria-pressed="${sel}"><span class="lv-n">Level ${L}</span><span class="lv-name">${LEVELS[L].name}</span><span class="lv-tag">${tag}</span></button>`;
+  }).join('');
+  const L = v.open, run = v.run[L] || 0;
+  $('#inLvNote').textContent = v.done.includes(3) ? 'You have mastered every level. Brilliant!'
+    : L === 3 ? 'Level 3 is the top level. It gives 3 coins for every star.'
+    : `Get 80% of the stars in 2 games in a row on Level ${L} to open Level ${L + 1}.${run ? ` You have ${run} of 2.` : ''}`;
+}
+$('#inLevels').addEventListener('click', e => {
+  const b = e.target.closest('.lv-btn'); if (!b) return;
+  const L = +b.dataset.l, v = Lv.of(Prof.cur, introGame);
+  Sfx.tick();
+  if (L > v.open) { inGuide.say(`Level ${L} is locked. Get 80 percent of the stars in two games in a row on Level ${L - 1} to open it.`); return; }
+  Lv.cur = L; renderLevels();
+  inGuide.say(v.done.includes(L) && L < 3 ? `Level ${L}. You have mastered this level, so it gives half coins.` : `Level ${L}. ${['', 'One coin for every star.', 'Double coins!', 'Triple coins!'][L]}`);
+});
 
 // =====================================================
 // COINS, DAILY GOAL AND SHOP
@@ -4979,18 +5106,22 @@ const Coins = {
     while ((p.days[dayKey(t)] || {}).g) { n++; t -= DAY; }
     return n;
   },
-  award(stars) {
+  // Coins = stars × the level's pay. A mastered level pays half and does not count for the goal.
+  award(stars, lv) {
     const p = Prof.cur; if (!p) return null;
     this.ensure(p);
+    const pay = lv ? lv.pay : 1, half = !!(lv && lv.half), got = half ? Math.ceil(stars * pay / 2) : stars * pay;
     const k = dayKey(Date.now()), d = p.days[k] || (p.days[k] = { g: 0, c: 0 });
-    d.g++; d.c += stars; p.coins += stars; p.earned += stars;
+    if (!half) d.g++;
+    d.c += got; p.coins += got; p.earned += got;
     let bonus = 0, box = 0, gold = 0;
-    if (d.g === DAILY_GOAL) { bonus = GOAL_BONUS; p.coins += bonus; p.earned += bonus; d.c += bonus; box = 1; Box.give(p, 'box'); }
-    if (d.g === 1) { const s = this.streak(p); if (s && s % 7 === 0) { gold = 1; Box.give(p, 'gold'); } }
+    if (half) { /* no goal, no streak */ }
+    else if (d.g === DAILY_GOAL) { bonus = GOAL_BONUS; p.coins += bonus; p.earned += bonus; d.c += bonus; box = 1; Box.give(p, 'box'); }
+    if (!half && d.g === 1) { const s = this.streak(p); if (s && s % 7 === 0) { gold = 1; Box.give(p, 'gold'); } }
     const old = Date.now() - 90 * DAY;
     Object.keys(p.days).forEach(x => { if (new Date(x + 'T12:00') < old) delete p.days[x]; });
     Prof.save();
-    return { got: stars, bonus, box, gold, games: d.g, coins: p.coins, streak: this.streak(p) };
+    return { got, stars, pay, half, level: lv ? lv.level : 1, unlocked: lv ? lv.unlocked : 0, bonus, box, gold, games: d.g, coins: p.coins, streak: this.streak(p) };
   },
   owns(p, it) { return it.price === 0 || (p.owned || []).includes(it.id) || (it.kind === 'animal' && animalKey(p.avatar) === it.id); },
   buy(p, it) {
@@ -5037,12 +5168,17 @@ const FLAME_SVG = `<svg class="flame" width="40" height="40" viewBox="0 0 24 24"
 function showReward(r) {
   const el = $('#fnCoins');
   if (!r) { el.innerHTML = ''; return; }
-  const goalLine = r.bonus
+  const okIcon = svgIcon('<path d="M6 12.5l4 4 8-9"/>', 20, 3);
+  const how = r.half ? `<div class="fr-total">Half coins: you have mastered Level ${r.level}.</div>`
+    : r.pay > 1 ? `<div class="fr-total">Level ${r.level}: ${r.stars} stars × ${r.pay} = ${r.got} coins</div>` : '';
+  const upLine = r.unlocked ? `<div class="fr-goal done">${okIcon}<span><b>Level ${r.unlocked} is open!</b> It gives ${r.unlocked === 2 ? 'double' : 'triple'} coins.</span></div>` : '';
+  const goalLine = r.half ? `<div class="fr-goal">Mastered levels do not count for today's goal. Try Level ${r.level + 1}!</div>`
+    : r.bonus
     ? `<div class="fr-goal done">${svgIcon('<path d="M6 12.5l4 4 8-9"/>', 20, 3)}<span>Today's goal done! <b>+${r.bonus} bonus coins</b> and <b>a mystery box</b>!</span></div>`
     : r.games < DAILY_GOAL
       ? `<div class="fr-goal">Today's goal: ${r.games} of ${DAILY_GOAL} games. One more for ${GOAL_BONUS} bonus coins and a mystery box!</div>`
       : `<div class="fr-goal">Today's goal is done. Every extra game still earns coins.</div>`;
-  el.innerHTML = `<div class="fr-row">${COIN_SVG(44)}<span class="fr-got">+<b id="frN">0</b> coins</span></div><div class="fr-total">You now have ${r.coins} coins</div>${goalLine}${r.gold ? `<div class="fr-goal done">${svgIcon('<path d="M6 12.5l4 4 8-9"/>', 20, 3)}<span>${r.streak} days in a row! <b>You got a gold box!</b></span></div>` : ''}`;
+  el.innerHTML = `<div class="fr-row">${COIN_SVG(44)}<span class="fr-got">+<b id="frN">0</b> coins</span></div>${how}<div class="fr-total">You now have ${r.coins} coins</div>${upLine}${goalLine}${r.gold ? `<div class="fr-goal done">${svgIcon('<path d="M6 12.5l4 4 8-9"/>', 20, 3)}<span>${r.streak} days in a row! <b>You got a gold box!</b></span></div>` : ''}`;
   let n = 0; const end = r.got + r.bonus, step = Math.max(1, Math.ceil(end / 20));
   const tick = () => { n = Math.min(end, n + step); const b = $('#frN'); if (b) b.textContent = n; if (n < end) setTimeout(tick, 45); };
   setTimeout(tick, 500);
