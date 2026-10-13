@@ -4364,7 +4364,6 @@ function choosePlayer(id) {
   Prof.pick(id); showAllGames = false;
   applyVoicePrefs();
   renderHome(); show('home');
-  Voice.say(`Hi ${Prof.cur.name}! Pick a game.`, 0.95);
   showKeep();
 }
 
@@ -5234,7 +5233,6 @@ function openShop(tab) {
   if (typeof tab === 'string') SHP.tab = tab;
   SHP.sel = null; SHP.sure = false;
   renderShop(); show('shop'); shopScreen.scrollTop = 0; showKeep();
-  Voice.say(`Welcome to the shop! You have ${p.coins} coins. Tap something to try it on.`, 0.95);
 }
 const BTN = (cls, d, label) => `<button class="big ${cls}" type="button" data-do="${d}">${label}</button>`;
 function renderShop() {
@@ -5290,8 +5288,6 @@ $('#shTabs').addEventListener('click', e => { const b = e.target.closest('button
 $('#shGrid').addEventListener('click', e => {
   const b = e.target.closest('.sh-item'); if (!b) return;
   SHP.sel = SHP.sel === b.dataset.id ? null : b.dataset.id; SHP.sure = false; Sfx.tick(); renderShop();
-  const p = Prof.cur, it = findItem(p, SHP.sel);
-  if (it && !ownsItem(p, it)) Voice.say(p.coins >= it.price ? `${it.name}. It costs ${it.price} coins.` : `${it.name}. You need ${it.price - p.coins} more coins.`, 0.95);
 });
 $('#shAct').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
@@ -5315,13 +5311,11 @@ $('#shAct').addEventListener('click', e => {
       if (!Coins.buy(p, it)) return;
       put(); Prof.save(); renderShop();
       Sfx.chime(); confetti(shopScreen);
-      Voice.say(`You bought the ${it.name.toLowerCase()}! It looks great.`, 0.95);
     } else {
       p.coins -= it.price;
       (p.treatReq || (p.treatReq = [])).push({ id: 'r' + Date.now().toString(36), tid: it.id, name: it.name, price: it.price, theme: it.theme, t: Date.now(), st: 'wait' });
       Prof.save(); SHP.sel = null; renderShop();
       Sfx.chime(); confetti(shopScreen);
-      Voice.say(`Well done for saving your coins! A grown-up will see that you asked for: ${it.name}.`, 0.95);
     }
     return;
   }
@@ -5349,7 +5343,6 @@ function openStudio(kind, id) {
   $('#stTitle').textContent = kind === 'hat' ? 'Design a hat' : 'Design a pet';
   $('#stHint').textContent = kind === 'hat' ? 'Colour the squares. The bottom row sits on top of your head.' : 'Colour the squares to make a little pet. It sits next to you in your picture.';
   renderStudio(); show('studio'); stScreen.scrollTop = 0;
-  Voice.say(kind === 'hat' ? 'Make your own hat! Choose a colour, then tap or drag on the squares.' : 'Make your own pet! Choose a colour, then tap or drag on the squares.', 0.95);
 }
 function renderStudio() {
   const p = Prof.cur, w = p.wear || {}, mk = pixMarkup(ST.kind, ST.px);
@@ -5415,7 +5408,6 @@ $('#stSave').addEventListener('click', () => {
   Prof.save();
   openShop('make'); SHP.sel = d.id; renderShop();
   Sfx.chime(); confetti(shopScreen);
-  Voice.say(d.kind === 'hat' ? 'What a great hat! You are wearing it now.' : 'What a lovely pet! It is in your picture now.', 0.95);
 });
 
 // ---------- Parent page: treats ----------
@@ -5582,7 +5574,6 @@ function openBox(kind) {
   $('#boStage').innerHTML = `<div class="bo-box">${BOX_SVG(kind === 'gold')}</div>`;
   $('#boTier').textContent = ''; $('#boName').textContent = ''; $('#boSub').textContent = ''; $('#boBtns').innerHTML = '';
   [0, 300, 600, 900].forEach(d => setTimeout(() => { if (alive(run)) Sfx.tick(); }, d));
-  Voice.say('What is inside?', 0.95);
   setTimeout(() => {
     if (!alive(run)) return;
     boEl.className = 'box-open stage-reveal tier-' + r.tier;
@@ -5599,7 +5590,6 @@ function openBox(kind) {
     if (r.tier === 'legendary') { [523, 659, 784, 1047].forEach((f, i) => Sfx.tone(f, .35, 'triangle', .12, i * .14)); confetti(boEl); setTimeout(() => alive(run) && confetti(boEl), 500); }
     else if (r.tier === 'epic') { Sfx.chime(); confetti(boEl); }
     else Sfx.chime();
-    Voice.say(r.item ? `${r.tier === 'legendary' ? 'Wow! Legendary! ' : r.tier === 'epic' ? 'Epic! ' : ''}You found the ${r.item.name.toLowerCase()}!` : `You got ${r.coins} coins!`, 0.95);
   }, 1300);
 }
 $('#boBtns').addEventListener('click', e => {
@@ -5679,7 +5669,6 @@ function showKeep() {
     $('#boBtns').innerHTML = '<button class="big go" type="button" data-bo="kwear">Hold it</button><button class="big ghost" type="button" data-bo="close">Close</button>';
     boEl.dataset.item = id;
     Sfx.chime(); confetti(boEl);
-    Voice.say(`Hooray! You got ${aName(KEEPS[id].name)} from your treat. You can hold it in your picture!`, 0.95);
   }, 700);
 }
 $('#ptBody').addEventListener('input', e => { if (e.target.id === 'trName' && $('#trTheme')) $('#trTheme').value = detectTheme(e.target.value); });
