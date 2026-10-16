@@ -353,6 +353,14 @@ button:focus-visible { outline: 4px solid var(--violet); outline-offset: 3px; }
 .pt-list b { font-size: 18px; }
 .pt-list span { font-size: 15px; color: var(--ink-2); }
 .pt-empty, .pt-note { font-size: 16px; color: var(--ink-2); margin: 0; }
+.pt-players { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; }
+.pt-players li { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.09); }
+.pt-players li:last-child { border-bottom: 0; }
+.pt-players .av { width: 48px; height: 48px; flex: 0 0 auto; }
+.pp-tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.pp-tx b { font-size: 18px; overflow-wrap: anywhere; }
+.pp-tx small { font-size: 15px; opacity: .8; }
+.pt-done { font-size: 18px; font-weight: 700; color: #3DDC97; }
 .pt-note { margin-top: 12px; }
 .pt-table-wrap { overflow-x: auto; }
 .pt-table { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 16px; }
@@ -788,6 +796,8 @@ h1, .home-head h1 { font-weight: 800; letter-spacing: -0.02em; }
 .theme-dark .pill, .theme-dark .icon-btn, .theme-dark .replay, .theme-dark .pt-kid, .theme-dark .pt-btn {
   background: transparent !important; border: 1.5px solid rgba(255,255,255,0.35); box-shadow: none;
 }
+/* The "Tap again" step of a danger button must stand out. */
+.theme-dark .pt-btn.danger.sure { background: var(--d-pink) !important; border-color: var(--d-pink); color: #2A0A18; }
 .theme-dark .numpad button, .theme-dark .choice, .theme-dark .tq-pick button, .theme-dark .vc-opt, .theme-dark .seg button {
   background: transparent; border: 1.5px solid rgba(255,255,255,0.30); box-shadow: none;
 }
@@ -4606,7 +4616,17 @@ function playerStats(p) {
   return { wkQ, days: days.size, perDay, mins, all, allFirst, hard, good };
 }
 
-let parentSel = null;
+let parentSel = null, parentMsg = '';
+// When each player was added (the id is made from the time), so copies with the same name can be told apart.
+const addedOn = x => { const t = parseInt(String(x.id).slice(1), 36); return t > 1.5e12 && t < 4e12 ? new Date(t).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''; };
+const playsOf = x => Object.values(x.games || {}).reduce((n, g) => n + (g.plays || 0), 0);
+function playersCard(ps) {
+  const rows = ps.map(x => {
+    const n = playsOf(x), when = addedOn(x);
+    return `<li><span class="av">${playerPic(x)}</span><span class="pp-tx"><b>${esc(x.name)}</b><small>${x.track === 'little' ? 'Ages 4–6' : 'Ages 8–11'}${when ? ' · added ' + when : ''} · ${n} ${n === 1 ? 'game' : 'games'} played · ${x.coins || 0} coins</small></span><button class="pt-btn danger" type="button" data-act="premove" data-id="${x.id}">Remove</button></li>`;
+  }).join('');
+  return `<div class="pt-card"><h2>Players on this device</h2><ul class="pt-players">${rows}</ul>${ps.length < MAX_PLAYERS ? '<div class="pt-actions"><button class="pt-btn" type="button" data-act="add">＋ Add a player</button></div>' : ''}</div>`;
+}
 function openParent() {
   RUN++; Voice.stop();
   const ps = Prof.data.players;
@@ -4615,7 +4635,8 @@ function openParent() {
 }
 function renderParent() {
   const ps = Prof.data.players, p = ps.find(x => x.id === parentSel), body = $('#ptBody');
-  if (!p) { body.innerHTML = '<div class="pt-card"><p class="pt-empty">There are no players yet.</p><div class="pt-actions"><button class="pt-btn" type="button" data-act="add">＋ Add a player</button></div></div>'; return; }
+  const msg = parentMsg ? `<div class="pt-card pt-done">${parentMsg}</div>` : ''; parentMsg = '';
+  if (!p) { body.innerHTML = msg + '<div class="pt-card"><p class="pt-empty">There are no players yet.</p><div class="pt-actions"><button class="pt-btn" type="button" data-act="add">＋ Add a player</button></div></div>'; return; }
   const st = playerStats(p), name = esc(p.name);
   const kids = ps.map(x => `<button type="button" class="pt-kid ${x.id === p.id ? 'sel' : ''}" data-act="kid" data-id="${x.id}"><span class="av">${playerPic(x)}</span>${esc(x.name)}</button>`).join('');
 
@@ -4649,7 +4670,9 @@ function renderParent() {
   }).join('');
 
   body.innerHTML = `
+    ${msg}
     <div class="pt-kids">${kids}</div>
+    ${playersCard(ps)}
     <div class="pt-card pt-summary"><div class="pt-eyebrow">Summary</div><p>${summary}</p></div>
     <div class="pt-stats">
       <div class="pt-card pt-stat"><div class="lab">Questions this week</div><div class="num">${st.wkQ}</div><div class="cap">Last 7 days</div></div>
@@ -4667,10 +4690,8 @@ function renderParent() {
       <tbody>${rows}</tbody></table></div></div>
     ${treatsCard()}
     <div class="pt-card"><h2>Settings</h2><div class="pt-actions">
-      <button class="pt-btn" type="button" data-act="add">＋ Add a player</button>
       <button class="pt-btn" type="button" data-act="pin">Change the PIN</button>
       <button class="pt-btn danger" type="button" data-act="reset">Clear ${name}’s progress</button>
-      <button class="pt-btn danger" type="button" data-act="remove">Remove ${name}</button>
     </div><p class="pt-note">Progress is saved on this device only.</p></div>`;
 }
 $('#ptBody').addEventListener('click', e => {
@@ -4680,6 +4701,14 @@ $('#ptBody').addEventListener('click', e => {
   if (treatAction(act, b)) return;
   if (act === 'add') { openAdd(); return; }
   if (act === 'pin') { openPin('create', openParent, openParent); return; }
+  if (act === 'premove') {
+    const x = Prof.data.players.find(y => y.id === b.dataset.id); if (!x) return;
+    if (!b.classList.contains('sure')) { b.classList.add('sure'); b.textContent = `Tap again to remove ${x.name}`; return; }
+    Prof.remove(x.id); if (parentSel === x.id) parentSel = null;
+    parentMsg = `${esc(x.name)} was removed. ${Prof.data.players.length} ${Prof.data.players.length === 1 ? 'player is' : 'players are'} left on this device.`;
+    if (!Prof.data.players.length) openAdd(); else openParent();
+    return;
+  }
   if ((act === 'reset' || act === 'remove') && p) {
     if (!b.classList.contains('sure')) { b.classList.add('sure'); b.textContent = 'Tap again to confirm'; return; }
     if (act === 'reset') { p.games = {}; p.stickers = []; p.sessions = []; p.coins = null; Prof.save(); renderParent(); return; }
